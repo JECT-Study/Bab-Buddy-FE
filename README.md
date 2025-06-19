@@ -1,5 +1,5 @@
 <div align="center">
- <img src="" alt="Logo" width="80" height="80">
+ <img src="https://github.com/user-attachments/assets/93edf9c6-b3c4-4028-b90b-6010cdccb080" alt="Logo" width="80" height="80">
     <h1> Bab-Buddy-Fe </h1>
     <p>'오늘 점심 뭐 먹지?' 매일의 고민을 해결해 줄 서비스</p>
 </div>
@@ -7,6 +7,7 @@
 <br/>
 
 ### ⚙️ 기술 스택
+
 
 <div style="display: flex; gap: 10px;">
   <a href="https://nextjs.org/">
