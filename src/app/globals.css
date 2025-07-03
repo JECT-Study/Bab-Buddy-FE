@@ -1,118 +1,118 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
-  /* Orange 컬러 시스템 */
-  --color-orange-10: #ffd791;
-  --color-orange-20: #ffa573;
-  --color-orange-30: #ff7832;
-  --color-orange-40: #ff5003;
-  --color-orange-50: #d74108;
-  --color-orange-60: #a53725;
-  --color-orange-70: #872a0f;
-  --color-orange-80: #6d120f;
-  --color-orange-90: #43100b;
-  --color-orange-100: #030100;
+	/* Orange 컬러 시스템 */
+	--color-orange-10: #ffd791;
+	--color-orange-20: #ffa573;
+	--color-orange-30: #ff7832;
+	--color-orange-40: #ff5003;
+	--color-orange-50: #d74108;
+	--color-orange-60: #a53725;
+	--color-orange-70: #872a0f;
+	--color-orange-80: #6d120f;
+	--color-orange-90: #43100b;
+	--color-orange-100: #030100;
 
-  /* Gray 컬러 시스템 */
-  --color-gray-5: #e0e0e0;
-  --color-gray-10: #e0e0e0;
-  --color-gray-20: #c7c7c7;
-  --color-gray-30: #aeaeae;
-  --color-gray-40: #959595;
-  --color-gray-50: #777677;
-  --color-gray-60: #5a5a5a;
-  --color-gray-70: #464646;
-  --color-gray-80: #323232;
-  --color-gray-90: #121212;
-  --color-gray-100: #000000;
+	/* Gray 컬러 시스템 */
+	--color-gray-5: #e0e0e0;
+	--color-gray-10: #e0e0e0;
+	--color-gray-20: #c7c7c7;
+	--color-gray-30: #aeaeae;
+	--color-gray-40: #959595;
+	--color-gray-50: #777677;
+	--color-gray-60: #5a5a5a;
+	--color-gray-70: #464646;
+	--color-gray-80: #323232;
+	--color-gray-90: #121212;
+	--color-gray-100: #000000;
 
-  /* 폰트 사이즈 시스템 */
-  --font-size-h1: 40px;
-  --line-height-h1: 50px;
-  --letter-spacing-h1: -0.04em;
+	/* 폰트 사이즈 시스템 */
+	--font-size-h1: 40px;
+	--line-height-h1: 50px;
+	--letter-spacing-h1: -0.04em;
 
-  --font-size-h2: 32px;
-  --line-height-h2: 38px;
-  --letter-spacing-h2: -0.04em;
+	--font-size-h2: 32px;
+	--line-height-h2: 38px;
+	--letter-spacing-h2: -0.04em;
 
-  --font-size-h3: 24px;
-  --line-height-h3: 35px;
-  --letter-spacing-h3: -0.04em;
+	--font-size-h3: 24px;
+	--line-height-h3: 35px;
+	--letter-spacing-h3: -0.04em;
 
-  --font-size-body1: 18px;
-  --line-height-body1: 27px;
-  --letter-spacing-body1: -0.02em;
+	--font-size-body1: 18px;
+	--line-height-body1: 27px;
+	--letter-spacing-body1: -0.02em;
 
-  --font-size-body2: 16px;
-  --line-height-body2: 24px;
-  --letter-spacing-body2: -0.02em;
+	--font-size-body2: 16px;
+	--line-height-body2: 24px;
+	--letter-spacing-body2: -0.02em;
 
-  --font-size-body3: 15px;
-  --line-height-body3: 23px;
-  --letter-spacing-body3: -0.02em;
+	--font-size-body3: 15px;
+	--line-height-body3: 23px;
+	--letter-spacing-body3: -0.02em;
 
-  --font-size-caption: 14px;
-  --line-height-caption: 21px;
-  --letter-spacing-caption: -0.02em;
+	--font-size-caption: 14px;
+	--line-height-caption: 21px;
+	--letter-spacing-caption: -0.02em;
 }
 
 /* 유틸리티 클래스 정의 */
 @utility text-h1 {
-  font-size: theme(--font-size-h1);
-  line-height: theme(--line-height-h1);
-  letter-spacing: theme(--letter-spacing-h1);
+	font-size: theme(--font-size-h1);
+	line-height: theme(--line-height-h1);
+	letter-spacing: theme(--letter-spacing-h1);
 }
 
 @utility text-h2 {
-  font-size: theme(--font-size-h2);
-  line-height: theme(--line-height-h2);
-  letter-spacing: theme(--letter-spacing-h2);
+	font-size: theme(--font-size-h2);
+	line-height: theme(--line-height-h2);
+	letter-spacing: theme(--letter-spacing-h2);
 }
 
 @utility text-h3 {
-  font-size: theme(--font-size-h3);
-  line-height: theme(--line-height-h3);
-  letter-spacing: theme(--letter-spacing-h3);
+	font-size: theme(--font-size-h3);
+	line-height: theme(--line-height-h3);
+	letter-spacing: theme(--letter-spacing-h3);
 }
 
 @utility text-body1 {
-  font-size: theme(--font-size-body1);
-  line-height: theme(--line-height-body1);
-  letter-spacing: theme(--letter-spacing-body1);
+	font-size: theme(--font-size-body1);
+	line-height: theme(--line-height-body1);
+	letter-spacing: theme(--letter-spacing-body1);
 }
 
 @utility text-body2 {
-  font-size: theme(--font-size-body2);
-  line-height: theme(--line-height-body2);
-  letter-spacing: theme(--letter-spacing-body2);
+	font-size: theme(--font-size-body2);
+	line-height: theme(--line-height-body2);
+	letter-spacing: theme(--letter-spacing-body2);
 }
 
 @utility text-body3 {
-  font-size: theme(--font-size-body3);
-  line-height: theme(--line-height-body3);
-  letter-spacing: theme(--letter-spacing-body3);
+	font-size: theme(--font-size-body3);
+	line-height: theme(--line-height-body3);
+	letter-spacing: theme(--letter-spacing-body3);
 }
 
 @utility text-caption {
-  font-size: theme(--font-size-caption);
-  line-height: theme(--line-height-caption);
-  letter-spacing: theme(--letter-spacing-caption);
+	font-size: theme(--font-size-caption);
+	line-height: theme(--line-height-caption);
+	letter-spacing: theme(--letter-spacing-caption);
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+	--background: #ffffff;
+	--foreground: #171717;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+	:root {
+		--background: #0a0a0a;
+		--foreground: #ededed;
+	}
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-pretendard);
+	background: var(--background);
+	color: var(--foreground);
+	font-family: var(--font-pretendard);
 }

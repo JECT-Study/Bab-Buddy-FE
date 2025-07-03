@@ -8,7 +8,6 @@
 
 ### ⚙️ 기술 스택
 
-
 <div style="display: flex; gap: 10px;">
   <a href="https://nextjs.org/">
     <img src="https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js" />
