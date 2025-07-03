@@ -8,7 +8,7 @@ export default function LoginPage() {
 					src="/login.svg"
 					alt="밥버디 캐릭터"
 					fill
-					style={{ objectFit: 'contain', objectPosition: 'left bottom' }}
+					className="object-contain object-left-bottom"
 					priority
 				/>
 			</div>
