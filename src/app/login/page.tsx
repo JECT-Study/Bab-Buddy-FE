@@ -18,7 +18,10 @@ export default function LoginPage() {
 				<p className="text-body2 mb-8 text-center text-gray-500">
 					입맛 따라 기본 메뉴, 메뉴 추천 도와드릴게요 :)
 				</p>
-				<button type="submit" className="cursor-pointer flex items-center gap-2 rounded-full bg-[#FDDC3F] px-8 py-3 font-semibold text-gray-900 shadow transition hover:bg-yellow-300">
+				<button
+					type="submit"
+					className="flex cursor-pointer items-center gap-2 rounded-full bg-[#FDDC3F] px-8 py-3 font-semibold text-gray-900 shadow transition hover:bg-yellow-300"
+				>
 					<Image src="/kakao.svg" alt="카카오" width={24} height={24} />
 					카카오로 로그인
 				</button>
