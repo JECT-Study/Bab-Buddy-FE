@@ -31,3 +31,11 @@ pnpm-lock.yaml
 
 # ESLint config files
 eslint.config.mjs 
+
+.github/
+.prettierrc
+next.config.ts
+postcss.config.mjs
+tsconfig.json
+package.json
+README.md
