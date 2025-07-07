@@ -46,7 +46,7 @@ export default function Header() {
 			<nav className="flex gap-4">
 				{navLinks.map((link) => (
 					<NavLink
-						key={link.label}
+						key={link.href}
 						href={link.href}
 						label={link.label}
 						isActive={pathname.startsWith(link.href)}
