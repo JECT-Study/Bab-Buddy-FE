@@ -23,7 +23,7 @@ export default function LoginPage() {
 					type="submit"
 					className="flex cursor-pointer items-center gap-2 rounded-full bg-[#FDDC3F] px-8 py-3 font-semibold text-gray-900 shadow transition hover:bg-yellow-300"
 				>
-					<Image src="/kakao.svg" alt="카카오" width={24} height={24} />
+					<Image src="/assets/icons/kakao.svg" alt="카카오" width={24} height={24} />
 					카카오로 로그인
 				</button>
 			</div>
