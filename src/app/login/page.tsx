@@ -6,7 +6,7 @@ export default function LoginPage() {
 			{/* 좌측 이미지 영역: 모바일에서는 숨김, md 이상에서만 보임 */}
 			<div className="relative hidden h-60 w-full bg-[#FF5D22] sm:block sm:h-screen sm:flex-4">
 				<Image
-					src="/login.webp"
+					src="/assets/images/login.webp"
 					alt="밥버디 캐릭터"
 					fill
 					className="object-cove h-full w-full"
