@@ -1,7 +1,9 @@
+'use client'
 import clsx from 'clsx'
 import localFont from 'next/font/local'
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 const logoFont = localFont({
 	src: '../../app/fonts/TJJoyofsingingB_TTF.ttf',
@@ -16,6 +18,9 @@ const navLinks = [
 ]
 
 export default function Header() {
+	const pathname = usePathname()
+	const isLogin = pathname === '/login'
+	if (isLogin) return null
 	return (
 		<header className="flex items-center justify-between px-[72px] py-8">
 			<Link href="/" className="flex items-center gap-2">
