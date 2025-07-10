@@ -1,10 +1,14 @@
 import Icon from '@/shared/components/Icon'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function GroupPage() {
 	return (
 		<>
-			<div className="text-b1-medium text-orange">메인 화면으로 돌아가기</div>
+			<Link href="/" className="text-b1-medium text-orange flex items-center gap-1 px-6">
+				<Icon.ArrowForward />
+				메인 화면으로 돌아가기
+			</Link>
 			<div className="flex flex-1 flex-col items-center gap-6 py-6">
 				<h2 className="text-h2-bold">모두와 함께 음식 정하기</h2>
 				<article className="mb-6 flex w-[640px] flex-1 flex-col">
@@ -14,8 +18,8 @@ export default function GroupPage() {
 						<Image
 							src="/assets/images/groupVote-blank-babbuddy.webp"
 							alt="밥버디 캐릭터"
-							width={442}
-							height={262}
+							width={209}
+							height={128}
 							className="my-12"
 						/>
 						<div className="flex flex-col items-center gap-2">
