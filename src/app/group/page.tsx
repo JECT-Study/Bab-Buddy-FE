@@ -1,4 +1,5 @@
-import GroupEmpty from '@/features/group/components/GroupEmpty'
+// import GroupEmpty from '@/features/group/components/GroupEmpty'
+import GroupList from '@/features/group/components/GroupList'
 import Icon from '@/shared/components/Icon'
 import Link from 'next/link'
 
@@ -13,7 +14,7 @@ export default function GroupPage() {
 				<h2 className="text-h2-bold">모두와 함께 음식 정하기</h2>
 				<article className="mb-6 flex w-[640px] flex-1 flex-col">
 					<strong className="text-b1-bold">최근 생성된 그룹방</strong>
-					<GroupEmpty />
+					<GroupList />
 				</article>
 
 				<button
