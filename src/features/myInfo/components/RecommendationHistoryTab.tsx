@@ -107,7 +107,7 @@ export const RecommendationHistoryTab: React.FC = () => {
 			switch (selectedSort) {
 				case '최신순':
 					return new Date(b.createAt).getTime() - new Date(a.createAt).getTime()
-				case '등록순':
+				case '오래된순':
 					return new Date(a.createAt).getTime() - new Date(b.createAt).getTime()
 				default:
 					return 0
