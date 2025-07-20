@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useRef, useEffect } from 'react'
+import Icon from './Icon'
 
 export type SortOption = '최신순' | '오래된순'
 
@@ -40,22 +41,7 @@ export const SortDropdown: React.FC<SortDropdownProps> = ({ selectedSort, onSort
 				className="border-gray-30 flex w-[100px] items-center justify-center gap-1 rounded-3xl border bg-white px-4 py-2"
 			>
 				<span className="text-b2-medium text-black">{selectedSort}</span>
-				<div className="h-4 w-4">
-					<svg
-						className={`h-full w-full transition-transform ${isOpen ? 'rotate-180' : ''}`}
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 16 16"
-					>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							strokeWidth={2}
-							d="M4 6l4 4 4-4"
-							stroke="#000000"
-						/>
-					</svg>
-				</div>
+				{selectedSort === '최신순' && <Icon.ArrowDown />}
 			</button>
 
 			{isOpen && (
