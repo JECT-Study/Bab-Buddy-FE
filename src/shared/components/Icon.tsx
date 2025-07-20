@@ -175,6 +175,25 @@ const Plus = ({ className, size = 20 }: IconProps) => {
 	)
 }
 
+const Bookmark = ({ className, size = 20 }: IconProps) => {
+	return (
+		<i className={clsx(className)}>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="29"
+				height="29"
+				viewBox="0 0 29 29"
+				fill="none"
+			>
+				<path
+					d="M14.5002 24.7365L7.57402 27.7049C6.47462 28.1721 5.43019 28.0831 4.44073 27.4377C3.45127 26.7924 2.95654 25.8782 2.95654 24.6953V3.2982C2.95654 2.39119 3.27977 1.61502 3.92621 0.96967C4.57266 0.324323 5.34884 0.0010994 6.25474 0H22.7457C23.6527 0 24.4295 0.323224 25.0759 0.96967C25.7224 1.61612 26.045 2.39229 26.0439 3.2982V24.6953C26.0439 25.8771 25.5492 26.7913 24.5597 27.4377C23.5703 28.0842 22.5259 28.1732 21.4265 27.7049L14.5002 24.7365Z"
+					fill="#FDDC3F"
+				/>
+			</svg>
+		</i>
+	)
+}
+
 const Icon = {
 	InfoOutline,
 	ArrowForward,
@@ -184,6 +203,7 @@ const Icon = {
 	ArrowLeft,
 	FoodSurveyIcon,
 	Plus,
+	Bookmark,
 }
 
 export default Icon
