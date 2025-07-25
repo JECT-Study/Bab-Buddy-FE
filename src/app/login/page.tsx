@@ -1,6 +1,28 @@
+'use client'
+
 import Image from 'next/image'
+import { useState } from 'react'
+import { getOAuthLoginUrl } from '@/shared/api/auth'
+import { useGuestOnly } from '@/shared/hooks/useAuthGuard'
 
 export default function LoginPage() {
+	const [isLoading, setIsLoading] = useState(false)
+
+	// 이미 로그인된 사용자는 홈으로 리다이렉트
+	useGuestOnly()
+
+	const handleKakaoLogin = async () => {
+		setIsLoading(true)
+		try {
+			// OAuth 로그인 링크 요청
+			const kakaoLoginUrl = await getOAuthLoginUrl()
+			window.location.replace(kakaoLoginUrl)
+		} catch (error) {
+			alert('카카오 로그인에 실패했습니다. 다시 시도해주세요.')
+		} finally {
+			setIsLoading(false)
+		}
+	}
 	return (
 		<div className="flex min-h-screen w-screen flex-col overflow-hidden sm:flex-row">
 			{/* 좌측 이미지 영역: 모바일에서는 숨김, md 이상에서만 보임 */}
@@ -20,11 +42,18 @@ export default function LoginPage() {
 					입맛 따라 기본 메뉴, 메뉴 추천 도와드릴게요 :)
 				</p>
 				<button
-					type="submit"
-					className="flex items-center gap-2 rounded-full bg-[#FDDC3F] px-8 py-3 font-semibold text-gray-900 shadow transition hover:bg-yellow-300"
+					onClick={handleKakaoLogin}
+					disabled={isLoading}
+					className={`flex items-center gap-2 rounded-full px-8 py-3 font-semibold text-gray-900 shadow transition ${
+						isLoading ? 'cursor-not-allowed bg-gray-300' : 'bg-[#FDDC3F] hover:bg-yellow-300'
+					}`}
 				>
-					<Image src="/assets/icons/kakao.svg" alt="카카오" width={24} height={24} />
-					카카오로 로그인
+					{isLoading ? (
+						<div className="h-6 w-6 animate-spin rounded-full border-2 border-gray-600 border-r-transparent"></div>
+					) : (
+						<Image src="/assets/icons/kakao.svg" alt="카카오" width={24} height={24} />
+					)}
+					{isLoading ? '로그인 중...' : '카카오로 로그인'}
 				</button>
 			</div>
 		</div>
