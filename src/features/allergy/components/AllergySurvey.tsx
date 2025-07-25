@@ -1,15 +1,40 @@
 'use client'
 
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { AllergyCard } from '@/shared/components/AllergyCard'
 import { DEFAULT_ALLERGY_LIST } from '@/shared/constants/allergyList'
+import { allergyApi } from '../api/allergyApi'
 
 export const AllergySurvey: React.FC = () => {
+	const router = useRouter()
 	const [checked, setChecked] = useState<boolean[]>(Array(DEFAULT_ALLERGY_LIST.length).fill(false))
+	const [isLoading, setIsLoading] = useState(false)
 
-	const handleToggle = (idx: number) => {
-		setChecked((prev) => prev.map((v, i) => (i === idx ? !v : v)))
-		// TODO: API 호출 추가
+	const onClickNextStep = () => {
+		router.push('/dislikedFoodSurvey')
+	}
+
+	const handleToggle = async (idx: number, item: string) => {
+		if (isLoading) return
+
+		try {
+			setIsLoading(true)
+			// 새로운 체크 상태 계산
+			const newChecked = checked.map((v, i) => (i === idx ? !v : v))
+			// 선택된 알러지 타입들 수집
+			const selectedTypes = DEFAULT_ALLERGY_LIST.filter((_, i) => newChecked[i]).map(
+				(item) => item.key,
+			)
+
+			// API 호출
+			await allergyApi.updateAllergies(selectedTypes)
+			setChecked(newChecked)
+		} catch (error) {
+			alert('알러지 정보 저장에 실패했습니다. 다시 시도해주세요.')
+		} finally {
+			setIsLoading(false)
+		}
 	}
 
 	const isAnyChecked = checked.some(Boolean)
@@ -27,7 +52,10 @@ export const AllergySurvey: React.FC = () => {
 				<div className="flex h-full w-full flex-1 items-end gap-4">
 					{/* 왼쪽 버튼 */}
 					<div className="flex h-full flex-col justify-end">
-						<button className="text-orientation-mixed bg-transparent font-medium text-orange-500">
+						<button
+							className="text-orientation-mixed bg-transparent font-medium text-orange-500"
+							onClick={onClickNextStep}
+						>
 							건너뛰기
 						</button>
 					</div>
@@ -40,7 +68,7 @@ export const AllergySurvey: React.FC = () => {
 								checked={checked[idx]}
 								label={item.label}
 								description={item.description}
-								onClick={() => handleToggle(idx)}
+								onClick={() => handleToggle(idx, item.key)}
 							/>
 						))}
 					</div>
@@ -54,6 +82,7 @@ export const AllergySurvey: React.FC = () => {
 									: 'cursor-not-allowed text-gray-300'
 							}`}
 							disabled={!isAnyChecked}
+							onClick={onClickNextStep}
 						>
 							다음단계
 							<svg className="ml-1" width="20" height="20" fill="none" viewBox="0 0 20 20">
