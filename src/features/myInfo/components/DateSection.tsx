@@ -4,10 +4,9 @@ import { HistoryRestaurantCard } from '@/features/myInfo/components/HistoryResta
 
 interface DateSectionProps {
 	history: RecommendationHistory
-	onViewDetails: (restaurantId: number) => void
 }
 
-export const DateSection: React.FC<DateSectionProps> = ({ history, onViewDetails }) => {
+export const DateSection: React.FC<DateSectionProps> = ({ history }) => {
 	const formatDate = (dateString: string) => {
 		const date = new Date(dateString)
 		return date.toLocaleDateString('ko-KR', {
@@ -30,28 +29,20 @@ export const DateSection: React.FC<DateSectionProps> = ({ history, onViewDetails
 	return (
 		<div className="mb-8">
 			{/* 날짜 헤더 */}
-			<div className="mb-4 flex flex-col">
-				<div className="flex items-center gap-2">
-					<span className="text-b1-bold text-black">{formatDate(history.createAt)}</span>
-					<span className="text-b2-medium text-gray-50">{formatTime(history.createAt)}</span>
-				</div>
-				<span className="text-b2-medium text-gray-70">추천 음식: {history.foodName}</span>
-			</div>
+			<span className="text-b2-medium text-gray-30">
+				추천일: {formatDate(history.createAt)} {formatTime(history.createAt)}
+			</span>
 
 			{/* 식당 목록 */}
 			{history.restaurantList.length > 0 ? (
-				<div className="grid grid-cols-1 gap-4">
+				<div className="grid grid-cols-3 gap-4">
 					{history.restaurantList.map((restaurant) => (
-						<HistoryRestaurantCard
-							key={restaurant.id}
-							restaurant={restaurant}
-							onViewDetails={onViewDetails}
-						/>
+						<HistoryRestaurantCard key={restaurant.id} restaurant={restaurant} />
 					))}
 				</div>
 			) : (
-				<div className="border-gray-10 flex min-h-[138px] items-center justify-center rounded-[24px] border bg-white">
-					<p className="text-b2-medium text-gray-40">추천된 식당이 없습니다.</p>
+				<div className="flex min-h-[138px] items-center justify-center rounded-[24px] bg-white">
+					<p className="text-b2-medium text-gray-50">검색 결과가 없습니다.</p>
 				</div>
 			)}
 		</div>

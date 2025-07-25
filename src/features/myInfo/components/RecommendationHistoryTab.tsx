@@ -86,11 +86,6 @@ export const RecommendationHistoryTab: React.FC = () => {
 		setCurrentPage(page)
 	}
 
-	const handleViewDetails = (restaurantId: number) => {
-		// TODO: 식당 상세보기 처리
-		console.log('View details for restaurant:', restaurantId)
-	}
-
 	// 필터링 및 정렬된 히스토리 계산
 	const getFilteredAndSortedHistory = (): RecommendationHistory[] => {
 		let filteredHistory = [...recommendationHistory]
@@ -143,7 +138,6 @@ export const RecommendationHistoryTab: React.FC = () => {
 						<DateSection
 							key={`${history.createAt}-${history.foodName}-${index}`}
 							history={history}
-							onViewDetails={handleViewDetails}
 						/>
 					))}
 				</div>
