@@ -53,7 +53,7 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 			router.push(`/foodSurvey/${step + 1}`)
 		} else {
 			// 3단계에서는 추천 결과 화면으로 이동
-			router.push('/recommendation')
+			router.push('/surveyResult')
 		}
 	}
 
