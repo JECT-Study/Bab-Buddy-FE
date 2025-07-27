@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Icon from '@/shared/components/Icon'
 import SurveyCard from '@/features/foodSurvey/components/SurveyCard'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { FoodSurveyIconType } from '@/features/foodSurvey/types/foodSurveyType'
 
 export interface SurveyOption {
@@ -33,9 +34,27 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 	options,
 }) => {
 	const [selectedTaste, setSelectedTaste] = useState<string | null>(null)
+	const router = useRouter()
 
 	const handleSelect = (tasteId: string) => {
 		setSelectedTaste(tasteId)
+	}
+
+	const handlePrevStep = () => {
+		if (step > 1) {
+			router.push(`/foodSurvey/${step - 1}`)
+		}
+	}
+
+	const handleNextStep = () => {
+		if (!selectedTaste) return
+
+		if (step < 3) {
+			router.push(`/foodSurvey/${step + 1}`)
+		} else {
+			// 3단계에서는 추천 결과 화면으로 이동
+			router.push('/recommendation')
+		}
 	}
 
 	return (
@@ -97,18 +116,27 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 						className="h-full w-auto object-contain"
 					/>
 				</div>
-				{/* 다음단계 버튼 */}
-				<div className="flex justify-end">
+				{/* 네비게이션 버튼 */}
+				<div className="flex justify-between">
+					{step > 1 && (
+						<button
+							className="text-orange flex items-center gap-2 font-medium"
+							onClick={handlePrevStep}
+						>
+							<Icon.ArrowLeft className="text-orange" />
+							이전단계
+						</button>
+					)}
+					{step === 1 && <div />}
 					<button
 						className={`flex items-center gap-2 font-medium transition ${
-							selectedTaste
-								? 'text-orange hover:text-orange-600'
-								: 'cursor-not-allowed text-gray-300'
+							selectedTaste ? 'text-orange' : 'text-gray-300'
 						}`}
 						disabled={!selectedTaste}
+						onClick={handleNextStep}
 					>
 						다음단계
-						<Icon.ArrowRight />
+						<Icon.ArrowRight className={`${selectedTaste ? 'text-orange' : 'text-gray-30'}`} />
 					</button>
 				</div>
 			</div>
