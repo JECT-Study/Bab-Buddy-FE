@@ -37,9 +37,14 @@ export const getAddressFromCoords = async (
 		if (!data.documents || data.documents.length === 0) {
 			return { address: null }
 		}
-
+		const address =
+			data.documents[0].address.region_1depth_name +
+			' ' +
+			data.documents[0].address.region_2depth_name +
+			' ' +
+			data.documents[0].address.region_3depth_name
 		return {
-			address: data.documents[0].address.address_name,
+			address: address,
 		}
 	} catch (error) {
 		console.error('Error getting address:', error)

@@ -92,15 +92,6 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 		}
 	}
 
-	const isValidSurvey = () => {
-		return (
-			surveyResponses.survey1 &&
-			surveyResponses.survey2 &&
-			surveyResponses.survey3 &&
-			surveyResponses.address
-		)
-	}
-
 	return (
 		<div className="relative flex flex-1 flex-col">
 			{/* 메인 컨텐츠 */}

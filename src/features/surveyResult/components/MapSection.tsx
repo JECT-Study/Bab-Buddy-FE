@@ -7,6 +7,7 @@ import { useLocationStore } from '@/shared/store/locationStore'
 export interface MapSectionProps {
 	restaurants?: Array<{
 		id: number
+		rank: number
 		name: string
 		location: {
 			lat: number

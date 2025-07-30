@@ -5,55 +5,38 @@ import { RecommendationCard } from './RecommendationCard'
 import { RestaurantCard } from './RestaurantCard'
 import MapSection from './MapSection'
 import { useFoodSurveyStore } from '@/features/foodSurvey/store/foodSurveyStore'
-import { submitSurvey, getRestaurantList } from '../api/surveyResultApi'
 import type { SurveyResultInfo } from '../types/surveyResultTypes'
 import { Restaurant } from '@/features/myInfo/types/recommendationHistory'
+import { useRecommendation } from '../api/surveyResultApi'
 
 export const SurveyResult: React.FC = () => {
 	const { surveyResponses, clearResponses } = useFoodSurveyStore()
 	const [surveyResult, setSurveyResult] = useState<SurveyResultInfo | null>(null)
 	const [restaurants, setRestaurants] = useState<Restaurant[]>([])
-	const [isSurveyLoading, setIsSurveyLoading] = useState(false)
-	const [isRestaurantLoading, setIsRestaurantLoading] = useState(false)
 	const [error, setError] = useState<Error | null>(null)
+	const { submitSurvey, fetchRestaurants, isSurveyLoading, isRestaurantLoading } =
+		useRecommendation()
 
 	useEffect(() => {
-		const abortController = new AbortController()
-
 		const fetchData = async () => {
 			try {
-				setIsSurveyLoading(true)
-				const result = await submitSurvey(surveyResponses, abortController.signal)
-				if (abortController.signal.aborted) return
+				const result = await submitSurvey(surveyResponses)
+				if (!result) return
 
 				setSurveyResult(result)
-				setIsSurveyLoading(false)
+				const restaurantList = await fetchRestaurants(result.id)
+				if (!restaurantList) return
 
-				setIsRestaurantLoading(true)
-				const restaurantList = await getRestaurantList(result.id, abortController.signal)
-				if (abortController.signal.aborted) return
-
-				setRestaurants(restaurantList || [])
-				setIsRestaurantLoading(false)
+				setRestaurants(restaurantList)
+				// API 호출이 모두 성공한 후에 clearResponses 호출
 				clearResponses()
 			} catch (error) {
-				if (!abortController.signal.aborted) {
-					console.error('Error:', error)
-					setError(error as Error)
-				}
-			} finally {
-				if (!abortController.signal.aborted) {
-					setIsSurveyLoading(false)
-					setIsRestaurantLoading(false)
-				}
+				console.error('Error:', error)
+				setError(error as Error)
 			}
 		}
 
 		fetchData()
-
-		return () => {
-			abortController.abort()
-		}
 	}, [])
 
 	if (error) {
@@ -100,8 +83,9 @@ export const SurveyResult: React.FC = () => {
 					</div>
 					<MapSection
 						restaurants={
-							restaurants?.map((restaurant) => ({
+							restaurants?.map((restaurant, index) => ({
 								id: restaurant.id,
+								rank: index + 1,
 								name: restaurant.name,
 								location: {
 									lat: restaurant.latitude,
