@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 import Icon from '@/shared/components/Icon'
 import { useRouter } from 'next/navigation'
@@ -19,6 +19,7 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({
 	backgroundImage,
 }) => {
 	const router = useRouter()
+	const [imgSrc, setImgSrc] = useState(backgroundImage)
 
 	const onRetry = () => {
 		router.push('/foodSurvey/1')
@@ -28,13 +29,19 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({
 	}
 	return (
 		<div className="flex items-center gap-[36px] rounded-[24px] bg-[#F6F6F6] p-[36px]">
-			<div className="relative h-[300px] w-[600px]">
-				<Image
-					src={backgroundImage}
-					alt="추천 음식 이미지"
-					fill
-					className="rounded-[24px] object-cover"
-				/>
+			<div className="h-[300px] w-[600px] overflow-hidden">
+				{imgSrc && (
+					<Image
+						src={imgSrc}
+						alt="추천 음식 이미지"
+						width={600}
+						height={300}
+						className="h-[300px] w-full rounded-[24px] object-cover"
+						loading="eager"
+						priority
+						unoptimized
+					/>
+				)}
 			</div>
 			<div className="flex flex-1 flex-col">
 				<div className="mb-6 flex flex-col gap-4 rounded-[24px] bg-white p-6">

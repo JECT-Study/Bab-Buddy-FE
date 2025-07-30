@@ -1,7 +1,6 @@
 import Script from 'next/script'
-import { Map, MapMarker } from 'react-kakao-maps-sdk'
-
-const KAKAO_SDK_URL = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&autoload=false`
+import { Map, CustomOverlayMap } from 'react-kakao-maps-sdk'
+import { MarkerPin } from '@/features/kakaoMap/components/MarkerPin'
 
 interface KakaoMapProps {
 	currentLocation: {
@@ -17,6 +16,7 @@ interface KakaoMapProps {
 		}
 	}[]
 }
+const KAKAO_SDK_URL = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&autoload=false`
 
 const KakaoMap = ({ currentLocation, restaurants }: KakaoMapProps) => {
 	return (
@@ -34,10 +34,10 @@ const KakaoMap = ({ currentLocation, restaurants }: KakaoMapProps) => {
 				level={4}
 			>
 				{/* 식당 위치 마커 */}
-				{restaurants.map((restaurant) => (
-					<MapMarker key={restaurant.id} position={restaurant.location}>
-						<div className="rounded bg-white px-2 py-1 text-sm">{restaurant.name}</div>
-					</MapMarker>
+				{restaurants.map((restaurant, index) => (
+					<CustomOverlayMap key={restaurant.id} position={restaurant.location} yAnchor={1}>
+						<MarkerPin number={index + 1} />
+					</CustomOverlayMap>
 				))}
 			</Map>
 		</>

@@ -1,28 +1,15 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Icon from '@/shared/components/Icon'
 import SurveyCard from '@/features/foodSurvey/components/SurveyCard'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { FoodSurveyIconType } from '@/features/foodSurvey/types/foodSurveyType'
-
-export interface SurveyOption {
-	id: string
-	label: string
-	sublabel: string
-	icon: FoodSurveyIconType
-}
-
-interface FoodSurveyProps {
-	step: number
-	beforeText: string
-	highlightText: string
-	afterText: string
-	subtitle: string
-	backgroundImage: string
-	options: SurveyOption[]
-}
+import { FoodSurveyProps } from '@/features/foodSurvey/types/foodSurveyTypes'
+import { getAddressFromCoords } from '@/features/foodSurvey/api/addressApi'
+import { SurveyStep, useFoodSurveyStore } from '@/features/foodSurvey/store/foodSurveyStore'
+import { SurveyResponse } from '@/features/surveyResult/types/surveyResultTypes'
+import { useLocationStore } from '@/shared/store/locationStore'
 
 export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 	step,
@@ -33,11 +20,55 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 	backgroundImage,
 	options,
 }) => {
-	const [selectedTaste, setSelectedTaste] = useState<string | null>(null)
 	const router = useRouter()
+	const { surveyResponses, setResponse, setAddress } = useFoodSurveyStore()
+	const { setLocation } = useLocationStore()
+	const [selectedTaste, setSelectedTaste] = useState<string | null>(null)
+
+	// Load saved response for current step
+	useEffect(() => {
+		const currentResponse = surveyResponses[`survey${step}` as keyof SurveyResponse]
+		if (currentResponse) {
+			setSelectedTaste(currentResponse)
+		}
+	}, [step, surveyResponses])
+
+	// Get user's location and address
+	useEffect(() => {
+		const getAddress = async () => {
+			if (!navigator.geolocation) {
+				console.error('Geolocation is not supported by this browser.')
+				return
+			}
+
+			try {
+				const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+					navigator.geolocation.getCurrentPosition(resolve, reject, {
+						enableHighAccuracy: true,
+						timeout: 5000,
+						maximumAge: 0,
+					})
+				})
+
+				const { latitude, longitude } = position.coords
+				setLocation({ lat: latitude, lng: longitude })
+				const response = await getAddressFromCoords(latitude, longitude)
+				if (response.address) {
+					setAddress(response.address)
+				}
+			} catch (error) {
+				console.error('Error in getAddress:', error)
+			}
+		}
+
+		if (!surveyResponses.address) {
+			getAddress()
+		}
+	}, [setAddress, surveyResponses.address])
 
 	const handleSelect = (tasteId: string) => {
 		setSelectedTaste(tasteId)
+		setResponse(step as SurveyStep, tasteId)
 	}
 
 	const handlePrevStep = () => {
@@ -46,15 +77,28 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 		}
 	}
 
-	const handleNextStep = () => {
+	const handleNextStep = async () => {
 		if (!selectedTaste) return
 
 		if (step < 3) {
 			router.push(`/foodSurvey/${step + 1}`)
 		} else {
-			// 3단계에서는 추천 결과 화면으로 이동
-			router.push('/surveyResult')
+			try {
+				router.push('/surveyResult')
+			} catch (error) {
+				console.error('Error submitting survey:', error)
+				// Handle error appropriately
+			}
 		}
+	}
+
+	const isValidSurvey = () => {
+		return (
+			surveyResponses.survey1 &&
+			surveyResponses.survey2 &&
+			surveyResponses.survey3 &&
+			surveyResponses.address
+		)
 	}
 
 	return (

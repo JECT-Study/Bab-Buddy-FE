@@ -5,6 +5,7 @@ import Icon from '@/shared/components/Icon'
 
 interface RestaurantCardProps {
 	id: number
+	rank: number
 	name: string
 	type: string
 	distance: string
@@ -12,6 +13,7 @@ interface RestaurantCardProps {
 }
 export const RestaurantCard: React.FC<RestaurantCardProps> = ({
 	id,
+	rank,
 	name,
 	type,
 	distance,
@@ -26,7 +28,7 @@ export const RestaurantCard: React.FC<RestaurantCardProps> = ({
 	return (
 		<div className="flex items-center justify-between rounded-[24px] border border-[#E0E0E0] p-6">
 			<div className="flex items-center gap-8">
-				<span className="text-[32px] leading-[42px] font-bold tracking-[-0.04em]">{id}</span>
+				<span className="text-[32px] leading-[42px] font-bold tracking-[-0.04em]">{rank}</span>
 				<div className="flex flex-col gap-2">
 					<div className="flex items-center gap-2">
 						<span className="text-[16px] leading-[24px] font-medium tracking-[-0.02em]">

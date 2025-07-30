@@ -250,6 +250,36 @@ const Location = ({ className, size = 20 }: IconProps) => {
 	)
 }
 
+const MarkerPinShadow = ({ className, size = 20 }: IconProps) => {
+	return (
+		<i className={clsx(className)}>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="19"
+				height="6"
+				viewBox="0 0 19 6"
+				fill="none"
+				className="-mt-1"
+			>
+				<ellipse cx="9.59961" cy="3" rx="9" ry="3" fill="url(#paint0_radial_1696_4116)" />
+				<defs>
+					<radialGradient
+						id="paint0_radial_1696_4116"
+						cx="0"
+						cy="0"
+						r="1"
+						gradientUnits="userSpaceOnUse"
+						gradientTransform="translate(9.59961 3) scale(9 3)"
+					>
+						<stop stopColor="#697278" />
+						<stop offset="1" stopOpacity="0" />
+					</radialGradient>
+				</defs>
+			</svg>
+		</i>
+	)
+}
+
 const Icon = {
 	InfoOutline,
 	ArrowForward,
@@ -263,6 +293,7 @@ const Icon = {
 	ArrowDown,
 	Share,
 	Location,
+	MarkerPinShadow,
 }
 
 export default Icon

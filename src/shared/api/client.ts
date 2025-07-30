@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios'
 import { AuthStorage } from '../utils/auth'
+import { useState } from 'react'
 
 // API Base URL - Next.js API Routes를 통해 프록시 처리
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
@@ -58,6 +59,43 @@ export const api = {
 	delete: <T = any>(url: string, config?: AxiosRequestConfig) => {
 		return apiClient.delete<T>(url, config)
 	},
+}
+
+interface UseApiState<T> {
+	data: T | null
+	isLoading: boolean
+	error: Error | null
+}
+
+type ApiFunction<T, P extends any[]> = (...args: P) => Promise<T>
+
+export const useApi = <T, P extends any[]>(apiFunction: ApiFunction<T, P>) => {
+	const [state, setState] = useState<UseApiState<T>>({
+		data: null,
+		isLoading: false,
+		error: null,
+	})
+
+	const execute = async (...args: P) => {
+		try {
+			setState((prev) => ({ ...prev, isLoading: true, error: null }))
+			const result = await apiFunction(...args)
+			setState((prev) => ({ ...prev, data: result, isLoading: false }))
+			return result
+		} catch (error) {
+			setState((prev) => ({
+				...prev,
+				error: error as Error,
+				isLoading: false,
+			}))
+			throw error
+		}
+	}
+
+	return {
+		...state,
+		execute,
+	}
 }
 
 export default apiClient
