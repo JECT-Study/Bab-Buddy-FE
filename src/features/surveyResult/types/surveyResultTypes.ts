@@ -1,5 +1,6 @@
 export interface SurveyResultInfo {
 	id: number
+	name: string
 	foodName: string
 	foodIntroduce: string
 	foodImageUrl: string

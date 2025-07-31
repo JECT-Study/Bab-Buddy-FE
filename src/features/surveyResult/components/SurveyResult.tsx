@@ -49,7 +49,7 @@ export const SurveyResult: React.FC = () => {
 				<div className="h-[372px]">음식 추천 결과를 불러오는 중...</div>
 			) : (
 				<RecommendationCard
-					userName="사용자" // TODO: 실제 사용자 이름으로 교체
+					userName={surveyResult?.name ?? ''}
 					recommendedMenu={surveyResult?.foodName ?? ''}
 					recommendationReason={surveyResult?.foodIntroduce ?? ''}
 					backgroundImage={surveyResult?.foodImageUrl ?? ''}
