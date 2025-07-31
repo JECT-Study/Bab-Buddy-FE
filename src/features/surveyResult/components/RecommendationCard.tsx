@@ -9,6 +9,7 @@ import { initializeKakao, shareToKakao, copyToClipboard } from '@/features/share
 import { useRouter } from 'next/navigation'
 
 interface RecommendationCardProps {
+	id: number
 	userName: string
 	recommendedMenu: string
 	recommendationReason: string
@@ -16,6 +17,7 @@ interface RecommendationCardProps {
 }
 
 export const RecommendationCard: React.FC<RecommendationCardProps> = ({
+	id,
 	userName,
 	recommendedMenu,
 	recommendationReason,
@@ -39,19 +41,21 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({
 	}
 
 	const handleKakaoShare = () => {
-		const currentUrl = window.location.href
+		const baseUrl = window.location.origin
+		const shareUrl = `${baseUrl}/surveyResult?id=${id}`
 		shareToKakao({
 			title: `${userName}님을 위한 메뉴 추천`,
 			description: `오늘 ${userName}님을 위해 추천한 메뉴는 ${recommendedMenu}입니다.`,
 			imageUrl: imgSrc,
-			link: currentUrl,
+			link: shareUrl,
 		})
 		setIsModalOpen(false)
 	}
 
 	const handleLinkShare = async () => {
-		const currentUrl = window.location.href
-		const success = await copyToClipboard(currentUrl)
+		const baseUrl = window.location.origin
+		const shareUrl = `${baseUrl}/surveyResult/${id}`
+		const success = await copyToClipboard(shareUrl)
 		if (success) {
 			alert('링크가 복사되었습니다.')
 		} else {

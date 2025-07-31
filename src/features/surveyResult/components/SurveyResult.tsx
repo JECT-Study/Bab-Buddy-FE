@@ -49,6 +49,7 @@ export const SurveyResult: React.FC = () => {
 				<div className="h-[372px]">음식 추천 결과를 불러오는 중...</div>
 			) : (
 				<RecommendationCard
+					id={surveyResult?.id ?? 0}
 					userName={surveyResult?.name ?? ''}
 					recommendedMenu={surveyResult?.foodName ?? ''}
 					recommendationReason={surveyResult?.foodIntroduce ?? ''}
