@@ -4,6 +4,7 @@ import React from 'react'
 import Icon from '@/shared/components/Icon'
 import { useLocationStore } from '@/shared/store/locationStore'
 import { calculateDistance, formatDistance } from '@/shared/utils/distance'
+import { BookMark } from '@/features/bookMark/components/BookMark'
 
 interface RestaurantCardProps {
 	id: number
@@ -28,9 +29,7 @@ export const RestaurantCard: React.FC<RestaurantCardProps> = ({
 	const { location } = useLocationStore()
 	const distanceInMeters = calculateDistance(location, { lat, lng })
 	const formattedDistance = formatDistance(distanceInMeters)
-	const onBookmarkClick = () => {
-		console.log('bookmark')
-	}
+
 	const onDetailClick = () => {
 		console.log('detail')
 	}
@@ -63,11 +62,7 @@ export const RestaurantCard: React.FC<RestaurantCardProps> = ({
 					</button>
 				</div>
 			</div>
-			<button onClick={onBookmarkClick}>
-				<Icon.Bookmark
-					className={`h-[45px] w-[45px] ${isBookmarked ? 'text-[#FDDC3F]' : 'text-[#AEAEAE]'}`}
-				/>
-			</button>
+			<BookMark restaurantId={id} />
 		</div>
 	)
 }

@@ -59,6 +59,9 @@ export const api = {
 	delete: <T = any>(url: string, config?: AxiosRequestConfig) => {
 		return apiClient.delete<T>(url, config)
 	},
+	patch: <T = any>(url: string, data?: any, config?: AxiosRequestConfig) => {
+		return apiClient.patch<T>(url, data, config)
+	},
 }
 
 interface UseApiState<T> {
