@@ -73,7 +73,9 @@ export const SurveyResult: React.FC = () => {
 									rank={index + 1}
 									name={restaurant.name}
 									type={restaurant.restaurantType}
-									distance={restaurant.address}
+									address={restaurant.address}
+									lat={restaurant.latitude}
+									lng={restaurant.longitude}
 									isBookmarked={false}
 								/>
 							))

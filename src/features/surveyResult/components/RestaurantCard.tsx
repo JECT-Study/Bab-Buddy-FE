@@ -2,13 +2,17 @@
 
 import React from 'react'
 import Icon from '@/shared/components/Icon'
+import { useLocationStore } from '@/shared/store/locationStore'
+import { calculateDistance, formatDistance } from '@/shared/utils/distance'
 
 interface RestaurantCardProps {
 	id: number
 	rank: number
 	name: string
 	type: string
-	distance: string
+	address: string
+	lat: number
+	lng: number
 	isBookmarked: boolean
 }
 export const RestaurantCard: React.FC<RestaurantCardProps> = ({
@@ -16,15 +20,21 @@ export const RestaurantCard: React.FC<RestaurantCardProps> = ({
 	rank,
 	name,
 	type,
-	distance,
+	address,
+	lat,
+	lng,
 	isBookmarked,
 }) => {
+	const { location } = useLocationStore()
+	const distanceInMeters = calculateDistance(location, { lat, lng })
+	const formattedDistance = formatDistance(distanceInMeters)
 	const onBookmarkClick = () => {
 		console.log('bookmark')
 	}
 	const onDetailClick = () => {
 		console.log('detail')
 	}
+
 	return (
 		<div className="flex items-center justify-between rounded-[24px] border border-[#E0E0E0] p-6">
 			<div className="flex items-center gap-8">
@@ -41,7 +51,7 @@ export const RestaurantCard: React.FC<RestaurantCardProps> = ({
 					<div className="flex items-center gap-1">
 						<Icon.Location className="h-3 w-3 text-[#777677]" />
 						<span className="text-[15px] leading-[23px] font-medium tracking-[-0.02em] text-[#777677]">
-							{distance}
+							{formattedDistance}
 						</span>
 					</div>
 					<button
