@@ -1,8 +1,11 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Icon from '@/shared/components/Icon'
+
+import { ShareModal } from '@/features/share/components/ShareModal'
+import { initializeKakao, shareToKakao, copyToClipboard } from '@/features/share/utils/share'
 import { useRouter } from 'next/navigation'
 
 interface RecommendationCardProps {
@@ -24,8 +27,37 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({
 	const onRetry = () => {
 		router.push('/foodSurvey/1')
 	}
+	const [isModalOpen, setIsModalOpen] = useState(false)
+
+	useEffect(() => {
+		const cleanup = initializeKakao()
+		return cleanup
+	}, [])
+
 	const onShare = () => {
-		console.log('share')
+		setIsModalOpen(true)
+	}
+
+	const handleKakaoShare = () => {
+		const currentUrl = window.location.href
+		shareToKakao({
+			title: `${userName}님을 위한 메뉴 추천`,
+			description: `오늘 ${userName}님을 위해 추천한 메뉴는 ${recommendedMenu}입니다.`,
+			imageUrl: imgSrc,
+			link: currentUrl,
+		})
+		setIsModalOpen(false)
+	}
+
+	const handleLinkShare = async () => {
+		const currentUrl = window.location.href
+		const success = await copyToClipboard(currentUrl)
+		if (success) {
+			alert('링크가 복사되었습니다.')
+		} else {
+			alert('링크 복사에 실패했습니다.')
+		}
+		setIsModalOpen(false)
 	}
 	return (
 		<div className="flex items-center gap-[36px] rounded-[24px] bg-[#F6F6F6] p-[36px]">
@@ -73,6 +105,12 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({
 					</button>
 				</div>
 			</div>
+			<ShareModal
+				isOpen={isModalOpen}
+				onClose={() => setIsModalOpen(false)}
+				onKakaoShare={handleKakaoShare}
+				onLinkShare={handleLinkShare}
+			/>
 		</div>
 	)
 }

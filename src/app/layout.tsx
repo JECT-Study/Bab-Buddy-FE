@@ -21,7 +21,10 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="ko" className={pretendard.variable}>
-			<body className="font-pretendard min-h-screen">{children}</body>
+			<body className="font-pretendard min-h-screen">
+				{children}
+				<script src="https://developers.kakao.com/sdk/js/kakao.js" />
+			</body>
 		</html>
 	)
 }
