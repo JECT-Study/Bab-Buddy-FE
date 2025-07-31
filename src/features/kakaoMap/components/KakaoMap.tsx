@@ -3,10 +3,6 @@ import { MarkerPin } from './MarkerPin'
 import { createRoot } from 'react-dom/client'
 
 interface KakaoMapProps {
-	currentLocation: {
-		lat: number
-		lng: number
-	}
 	restaurants: {
 		id: number
 		rank: number
@@ -20,7 +16,7 @@ interface KakaoMapProps {
 
 const KAKAO_SDK_URL = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&autoload=false`
 
-const KakaoMap = ({ currentLocation, restaurants }: KakaoMapProps) => {
+const KakaoMap = ({ restaurants }: KakaoMapProps) => {
 	const mapRef = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
@@ -30,10 +26,16 @@ const KakaoMap = ({ currentLocation, restaurants }: KakaoMapProps) => {
 		script.onload = () => {
 			window.kakao.maps.load(() => {
 				if (!mapRef.current) return
+				const defaultLocation = {
+					lat: 37.566826,
+					lng: 126.9786567,
+				}
+				const lat = restaurants?.[0]?.location.lat ?? defaultLocation.lat
+				const lng = restaurants?.[0]?.location.lng ?? defaultLocation.lng
 
 				const map = new window.kakao.maps.Map(mapRef.current, {
-					center: new window.kakao.maps.LatLng(currentLocation.lat, currentLocation.lng),
-					level: 3,
+					center: new window.kakao.maps.LatLng(lat, lng),
+					level: 5,
 				})
 
 				// 현재 위치 마커용 컨테이너
@@ -68,7 +70,7 @@ const KakaoMap = ({ currentLocation, restaurants }: KakaoMapProps) => {
 		return () => {
 			document.head.removeChild(script)
 		}
-	}, [currentLocation, restaurants])
+	}, [restaurants])
 
 	return <div ref={mapRef} className="h-full w-full rounded-[24px]" />
 }
