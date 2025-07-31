@@ -5,6 +5,7 @@ import Icon from '@/shared/components/Icon'
 import { useLocationStore } from '@/shared/store/locationStore'
 import { calculateDistance, formatDistance } from '@/shared/utils/distance'
 import { BookMark } from '@/features/bookMark/components/BookMark'
+import { kakaoMapOpen } from '@/shared/utils/kakaoMapOpen'
 
 interface RestaurantCardProps {
 	id: number
@@ -14,7 +15,6 @@ interface RestaurantCardProps {
 	address: string
 	lat: number
 	lng: number
-	isBookmarked: boolean
 }
 export const RestaurantCard: React.FC<RestaurantCardProps> = ({
 	id,
@@ -24,14 +24,13 @@ export const RestaurantCard: React.FC<RestaurantCardProps> = ({
 	address,
 	lat,
 	lng,
-	isBookmarked,
 }) => {
 	const { location } = useLocationStore()
 	const distanceInMeters = calculateDistance(location, { lat, lng })
 	const formattedDistance = formatDistance(distanceInMeters)
 
 	const onDetailClick = () => {
-		console.log('detail')
+		kakaoMapOpen(name, lat, lng)
 	}
 
 	return (

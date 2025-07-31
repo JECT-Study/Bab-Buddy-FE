@@ -76,7 +76,6 @@ export const SurveyResult: React.FC = () => {
 									address={restaurant.address}
 									lat={restaurant.latitude}
 									lng={restaurant.longitude}
-									isBookmarked={false}
 								/>
 							))
 						) : (
