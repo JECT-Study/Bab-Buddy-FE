@@ -1,15 +1,10 @@
 import React from 'react'
-import { DislikedFoodInput } from '@/shared/components/DislikedFoodInput'
+import { DislikedFoodInput } from '@/features/dislikedFoodInput/components/DislikedFoodInput'
+import { useDislikedFoods } from '@/features/dislikedFoodInput/hooks/useDislikedFoods'
 
-interface DislikedFoodsSectionProps {
-	dislikedFoods: string[]
-	onDislikedFoodsChange: (foods: string[]) => void
-}
+export const DislikedFoodsSection: React.FC = () => {
+	const { foods, handleAddFood, handleRemoveFood } = useDislikedFoods()
 
-export const DislikedFoodsSection: React.FC<DislikedFoodsSectionProps> = ({
-	dislikedFoods,
-	onDislikedFoodsChange,
-}) => {
 	return (
 		<div className="border-gray-10 flex flex-col gap-6 rounded-3xl border bg-white p-6">
 			<div className="flex flex-col gap-2">
@@ -19,7 +14,7 @@ export const DislikedFoodsSection: React.FC<DislikedFoodsSectionProps> = ({
 				</p>
 			</div>
 
-			<DislikedFoodInput foods={dislikedFoods} onFoodsChange={onDislikedFoodsChange} />
+			<DislikedFoodInput foods={foods} onAddFood={handleAddFood} onRemoveFood={handleRemoveFood} />
 		</div>
 	)
 }
