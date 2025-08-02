@@ -2,9 +2,15 @@ import React from 'react'
 import Icon from '@/shared/components/Icon'
 import { DislikedFoodInput } from '@/features/dislikedFoodInput/components/DislikedFoodInput'
 import { useDislikedFoods } from '@/features/dislikedFoodInput/hooks/useDislikedFoods'
+import { useRouter } from 'next/navigation'
 
 const DislikedFoodSurvey: React.FC = () => {
 	const { foods, handleAddFood, handleRemoveFood } = useDislikedFoods()
+	const router = useRouter()
+
+	const onClickNextStep = () => {
+		router.push('/home')
+	}
 
 	return (
 		<div className="flex-1">
@@ -20,7 +26,10 @@ const DislikedFoodSurvey: React.FC = () => {
 				<div className="flex h-full w-full flex-1 items-end gap-4">
 					{/* 왼쪽 버튼 */}
 					<div className="flex h-full flex-col justify-end">
-						<button className="text-orientation-mixed text-orange bg-transparent font-medium">
+						<button
+							className="text-orientation-mixed text-orange bg-transparent font-medium"
+							onClick={onClickNextStep}
+						>
 							건너뛰기
 						</button>
 					</div>
@@ -41,6 +50,7 @@ const DislikedFoodSurvey: React.FC = () => {
 								foods.length === 0 ? 'text-gray-30' : 'text-orange'
 							}`}
 							disabled={foods.length === 0}
+							onClick={onClickNextStep}
 						>
 							다음단계
 							<Icon.ArrowRight

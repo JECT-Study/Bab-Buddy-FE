@@ -13,7 +13,7 @@ const OAuthSuccessPage = () => {
 
 		if (accessToken) {
 			// 토큰 저장 및 홈으로 리다이렉트
-			AuthUtils.handleOAuthSuccess(accessToken, '/dislikedFoodSurvey')
+			AuthUtils.handleOAuthSuccess(accessToken, '/allergySurvey')
 		} else {
 			// 토큰이 없으면 로그인 페이지로 이동
 			console.error('❌ accessToken 없음')
