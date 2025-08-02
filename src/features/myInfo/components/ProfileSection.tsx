@@ -19,17 +19,15 @@ export const ProfileSection: React.FC = () => {
 		fetchUserInfo()
 	}, [])
 
-	if (!user) return null
-
 	return (
 		<div className="border-gray-10 flex flex-col gap-6 rounded-3xl border bg-white p-6">
 			<h2 className="text-h3-bold text-black">프로필 정보</h2>
 
 			<div className="flex items-center gap-4">
 				<div className="h-[69px] w-[69px] overflow-hidden rounded-full bg-gray-200">
-					{user.profile ? (
+					{user?.profile ? (
 						<Image
-							src={user.profile}
+							src={user?.profile}
 							alt="profile"
 							width={69}
 							height={69}
@@ -44,14 +42,14 @@ export const ProfileSection: React.FC = () => {
 
 				<div className="flex flex-col gap-2">
 					<div className="flex items-center gap-2">
-						<span className="text-h3-bold text-black">{user.name}</span>
+						<span className="text-h3-bold text-black">{user?.name}</span>
 					</div>
 					<div className="flex h-[23px] gap-1">
 						<div className="flex items-center justify-center rounded-[20px] border border-gray-50 px-[10px]">
 							<span className="font-size-[16px] text-b2-medium text-gray-50">카카오 계정</span>
 						</div>
 						<span className="font-size-[15px] text-b3-medium text-gray-30 text-center">
-							{user.email}
+							{user?.email}
 						</span>
 					</div>
 				</div>
