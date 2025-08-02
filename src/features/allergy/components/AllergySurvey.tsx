@@ -4,13 +4,13 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AllergyCard } from '@/shared/components/AllergyCard'
 import { DEFAULT_ALLERGY_LIST } from '@/shared/constants/allergyList'
-import { allergyApi } from '../api/allergyApi'
+import { useAllergy } from '../hooks/useAllergy'
 
 export const AllergySurvey: React.FC = () => {
 	const router = useRouter()
 	const [checked, setChecked] = useState<boolean[]>(Array(DEFAULT_ALLERGY_LIST.length).fill(false))
 	const [isLoading, setIsLoading] = useState(false)
-
+	const { handleAllergyToggle } = useAllergy()
 	const onClickNextStep = () => {
 		router.push('/dislikedFoodSurvey')
 	}
@@ -28,7 +28,7 @@ export const AllergySurvey: React.FC = () => {
 			)
 
 			// API 호출
-			await allergyApi.updateAllergies(selectedTypes)
+			handleAllergyToggle(selectedTypes)
 			setChecked(newChecked)
 		} catch (error) {
 			alert('알러지 정보 저장에 실패했습니다. 다시 시도해주세요.')
