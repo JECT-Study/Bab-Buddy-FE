@@ -1,13 +1,13 @@
 import React from 'react'
 import Icon from '../../../shared/components/Icon'
 import { Restaurant } from '@/features/myInfo/types/recommendationHistory'
+import { kakaoMapOpen } from '@/shared/utils/kakaoMapOpen'
 
 interface HistoryRestaurantCardProps {
 	restaurant: Restaurant
 }
-const handleViewDetails = (restaurantId: number) => {
-	// TODO: 식당 상세보기 처리
-	console.log('View details for restaurant:', restaurantId)
+const handleViewDetails = (name: string, lat: number, lng: number) => {
+	kakaoMapOpen(name, lat, lng)
 }
 export const HistoryRestaurantCard: React.FC<HistoryRestaurantCardProps> = ({ restaurant }) => {
 	return (
@@ -26,12 +26,14 @@ export const HistoryRestaurantCard: React.FC<HistoryRestaurantCardProps> = ({ re
 
 				{/* 자세히보기 */}
 				<button
-					onClick={() => handleViewDetails(restaurant.id)}
+					onClick={() =>
+						handleViewDetails(restaurant.name, restaurant.latitude, restaurant.longitude)
+					}
 					className="mt-auto flex items-center gap-1 self-start"
 				>
 					<span className="text-b2-medium text-gray-50">자세히보기</span>
 					<div className="h-4 w-4">
-						<Icon.ArrowRight />
+						<Icon.ArrowRight size={16} />
 					</div>
 				</button>
 			</div>
