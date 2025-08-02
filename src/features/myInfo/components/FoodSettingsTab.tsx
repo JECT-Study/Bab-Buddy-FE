@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { DEFAULT_ALLERGY_LIST, AllergyItem } from '@/shared/constants/allergyList'
-import { DislikedFood } from '@/shared/components/DislikedFoodInput'
 import { AllergySettingsSection } from './AllergySettingsSection'
 import { DislikedFoodsSection } from './DislikedFoodsSection'
+import { useDislikedFoodStore } from '@/features/dislikedFoodInput/store/dislikedFoodStore'
 
 export const FoodSettingsTab: React.FC = () => {
 	// 기본 알레르기 목록을 사용해서 초기화 (견과류, 해산물은 체크된 상태로)
@@ -15,7 +15,7 @@ export const FoodSettingsTab: React.FC = () => {
 		})),
 	)
 
-	const [dislikedFoods, setDislikedFoods] = useState<string[]>(['브로콜리', '양파', '피망'])
+	const { foods } = useDislikedFoodStore()
 
 	const handleAllergyToggle = (id: string) => {
 		setAllergies((prev) =>
@@ -57,14 +57,14 @@ export const FoodSettingsTab: React.FC = () => {
 					</div>
 
 					<div className="flex items-center gap-10">
-						<span className="text-lg text-gray-400">싫어하는 음식({dislikedFoods.length})</span>
+						<span className="text-lg text-gray-400">싫어하는 음식({foods.length})</span>
 						<div className="flex flex-wrap items-center gap-2">
-							{dislikedFoods.map((food, idx) => (
+							{foods.map((food) => (
 								<div
-									key={idx + food}
+									key={food.id + food.foodName}
 									className="rounded-[20px] border border-black bg-white px-2.5 py-1"
 								>
-									<span className="text-sm text-black">{food}</span>
+									<span className="text-sm text-black">{food.foodName}</span>
 								</div>
 							))}
 						</div>
@@ -78,10 +78,7 @@ export const FoodSettingsTab: React.FC = () => {
 				onClearAllAllergies={handleClearAllAllergies}
 			/>
 
-			<DislikedFoodsSection
-				dislikedFoods={dislikedFoods}
-				onDislikedFoodsChange={setDislikedFoods}
-			/>
+			<DislikedFoodsSection />
 		</div>
 	)
 }

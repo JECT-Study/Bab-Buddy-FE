@@ -1,9 +1,16 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Icon from '@/shared/components/Icon'
-import { DislikedFoodInput } from '@/shared/components/DislikedFoodInput'
+import { DislikedFoodInput } from '@/features/dislikedFoodInput/components/DislikedFoodInput'
+import { useDislikedFoods } from '@/features/dislikedFoodInput/hooks/useDislikedFoods'
+import { useRouter } from 'next/navigation'
 
 const DislikedFoodSurvey: React.FC = () => {
-	const [selectedFoods, setSelectedFoods] = useState<string[]>([])
+	const { foods, handleAddFood, handleRemoveFood } = useDislikedFoods()
+	const router = useRouter()
+
+	const onClickNextStep = () => {
+		router.push('/home')
+	}
 
 	return (
 		<div className="flex-1">
@@ -19,27 +26,35 @@ const DislikedFoodSurvey: React.FC = () => {
 				<div className="flex h-full w-full flex-1 items-end gap-4">
 					{/* 왼쪽 버튼 */}
 					<div className="flex h-full flex-col justify-end">
-						<button className="text-orientation-mixed text-orange bg-transparent font-medium">
+						<button
+							className="text-orientation-mixed text-orange bg-transparent font-medium"
+							onClick={onClickNextStep}
+						>
 							건너뛰기
 						</button>
 					</div>
 
 					{/* 중앙 컨텐츠 */}
 					<div className="flex h-full w-full flex-1 flex-col overflow-y-auto">
-						<DislikedFoodInput foods={selectedFoods} onFoodsChange={setSelectedFoods} />
+						<DislikedFoodInput
+							foods={foods}
+							onAddFood={handleAddFood}
+							onRemoveFood={handleRemoveFood}
+						/>
 					</div>
 
 					{/* 오른쪽 버튼 */}
 					<div className="flex h-full flex-col justify-end">
 						<button
 							className={`flex items-center font-medium ${
-								selectedFoods.length === 0 ? 'text-gray-30' : 'text-orange'
+								foods.length === 0 ? 'text-gray-30' : 'text-orange'
 							}`}
-							disabled={selectedFoods.length === 0}
+							disabled={foods.length === 0}
+							onClick={onClickNextStep}
 						>
 							다음단계
 							<Icon.ArrowRight
-								className={`${selectedFoods.length === 0 ? 'text-gray-30' : 'text-orange'}`}
+								className={`${foods.length === 0 ? 'text-gray-30' : 'text-orange'}`}
 							/>
 						</button>
 					</div>

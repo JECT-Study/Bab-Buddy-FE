@@ -1,33 +1,39 @@
 'use client'
 
 import React, { useState } from 'react'
-import Icon from './Icon'
+import Icon from '../../../shared/components/Icon'
+import { DislikedFood } from '../store/dislikedFoodStore'
 
 interface DislikedFoodInputProps {
-	foods: string[]
-	onFoodsChange: (foods: string[]) => void
+	foods: DislikedFood[]
+	onAddFood: (foodName: string) => void
+	onRemoveFood: (foodId: string) => void
 }
 
-export const DislikedFoodInput: React.FC<DislikedFoodInputProps> = ({ foods, onFoodsChange }) => {
+export const DislikedFoodInput: React.FC<DislikedFoodInputProps> = ({
+	foods,
+	onAddFood,
+	onRemoveFood,
+}) => {
 	const maxCount = 20
 	const [inputValue, setInputValue] = useState('')
 
 	const handleAddFood = () => {
 		const trimmedValue = inputValue.trim()
-		if (trimmedValue && !foods.some((food) => food === trimmedValue)) {
-			onFoodsChange([...foods, trimmedValue])
+		if (trimmedValue) {
+			onAddFood(trimmedValue)
 			setInputValue('')
 		}
-	}
-
-	const handleRemoveFood = (food: string) => {
-		onFoodsChange(foods.filter((f) => f !== food))
 	}
 
 	const handleKeyPress = (e: React.KeyboardEvent) => {
 		if (e.key === 'Enter') {
 			handleAddFood()
 		}
+	}
+
+	const handleRemoveFood = (foodId: string) => {
+		onRemoveFood(foodId)
 	}
 
 	return (
@@ -63,15 +69,15 @@ export const DislikedFoodInput: React.FC<DislikedFoodInputProps> = ({ foods, onF
 				<h2 className="text-h3-bold text-gray-90 mb-4">현재 등록된 싫어하는 음식</h2>
 				<div className="flex min-h-[60px] flex-wrap items-center gap-2">
 					{foods.length > 0 ? (
-						foods.map((food, idx) => (
+						foods.map((food) => (
 							<div
-								key={idx + food}
+								key={food.id + food.foodName}
 								className="border-gray-30 flex items-center rounded-[24px] border px-[24px] py-[16px]"
 								style={{ border: '1px solid #E0E0E0' }}
 							>
-								<span className="text-b2-medium text-gray-70">{food}</span>
+								<span className="text-b2-medium text-gray-70">{food.foodName}</span>
 								<button
-									onClick={() => handleRemoveFood(food)}
+									onClick={() => handleRemoveFood(food.id)}
 									className="ml-2 text-gray-400 hover:text-gray-600"
 								>
 									×
