@@ -4,10 +4,11 @@ import { FoodSurvey } from '@/features/foodSurvey/components/FoodSurvey'
 import { SURVEY_CONFIG } from '@/features/foodSurvey/config/surveyConfig'
 
 interface PageProps {
-	params: { step: string }
+	params: Promise<{ step: string }>
 }
 
-export default function FoodSurveyPage({ params }: PageProps) {
+export default async function FoodSurveyPage(props: PageProps) {
+	const params = await props.params
 	const { step } = params
 	const stepNum = parseInt(step)
 

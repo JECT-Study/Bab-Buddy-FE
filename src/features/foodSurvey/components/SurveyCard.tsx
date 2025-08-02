@@ -1,6 +1,6 @@
 import React from 'react'
 import Icon from '@/shared/components/Icon'
-import { FoodSurveyIconType } from '../types/foodSurveyType'
+import { FoodSurveyIconType } from '../types/foodSurveyTypes'
 
 interface SurveyCardProps {
 	id: string
