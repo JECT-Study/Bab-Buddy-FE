@@ -3,14 +3,14 @@ export const getConvertCategory = (category: string) => {
 		case '전체':
 			return 'ALL'
 		case '한식':
-			return 'korean'
+			return 'KOREAN'
 		case '중식':
-			return 'chinese'
+			return 'CHINESE'
 		case '일식':
-			return 'japanese'
+			return 'JAPANESE'
 		case '양식':
-			return 'western'
+			return 'WESTERN'
 		default:
-			return 'etc'
+			return 'ETC'
 	}
 }
