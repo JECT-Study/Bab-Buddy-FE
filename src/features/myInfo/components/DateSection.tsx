@@ -1,22 +1,13 @@
 import React from 'react'
 import { RecommendationHistory } from '@/features/myInfo/types/recommendationHistory'
 import { HistoryRestaurantCard } from '@/features/myInfo/components/HistoryRestaurantCard'
+import { formatUTCPlus9Date } from '@/shared/utils/formatDate'
 
 interface DateSectionProps {
 	history: RecommendationHistory
 }
 
 export const DateSection: React.FC<DateSectionProps> = ({ history }) => {
-	const formatDate = (dateString: string) => {
-		const date = new Date(dateString)
-		return date.toLocaleDateString('ko-KR', {
-			year: 'numeric',
-			month: 'long',
-			day: 'numeric',
-			weekday: 'long',
-		})
-	}
-
 	const formatTime = (dateString: string) => {
 		const date = new Date(dateString)
 		return date.toLocaleTimeString('ko-KR', {
@@ -30,7 +21,7 @@ export const DateSection: React.FC<DateSectionProps> = ({ history }) => {
 		<div className="mb-8">
 			{/* 날짜 헤더 */}
 			<span className="text-b2-medium text-gray-30">
-				추천일: {formatDate(history.createAt)} {formatTime(history.createAt)}
+				추천일: {formatUTCPlus9Date(history.createAt)}
 			</span>
 
 			{/* 식당 목록 */}

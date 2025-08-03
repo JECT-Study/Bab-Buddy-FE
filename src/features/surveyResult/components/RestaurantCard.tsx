@@ -61,7 +61,7 @@ export const RestaurantCard: React.FC<RestaurantCardProps> = ({
 					</button>
 				</div>
 			</div>
-			<BookMark restaurantId={id} />
+			<BookMark restaurantId={id} isBookmarked={true} />
 		</div>
 	)
 }

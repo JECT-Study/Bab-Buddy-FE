@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { RestaurantCard, Restaurant } from '@/shared/components/RestaurantCard'
+import { RestaurantCard, Restaurant } from '@/features/myInfo/components/RestaurantCard'
 import { FilterButtons, FilterCategory } from '@/shared/components/FilterButtons'
 import { SortDropdown, SortOption } from '@/shared/components/SortDropdown'
 import { Pagination } from '@/shared/components/Pagination'
@@ -18,7 +18,6 @@ export const BookmarkTab: React.FC = () => {
 			getConvertCategory(selectedCategory),
 			selectedSort === '최신순' ? 'LATEST' : 'OLDEST',
 			currentPage,
-			6,
 		)
 		setBookmarkedRestaurants(response as unknown as Restaurant[])
 	}
@@ -38,38 +37,22 @@ export const BookmarkTab: React.FC = () => {
 		setCurrentPage(1)
 	}
 
-	const handleBookmarkToggle = (restaurantId: string) => {
-		setBookmarkedRestaurants((prev) =>
-			prev.map((restaurant) =>
-				restaurant.id === restaurantId
-					? { ...restaurant, isBookmarked: !restaurant.isBookmarked }
-					: restaurant,
-			),
-		)
-		// TODO: API 호출 추가
-	}
-
-	const handleViewDetails = (restaurantId: string) => {
-		console.log('자세히보기 클릭:', restaurantId)
-		// TODO: 식당 상세 페이지로 이동
-	}
-
 	// 필터링 및 정렬된 식당 목록
 	const getFilteredAndSortedRestaurants = () => {
-		let filtered = bookmarkedRestaurants.filter((restaurant) => restaurant.isBookmarked)
+		let filtered = bookmarkedRestaurants
 
 		// 카테고리 필터링
 		if (selectedCategory !== '전체') {
-			filtered = filtered.filter((restaurant) => restaurant.category === selectedCategory)
+			filtered = filtered.filter((restaurant) => restaurant.restaurantType === selectedCategory)
 		}
 
 		// 정렬
 		filtered.sort((a, b) => {
 			switch (selectedSort) {
 				case '최신순':
-					return new Date(b.recommendedAt).getTime() - new Date(a.recommendedAt).getTime()
+					return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
 				case '오래된순':
-					return new Date(a.recommendedAt).getTime() - new Date(b.recommendedAt).getTime()
+					return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
 				default:
 					return 0
 			}
@@ -100,12 +83,7 @@ export const BookmarkTab: React.FC = () => {
 			{restaurants.length > 0 ? (
 				<div className="grid grid-cols-2 gap-6">
 					{restaurants.map((restaurant) => (
-						<RestaurantCard
-							key={restaurant.id}
-							restaurant={restaurant}
-							onBookmarkToggle={handleBookmarkToggle}
-							onViewDetails={handleViewDetails}
-						/>
+						<RestaurantCard key={restaurant.id} restaurant={restaurant} />
 					))}
 				</div>
 			) : (
