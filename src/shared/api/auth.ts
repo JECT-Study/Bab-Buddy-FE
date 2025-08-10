@@ -4,7 +4,7 @@ import { api } from './client'
 // OAuth 로그인 링크 요청
 export const getOAuthLoginUrl = async (): Promise<string> => {
 	try {
-		const response = await api.get('/api/oauth2/login')
+		const response = await api.get<string>('/api/oauth2/login')
 
 		const kakaoLoginUrl = response.data
 
@@ -18,7 +18,7 @@ export const getOAuthLoginUrl = async (): Promise<string> => {
 // 로그아웃
 export const logout = async () => {
 	try {
-		const response = await api.post('/api/oauth2/logout')
+		const response = await api.post<unknown>('/api/oauth2/logout')
 		AuthStorage.clearTokens()
 		window.location.href = '/login'
 		return response.data

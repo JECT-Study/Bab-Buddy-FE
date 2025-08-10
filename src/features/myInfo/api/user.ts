@@ -1,5 +1,5 @@
 import { api } from '@/shared/api/client'
-import { User } from '../types/user'
+import type { User } from '../types/user'
 
 export const getUserInfo = async (): Promise<User> => {
 	const response = await api.get<User>('/api/user')
@@ -8,16 +8,16 @@ export const getUserInfo = async (): Promise<User> => {
 
 export const checkOnboardingStatus = async (): Promise<boolean> => {
 	try {
-		const response = await api.get('/api/user/onboarding-status')
+		const response = await api.get<boolean>('/api/user/onboarding-status')
 		return response.data
-	} catch (error) {
+	} catch {
 		return false
 	}
 }
 
 export const completeOnboarding = async (): Promise<void> => {
 	try {
-		await api.post('/api/user/complete-onboarding')
+		await api.post<unknown>('/api/user/complete-onboarding')
 	} catch (error) {
 		throw error
 	}
