@@ -1,4 +1,4 @@
-import { SurveyOption } from '../types/foodSurveyTypes'
+import type { SurveyOption } from '../types/foodSurveyTypes'
 
 // 1단계: 맛 관련 옵션
 const STEP_1_OPTIONS: SurveyOption[] = [

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import Icon from '../../../shared/components/Icon'
-import { DislikedFood } from '../store/dislikedFoodStore'
+import type { DislikedFood } from '../types/dislikedFoodTypes'
 
 interface DislikedFoodInputProps {
 	foods: DislikedFood[]

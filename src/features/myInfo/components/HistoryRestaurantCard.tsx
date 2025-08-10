@@ -1,6 +1,6 @@
 import React from 'react'
 import Icon from '../../../shared/components/Icon'
-import { Restaurant } from '@/features/myInfo/types/recommendationHistory'
+import type { Restaurant } from '@/features/myInfo/types/recommendationHistory'
 import { kakaoMapOpen } from '@/shared/utils/kakaoMapOpen'
 
 interface HistoryRestaurantCardProps {

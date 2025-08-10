@@ -156,7 +156,7 @@ const ArrowLeft = ({ className, size = 20 }: IconProps) => {
 	)
 }
 
-const Plus = ({ className, size = 20 }: IconProps) => {
+const Plus = ({ className }: IconProps) => {
 	return (
 		<i className={clsx(className)}>
 			<svg
@@ -175,7 +175,7 @@ const Plus = ({ className, size = 20 }: IconProps) => {
 	)
 }
 
-const Bookmark = ({ className, size = 20 }: IconProps) => {
+const Bookmark = ({ className }: IconProps) => {
 	return (
 		<i className={clsx(className)}>
 			<svg
@@ -194,7 +194,7 @@ const Bookmark = ({ className, size = 20 }: IconProps) => {
 	)
 }
 
-const ArrowDown = ({ className, size = 20 }: IconProps) => {
+const ArrowDown = ({ className }: IconProps) => {
 	return (
 		<i className={clsx(className)}>
 			<svg
@@ -231,7 +231,7 @@ const Share = ({ className, size = 20 }: IconProps) => {
 		</i>
 	)
 }
-const Location = ({ className, size = 20 }: IconProps) => {
+const Location = ({ className }: IconProps) => {
 	return (
 		<i className={clsx(className)}>
 			<svg
@@ -250,7 +250,7 @@ const Location = ({ className, size = 20 }: IconProps) => {
 	)
 }
 
-const MarkerPinShadow = ({ className, size = 20 }: IconProps) => {
+const MarkerPinShadow = ({ className }: IconProps) => {
 	return (
 		<i className={clsx(className)}>
 			<svg

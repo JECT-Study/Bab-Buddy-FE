@@ -23,7 +23,7 @@ const navLinks = [
 export default function Header() {
 	const pathname = usePathname()
 	const isLogin = pathname === '/login'
-	const [isAuthenticated, setIsAuthenticated] = useState(false)
+	const [, setIsAuthenticated] = useState(false)
 
 	useEffect(() => {
 		// 클라이언트 사이드에서 인증 상태 확인

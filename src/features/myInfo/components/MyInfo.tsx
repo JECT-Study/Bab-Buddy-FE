@@ -2,10 +2,11 @@
 
 import React, { useState } from 'react'
 import { ProfileSection } from './ProfileSection'
-import { TabButtons, TabType } from './TabButtons'
+import { TabButtons } from './TabButtons'
 import { FoodSettingsTab } from './FoodSettingsTab'
 import { RecommendationHistoryTab } from './RecommendationHistoryTab'
 import { BookmarkTab } from './BookmarkTab'
+import type { TabType } from './TabButtons'
 
 export const MyInfo: React.FC = () => {
 	const [activeTab, setActiveTab] = useState<TabType>('food')

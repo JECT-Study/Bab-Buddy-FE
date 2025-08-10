@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { SurveyResponse } from '@/features/surveyResult/types/surveyResultTypes'
+import type { SurveyResponse } from '@/features/surveyResult/types/surveyResultTypes'
 
 export type SurveyStep = 1 | 2 | 3
 

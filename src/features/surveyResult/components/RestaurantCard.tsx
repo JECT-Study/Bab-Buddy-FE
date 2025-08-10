@@ -12,7 +12,6 @@ interface RestaurantCardProps {
 	rank: number
 	name: string
 	type: string
-	address: string
 	lat: number
 	lng: number
 }
@@ -21,7 +20,6 @@ export const RestaurantCard: React.FC<RestaurantCardProps> = ({
 	rank,
 	name,
 	type,
-	address,
 	lat,
 	lng,
 }) => {

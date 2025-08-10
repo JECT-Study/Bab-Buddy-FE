@@ -1,5 +1,5 @@
 import React from 'react'
-import { RecommendationHistory } from '@/features/myInfo/types/recommendationHistory'
+import type { RecommendationHistory } from '@/features/myInfo/types/recommendationHistory'
 import { HistoryRestaurantCard } from '@/features/myInfo/components/HistoryRestaurantCard'
 import { formatUTCPlus9Date } from '@/shared/utils/formatDate'
 
@@ -8,15 +8,6 @@ interface DateSectionProps {
 }
 
 export const DateSection: React.FC<DateSectionProps> = ({ history }) => {
-	const formatTime = (dateString: string) => {
-		const date = new Date(dateString)
-		return date.toLocaleTimeString('ko-KR', {
-			hour: '2-digit',
-			minute: '2-digit',
-			hour12: true,
-		})
-	}
-
 	return (
 		<div className="mb-8">
 			{/* 날짜 헤더 */}

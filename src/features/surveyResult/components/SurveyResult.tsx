@@ -6,7 +6,7 @@ import { RestaurantCard } from './RestaurantCard'
 import MapSection from './MapSection'
 import { useFoodSurveyStore } from '@/features/foodSurvey/store/foodSurveyStore'
 import type { SurveyResultInfo } from '../types/surveyResultTypes'
-import { Restaurant } from '@/features/myInfo/types/recommendationHistory'
+import type { Restaurant } from '@/features/myInfo/types/recommendationHistory'
 import { useRecommendation } from '../api/surveyResultApi'
 
 export const SurveyResult: React.FC = () => {
@@ -37,6 +37,7 @@ export const SurveyResult: React.FC = () => {
 		}
 
 		fetchData()
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
 	if (error) {
@@ -74,7 +75,6 @@ export const SurveyResult: React.FC = () => {
 									rank={index + 1}
 									name={restaurant.name}
 									type={restaurant.restaurantType}
-									address={restaurant.address}
 									lat={restaurant.latitude}
 									lng={restaurant.longitude}
 								/>

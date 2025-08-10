@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getUserInfo } from '../api/user'
-import { User } from '../types/user'
+import type { User } from '../types/user'
 import Image from 'next/image'
 
 export const ProfileSection: React.FC = () => {
