@@ -14,7 +14,7 @@ export const useDislikedFoods = () => {
 		setError(null)
 		try {
 			const response = await getDislikedFoods()
-			setFoods(response.data)
+			setFoods(response)
 		} catch (error) {
 			setError(error as Error)
 			console.error('Failed to fetch disliked foods:', error)
@@ -30,7 +30,7 @@ export const useDislikedFoods = () => {
 			await addDislikedFood(foodName)
 			// API 호출 후 전체 목록을 다시 가져와서 최신 상태 유지
 			const response = await getDislikedFoods()
-			setFoods(response.data)
+			setFoods(response)
 		} catch (error) {
 			setError(error as Error)
 			console.error('Failed to add disliked food:', error)
@@ -55,7 +55,8 @@ export const useDislikedFoods = () => {
 
 	useEffect(() => {
 		fetchFoods()
-	}, []) // fetchFoods는 내부 함수이므로 의존성 배열에서 제거
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
 
 	return {
 		foods,

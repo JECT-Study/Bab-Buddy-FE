@@ -1,5 +1,5 @@
 import { api } from '@/shared/api/client'
-import { AllergyInfo, AllergyRequest, AllergyResponse } from '../types/allergyTypes'
+import type { AllergyInfo, AllergyRequest, AllergyResponse } from '../types/allergyTypes'
 
 // 알러지 정보 조회
 const getAllergies = async (): Promise<AllergyInfo[]> => {

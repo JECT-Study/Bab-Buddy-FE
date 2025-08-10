@@ -7,7 +7,6 @@ import { checkOnboardingStatus } from '@/features/myInfo/api/user'
 
 const OAuthSuccessPage = () => {
 	const router = useRouter()
-	const [isLoading, setIsLoading] = useState(true)
 	const [error, setError] = useState<string | null>(null)
 
 	useEffect(() => {
@@ -18,7 +17,6 @@ const OAuthSuccessPage = () => {
 
 				if (!accessToken) {
 					setError('액세스 토큰을 찾을 수 없습니다.')
-					setIsLoading(false)
 					return
 				}
 
@@ -34,9 +32,8 @@ const OAuthSuccessPage = () => {
 				} else {
 					router.push('/allergySurvey')
 				}
-			} catch (error) {
+			} catch {
 				setError('로그인 처리 중 오류가 발생했습니다.')
-				setIsLoading(false)
 			}
 		}
 

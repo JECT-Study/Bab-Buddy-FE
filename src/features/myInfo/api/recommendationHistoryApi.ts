@@ -1,5 +1,5 @@
 import { api } from '@/shared/api/client'
-import { RecommendationHistoryResponse } from '../types/recommendationHistory'
+import type { RecommendationHistoryResponse } from '../types/recommendationHistory'
 
 export const getRecommendationHistory = async (
 	category: string = 'ALL',
@@ -7,7 +7,7 @@ export const getRecommendationHistory = async (
 	page: number = 0,
 	size: number = 6,
 ): Promise<RecommendationHistoryResponse[]> => {
-	const response = await api.get(
+	const response = await api.get<RecommendationHistoryResponse[]>(
 		`/api/restaurant/history?category=${category}&order=${order}&page=${page - 1}&size=${size}`,
 	)
 	return response.data

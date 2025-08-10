@@ -5,10 +5,11 @@ import Icon from '@/shared/components/Icon'
 import SurveyCard from '@/features/foodSurvey/components/SurveyCard'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { FoodSurveyProps } from '@/features/foodSurvey/types/foodSurveyTypes'
+import type { FoodSurveyProps } from '@/features/foodSurvey/types/foodSurveyTypes'
 import { getAddressFromCoords } from '@/features/foodSurvey/api/addressApi'
-import { SurveyStep, useFoodSurveyStore } from '@/features/foodSurvey/store/foodSurveyStore'
-import { SurveyResponse } from '@/features/surveyResult/types/surveyResultTypes'
+import { useFoodSurveyStore } from '@/features/foodSurvey/store/foodSurveyStore'
+import type { SurveyStep } from '@/features/foodSurvey/store/foodSurveyStore'
+import type { SurveyResponse } from '@/features/surveyResult/types/surveyResultTypes'
 import { useLocationStore } from '@/shared/store/locationStore'
 import { completeOnboarding } from '@/features/myInfo/api/user'
 
@@ -65,7 +66,7 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 		if (!surveyResponses.address) {
 			getAddress()
 		}
-	}, [setAddress, surveyResponses.address])
+	}, [setAddress, surveyResponses.address, setLocation])
 
 	const handleSelect = (tasteId: string) => {
 		setSelectedTaste(tasteId)

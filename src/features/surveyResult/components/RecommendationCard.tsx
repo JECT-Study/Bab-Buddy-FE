@@ -24,7 +24,7 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({
 	backgroundImage,
 }) => {
 	const router = useRouter()
-	const [imgSrc, setImgSrc] = useState(backgroundImage)
+	const [imgSrc] = useState(backgroundImage)
 
 	const onRetry = () => {
 		router.push('/foodSurvey/1')

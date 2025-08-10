@@ -1,6 +1,6 @@
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios'
+import axios from 'axios'
+import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { AuthStorage } from '../utils/auth'
-import { useState } from 'react'
 
 // API Base URL - Next.js API Routes를 통해 프록시 처리
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
@@ -44,61 +44,31 @@ apiClient.interceptors.response.use(
 	},
 )
 
-// API 메서드들
+// API 메서드들 - T는 실제 응답 데이터 타입을 의미
 export const api = {
 	// GET 요청
-	get: <T = any>(url: string, config?: AxiosRequestConfig) => {
+	get: <T = unknown>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
 		return apiClient.get<T>(url, config)
 	},
 	// POST 요청
-	post: <T = any>(url: string, data?: any, config?: AxiosRequestConfig) => {
+	post: <T = unknown>(
+		url: string,
+		data?: unknown,
+		config?: AxiosRequestConfig,
+	): Promise<AxiosResponse<T>> => {
 		return apiClient.post<T>(url, data, config)
 	},
-
 	// DELETE 요청
-	delete: <T = any>(url: string, config?: AxiosRequestConfig) => {
+	delete: <T = unknown>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
 		return apiClient.delete<T>(url, config)
 	},
-	patch: <T = any>(url: string, data?: any, config?: AxiosRequestConfig) => {
+	patch: <T = unknown>(
+		url: string,
+		data?: unknown,
+		config?: AxiosRequestConfig,
+	): Promise<AxiosResponse<T>> => {
 		return apiClient.patch<T>(url, data, config)
 	},
-}
-
-interface UseApiState<T> {
-	data: T | null
-	isLoading: boolean
-	error: Error | null
-}
-
-type ApiFunction<T, P extends any[]> = (...args: P) => Promise<T>
-
-export const useApi = <T, P extends any[]>(apiFunction: ApiFunction<T, P>) => {
-	const [state, setState] = useState<UseApiState<T>>({
-		data: null,
-		isLoading: false,
-		error: null,
-	})
-
-	const execute = async (...args: P) => {
-		try {
-			setState((prev) => ({ ...prev, isLoading: true, error: null }))
-			const result = await apiFunction(...args)
-			setState((prev) => ({ ...prev, data: result, isLoading: false }))
-			return result
-		} catch (error) {
-			setState((prev) => ({
-				...prev,
-				error: error as Error,
-				isLoading: false,
-			}))
-			throw error
-		}
-	}
-
-	return {
-		...state,
-		execute,
-	}
 }
 
 export default apiClient

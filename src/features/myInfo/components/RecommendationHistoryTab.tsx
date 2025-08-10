@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { FilterButtons, FilterCategory } from '@/shared/components/FilterButtons'
-import { SortDropdown, SortOption } from '@/shared/components/SortDropdown'
+import { FilterButtons } from '@/shared/components/FilterButtons'
+import { SortDropdown } from '@/shared/components/SortDropdown'
 import { Pagination } from '@/shared/components/Pagination'
 import { DateSection } from '@/features/myInfo/components/DateSection'
-import { RecommendationHistory } from '@/features/myInfo/types/recommendationHistory'
+import type { RecommendationHistory } from '@/features/myInfo/types/recommendationHistory'
 import { getRecommendationHistory } from '../api/recommendationHistoryApi'
 import { getConvertCategory } from '@/shared/hooks/useCategory'
+import type { FilterCategory } from '@/shared/components/FilterButtons'
+import type { SortOption } from '@/shared/components/SortDropdown'
 
 export const RecommendationHistoryTab: React.FC = () => {
 	const [recommendationHistory, setRecommendationHistory] = useState<RecommendationHistory[]>([])
@@ -36,6 +38,7 @@ export const RecommendationHistoryTab: React.FC = () => {
 	// 필터, 정렬, 페이지 변경시 API 재호출
 	useEffect(() => {
 		fetchHistory()
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [selectedCategory, selectedSort, currentPage])
 
 	// 상태 업데이트 핸들러들

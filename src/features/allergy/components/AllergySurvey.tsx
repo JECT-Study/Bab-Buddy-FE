@@ -15,7 +15,7 @@ export const AllergySurvey: React.FC = () => {
 		router.push('/dislikedFoodSurvey')
 	}
 
-	const handleToggle = async (idx: number, item: string) => {
+	const handleToggle = async (idx: number, _item: string) => {
 		if (isLoading) return
 
 		try {
@@ -30,7 +30,7 @@ export const AllergySurvey: React.FC = () => {
 			// API 호출
 			handleAllergyToggle(selectedTypes)
 			setChecked(newChecked)
-		} catch (error) {
+		} catch {
 			alert('알러지 정보 저장에 실패했습니다. 다시 시도해주세요.')
 		} finally {
 			setIsLoading(false)

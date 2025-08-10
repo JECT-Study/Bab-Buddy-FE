@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { DEFAULT_ALLERGY_LIST } from '@/shared/constants/allergyList'
 import { AllergySettingsSection } from './AllergySettingsSection'
 import { DislikedFoodsSection } from './DislikedFoodsSection'

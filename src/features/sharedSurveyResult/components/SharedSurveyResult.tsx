@@ -67,7 +67,6 @@ export default function SharedSurveyResult() {
 									rank={index + 1}
 									name={restaurant.name}
 									type={restaurant.restaurantType}
-									address={restaurant.address}
 									lat={restaurant.latitude}
 									lng={restaurant.longitude}
 								/>

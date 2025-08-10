@@ -45,7 +45,7 @@ const DislikedFoodSurvey: React.FC = () => {
 					<div className="flex h-full flex-col justify-end">
 						<button
 							className="text-orientation-mixed text-orange bg-transparent font-medium"
-							onClick={handleCompleteOnboarding}
+							onClick={onClickNextStep}
 							disabled={isLoading}
 						>
 							{isLoading ? '처리중...' : '건너뛰기'}
@@ -68,7 +68,7 @@ const DislikedFoodSurvey: React.FC = () => {
 								foods.length === 0 ? 'text-gray-30' : 'text-orange'
 							}`}
 							disabled={foods.length === 0 || isLoading}
-							onClick={handleCompleteOnboarding}
+							onClick={onClickNextStep}
 						>
 							{isLoading ? '처리중...' : '다음단계'}
 							<Icon.ArrowRight
