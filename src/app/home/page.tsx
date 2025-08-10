@@ -1,12 +1,20 @@
+'use client'
+
 import Header from '@/shared/components/Header'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 export default function HomePage() {
+	const router = useRouter()
+
 	return (
 		<>
 			<Header />
 			<div className="mx-auto flex h-[calc(100vh-110px)] w-full gap-5 px-20 pb-[100px]">
-				<div className="bg-orange flex flex-1 flex-col justify-between rounded-[50px]">
+				<div
+					className="bg-orange flex flex-1 cursor-pointer flex-col justify-between rounded-[50px]"
+					onClick={() => router.push('/foodSurvey/1')}
+				>
 					<div className="mx-[40px] mt-[64px] flex flex-col">
 						<div className="text-h2-bold text-white">나에게 딱맞춤 메뉴 추천 받기</div>
 						<div className="text-h3-medium text-white">

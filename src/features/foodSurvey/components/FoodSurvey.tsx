@@ -10,6 +10,7 @@ import { getAddressFromCoords } from '@/features/foodSurvey/api/addressApi'
 import { SurveyStep, useFoodSurveyStore } from '@/features/foodSurvey/store/foodSurveyStore'
 import { SurveyResponse } from '@/features/surveyResult/types/surveyResultTypes'
 import { useLocationStore } from '@/shared/store/locationStore'
+import { completeOnboarding } from '@/features/myInfo/api/user'
 
 export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 	step,
@@ -84,10 +85,14 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 			router.push(`/foodSurvey/${step + 1}`)
 		} else {
 			try {
+				// 마지막 단계에서 온보딩 완료 처리
+				await completeOnboarding()
+				console.log('✅ 온보딩 완료: /surveyResult으로 이동')
 				router.push('/surveyResult')
 			} catch (error) {
-				console.error('Error submitting survey:', error)
-				// Handle error appropriately
+				console.error('❌ 온보딩 완료 처리 실패:', error)
+				// 에러 발생 시에도 결과 페이지로 이동 (사용자 경험을 위해)
+				router.push('/surveyResult')
 			}
 		}
 	}
