@@ -15,4 +15,5 @@ export interface RecommendationHistory {
 	restaurantList: Restaurant[]
 }
 
+// API 응답 타입
 export type RecommendationHistoryResponse = RecommendationHistory[]

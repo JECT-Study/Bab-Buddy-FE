@@ -1,37 +1,14 @@
 import React, { useState } from 'react'
-import { DEFAULT_ALLERGY_LIST, AllergyItem } from '@/shared/constants/allergyList'
+import { DEFAULT_ALLERGY_LIST } from '@/shared/constants/allergyList'
 import { AllergySettingsSection } from './AllergySettingsSection'
 import { DislikedFoodsSection } from './DislikedFoodsSection'
 import { useDislikedFoodStore } from '@/features/dislikedFoodInput/store/dislikedFoodStore'
+import { useAllergyStore } from '@/features/allergy/store/allergyStore'
 
 export const FoodSettingsTab: React.FC = () => {
 	// 기본 알레르기 목록을 사용해서 초기화 (견과류, 해산물은 체크된 상태로)
-	const [allergies, setAllergies] = useState<AllergyItem[]>(() =>
-		DEFAULT_ALLERGY_LIST.map((allergy, index) => ({
-			id: (index + 1).toString(),
-			name: allergy.label,
-			description: allergy.description,
-			checked: index === 0 || index === 1, // 견과류, 해산물만 체크된 상태
-		})),
-	)
-
+	const { allergyTypes } = useAllergyStore()
 	const { foods } = useDislikedFoodStore()
-
-	const handleAllergyToggle = (id: string) => {
-		setAllergies((prev) =>
-			prev.map((allergy) =>
-				allergy.id === id ? { ...allergy, checked: !allergy.checked } : allergy,
-			),
-		)
-		// TODO: API 호출 추가
-	}
-
-	const handleClearAllAllergies = () => {
-		setAllergies((prev) => prev.map((allergy) => ({ ...allergy, checked: false })))
-		// TODO: API 호출 추가
-	}
-
-	const checkedAllergies = allergies.filter((allergy) => allergy.checked)
 
 	return (
 		<div className="flex flex-col gap-6">
@@ -42,15 +19,17 @@ export const FoodSettingsTab: React.FC = () => {
 				<div className="flex flex-col gap-4">
 					<div className="flex items-center gap-10">
 						<div className="flex w-[119px] items-center gap-10">
-							<span className="text-lg text-gray-400">알레르기({checkedAllergies.length})</span>
+							<span className="text-lg text-gray-400">알레르기({allergyTypes.length})</span>
 						</div>
 						<div className="flex flex-wrap items-center gap-2">
-							{checkedAllergies.map((allergy) => (
+							{allergyTypes.map((allergy) => (
 								<div
-									key={allergy.id}
+									key={allergy}
 									className="rounded-[20px] border border-black bg-white px-2.5 py-1"
 								>
-									<span className="text-sm text-black">{allergy.name}</span>
+									<span className="text-sm text-black">
+										{DEFAULT_ALLERGY_LIST.find((item) => item.key === allergy)?.label}
+									</span>
 								</div>
 							))}
 						</div>
@@ -72,11 +51,7 @@ export const FoodSettingsTab: React.FC = () => {
 				</div>
 			</div>
 
-			<AllergySettingsSection
-				allergies={allergies}
-				onAllergyToggle={handleAllergyToggle}
-				onClearAllAllergies={handleClearAllAllergies}
-			/>
+			<AllergySettingsSection />
 
 			<DislikedFoodsSection />
 		</div>

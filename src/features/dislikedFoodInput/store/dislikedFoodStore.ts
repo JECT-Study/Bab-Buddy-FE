@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-import { addDislikedFood, deleteDislikedFood, getDislikedFoods } from '../api/dislikedFood'
 
 export interface DislikedFood {
 	id: string
