@@ -1,15 +1,32 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Icon from '@/shared/components/Icon'
 import { DislikedFoodInput } from '@/features/dislikedFoodInput/components/DislikedFoodInput'
 import { useDislikedFoods } from '@/features/dislikedFoodInput/hooks/useDislikedFoods'
 import { useRouter } from 'next/navigation'
+import { completeOnboarding } from '@/features/myInfo/api/user'
 
 const DislikedFoodSurvey: React.FC = () => {
 	const { foods, handleAddFood, handleRemoveFood } = useDislikedFoods()
 	const router = useRouter()
+	const [isLoading, setIsLoading] = useState(false)
+
+	const handleCompleteOnboarding = async () => {
+		try {
+			setIsLoading(true)
+			await completeOnboarding()
+			console.log('✅ 온보딩 완료: /home으로 이동')
+			router.push('/home')
+		} catch (error) {
+			console.error('❌ 온보딩 완료 처리 실패:', error)
+			// 에러 발생 시에도 홈으로 이동 (사용자 경험을 위해)
+			router.push('/home')
+		} finally {
+			setIsLoading(false)
+		}
+	}
 
 	const onClickNextStep = () => {
-		router.push('/home')
+		handleCompleteOnboarding()
 	}
 
 	return (
@@ -28,9 +45,10 @@ const DislikedFoodSurvey: React.FC = () => {
 					<div className="flex h-full flex-col justify-end">
 						<button
 							className="text-orientation-mixed text-orange bg-transparent font-medium"
-							onClick={onClickNextStep}
+							onClick={handleCompleteOnboarding}
+							disabled={isLoading}
 						>
-							건너뛰기
+							{isLoading ? '처리중...' : '건너뛰기'}
 						</button>
 					</div>
 
@@ -49,10 +67,10 @@ const DislikedFoodSurvey: React.FC = () => {
 							className={`flex items-center font-medium ${
 								foods.length === 0 ? 'text-gray-30' : 'text-orange'
 							}`}
-							disabled={foods.length === 0}
-							onClick={onClickNextStep}
+							disabled={foods.length === 0 || isLoading}
+							onClick={handleCompleteOnboarding}
 						>
-							다음단계
+							{isLoading ? '처리중...' : '다음단계'}
 							<Icon.ArrowRight
 								className={`${foods.length === 0 ? 'text-gray-30' : 'text-orange'}`}
 							/>

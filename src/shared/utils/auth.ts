@@ -36,13 +36,9 @@ export const AuthUtils = {
 	},
 
 	// OAuth 성공 후 토큰 처리
-	handleOAuthSuccess: (token: string, redirectTo: string = '/') => {
+	handleOAuthSuccess: (token: string) => {
 		AuthStorage.setAccessToken(token)
 		console.log('✅ 로그인 성공. 토큰 저장 완료')
-
-		if (typeof window !== 'undefined') {
-			window.location.href = redirectTo
-		}
 	},
 
 	// URL에서 토큰 파싱
