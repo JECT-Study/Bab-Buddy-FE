@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import Header from '@/shared/components/Header'
 import DislikedFoodSurvey from '@/features/dislikedFoodSurvey/components/DislikedFoodSurvey'
 
