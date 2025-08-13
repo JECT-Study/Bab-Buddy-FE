@@ -3,11 +3,11 @@
 import { useMobileStore } from '@/shared/store/mobileStore'
 import MobileBlocker from './MobileBlocker'
 
-interface MobileLayoutWrapperProps {
+interface ConditionalLayoutProps {
 	children: React.ReactNode
 }
 
-export default function MobileLayoutWrapper({ children }: MobileLayoutWrapperProps) {
+export default function ConditionalLayout({ children }: ConditionalLayoutProps) {
 	const { isMobile } = useMobileStore()
 
 	// 모바일일 때는 MobileBlocker만 렌더링
