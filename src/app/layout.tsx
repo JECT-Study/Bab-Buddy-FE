@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
+import ConditionalLayout from '@/shared/components/ConditionalLayout'
+import MobileDetector from '@/shared/components/MobileDetector'
 
 const pretendard = localFont({
 	src: './fonts/PretendardVariable.woff2',
@@ -22,7 +24,8 @@ export default function RootLayout({
 	return (
 		<html lang="ko" className={pretendard.variable}>
 			<body className="font-pretendard min-h-screen">
-				{children}
+				<MobileDetector />
+				<ConditionalLayout>{children}</ConditionalLayout>
 				<script src="https://developers.kakao.com/sdk/js/kakao.js" async />
 			</body>
 		</html>
