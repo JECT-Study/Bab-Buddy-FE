@@ -3,7 +3,7 @@ import { Metadata } from 'next'
 import SharedSurveyResult from '@/features/sharedSurveyResult/components/SharedSurveyResult'
 import Header from '@/shared/components/Header'
 
-interface PageProps {
+type PageProps = {
 	params: { id: string }
 	searchParams: { [key: string]: string | string[] | undefined }
 }
@@ -13,8 +13,9 @@ export const metadata: Metadata = {
 	description: '설문 결과를 확인해보세요',
 }
 
-const SharedSurveyResultPage = ({ params }: PageProps) => {
-	const { id } = params
+async function SharedSurveyResultPage({ params }: PageProps) {
+	const resolvedParams = await Promise.resolve(params)
+	const id = resolvedParams?.id
 
 	if (!id) {
 		return (
