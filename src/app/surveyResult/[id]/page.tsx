@@ -1,14 +1,19 @@
 import React from 'react'
+import { Metadata } from 'next'
 import SharedSurveyResult from '@/features/sharedSurveyResult/components/SharedSurveyResult'
 import Header from '@/shared/components/Header'
 
-interface Props {
-	params: {
-		id: string
-	}
+interface PageProps {
+	params: { id: string }
+	searchParams: { [key: string]: string | string[] | undefined }
 }
 
-const SharedSurveyResultPage = ({ params }: Props) => {
+export const metadata: Metadata = {
+	title: 'BabBuddy',
+	description: '설문 결과를 확인해보세요',
+}
+
+const SharedSurveyResultPage = ({ params }: PageProps) => {
 	const { id } = params
 
 	if (!id) {
