@@ -15,8 +15,8 @@ const logoFont = localFont({
 
 // todo :: href 확인 필요
 const navLinks = [
-	{ href: '/foodSurvey', label: '개인메뉴 추천' },
-	{ href: '/group', label: '그룹메뉴 추천' },
+	{ href: '/foodSurvey/1', label: '개인메뉴 추천' },
+	// { href: '/group', label: '그룹메뉴 추천' },
 	{ href: '/myInfo', label: '마이페이지' },
 ]
 
@@ -39,7 +39,7 @@ export default function Header() {
 	if (isLogin) return null
 	return (
 		<header className="flex items-center justify-between px-[72px] py-8">
-			<Link href="/" className="flex items-center gap-2">
+			<Link href="/home" className="flex items-center gap-2">
 				<Image src="/assets/icons/logo.svg" alt="로고" width={43} height={43} />
 				<strong className={clsx(logoFont.className, 'text-orange text-4xl font-bold')}>
 					밥버디
