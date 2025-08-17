@@ -42,7 +42,7 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({
 
 	const handleKakaoShare = () => {
 		const baseUrl = window.location.origin
-		const shareUrl = `${baseUrl}/surveyResult?id=${id}`
+		const shareUrl = `${baseUrl}/surveyResult/${id}`
 		shareToKakao({
 			title: `${userName}님을 위한 메뉴 추천`,
 			description: `오늘 ${userName}님을 위해 추천한 메뉴는 ${recommendedMenu}입니다.`,
