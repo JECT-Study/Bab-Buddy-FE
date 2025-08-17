@@ -12,6 +12,7 @@ import type { SurveyStep } from '@/features/foodSurvey/store/foodSurveyStore'
 import type { SurveyResponse } from '@/features/surveyResult/types/surveyResultTypes'
 import { useLocationStore } from '@/shared/store/locationStore'
 import { completeOnboarding } from '@/features/myInfo/api/user'
+import Link from 'next/link'
 
 export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 	step,
@@ -104,10 +105,10 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 			<div className="mx-[70px] mb-[100px] flex-1">
 				{/* 상단 네비게이션 */}
 				<div className="mb-8 flex items-center justify-between">
-					<div className="flex items-center gap-2">
-						<Icon.ArrowLeft />
-						<span className="text-orange">메인 화면으로 돌아가기</span>
-					</div>
+					<Link href="/home" className="text-b1-medium text-orange flex items-center gap-2">
+						<Icon.ArrowLeft className="text-orange" size={20} />
+						메인 화면으로 돌아가기
+					</Link>
 					<div className="flex gap-2 text-white">
 						{[1, 2, 3].map((stepNum) => (
 							<div
