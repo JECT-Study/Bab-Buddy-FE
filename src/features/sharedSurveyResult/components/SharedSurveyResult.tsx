@@ -1,15 +1,17 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useParams } from 'next/navigation'
 import { RecommendationCard } from '@/features/surveyResult/components/RecommendationCard'
 import { RestaurantCard } from '@/features/surveyResult/components/RestaurantCard'
 import MapSection from '@/features/surveyResult/components/MapSection'
 import { fetchSharedResult } from '@/features/sharedSurveyResult/api/sharedResultApi'
 import type { SharedSurveyResult } from '@/features/sharedSurveyResult/types/sharedResultTypes'
 
-export default function SharedSurveyResult() {
-	const { id } = useParams()
+interface Props {
+	id: string
+}
+
+export default function SharedSurveyResult({ id }: Props) {
 	const [result, setResult] = useState<SharedSurveyResult | null>(null)
 	const [isLoading, setIsLoading] = useState(true)
 	const [error, setError] = useState<Error | null>(null)
