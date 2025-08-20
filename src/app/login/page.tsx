@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { getOAuthLoginUrl } from '@/shared/api/auth'
 import { useGuestOnly } from '@/shared/hooks/useAuthGuard'
+import { trackEvent } from '@/shared/utils/gtm'
 
 export default function LoginPage() {
 	const [isLoading, setIsLoading] = useState(false)
@@ -21,6 +22,12 @@ export default function LoginPage() {
 			alert('카카오 로그인에 실패했습니다. 다시 시도해주세요.')
 		} finally {
 			setIsLoading(false)
+			// GTM으로 이벤트 전송
+			trackEvent('button_click', {
+				button_name: '로그인 버튼',
+				button_id: 'login-button',
+				page_url: window.location.pathname,
+			})
 		}
 	}
 	return (
