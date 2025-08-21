@@ -24,7 +24,7 @@ export default function RootLayout({
 	children: React.ReactNode
 }>) {
 	const gtmId = process.env.NEXT_PUBLIC_GTM_ID
-	const gaId = process.env.NEXT_PUBLIC_GA_ID || 'G-M5WQ70GPZ7'
+	const gaId = process.env.NEXT_PUBLIC_GA_ID
 	const isProduction = process.env.NODE_ENV === 'production'
 
 	return (
