@@ -4,28 +4,19 @@ import Icon from '@/shared/components/Icon'
 import clsx from 'clsx'
 import Link from 'next/link'
 import { useState } from 'react'
+import type { GroupType } from '../types/data'
 
 const GROUPS_PER_PAGE = 3
 
-interface GroupType {
-	id: number
-	name: string
-	members: number
-	status: '참여하기' | '결과확인'
+interface Props {
+	mockData: GroupType[]
 }
 
-const mockGroups: GroupType[] = Array.from({ length: 7 }, (_, i) => ({
-	id: i + 1,
-	name: '회사 동료들',
-	members: 4,
-	status: i === 6 ? '결과확인' : '참여하기',
-}))
-
-export default function GroupList() {
+export default function GroupList({ mockData }: Props) {
 	const [page, setPage] = useState(1)
 
-	const pageCount = Math.ceil(mockGroups.length / GROUPS_PER_PAGE)
-	const paginatedGroups = mockGroups.slice((page - 1) * GROUPS_PER_PAGE, page * GROUPS_PER_PAGE)
+	const pageCount = Math.ceil(mockData.length / GROUPS_PER_PAGE)
+	const paginatedGroups = mockData.slice((page - 1) * GROUPS_PER_PAGE, page * GROUPS_PER_PAGE)
 
 	return (
 		<div className="flex flex-1 flex-col pt-6">
@@ -66,13 +57,8 @@ export default function GroupList() {
 			</div>
 
 			<div className="text-gray-30 mt-6 flex items-center justify-center gap-4">
-				<button
-					type="button"
-					onClick={() => setPage((p) => Math.max(p - 1, 1))}
-					// disabled={page === 1}
-					// className="disabled:text-gray-5"
-				>
-					<Icon.ArrowLeft />
+				<button type="button" onClick={() => setPage((p) => Math.max(p - 1, 1))}>
+					<Icon.ArrowLeft className={clsx(page !== 1 && 'text-gray-50')} />
 				</button>
 
 				{Array.from({ length: pageCount }, (_, i) => (
@@ -88,13 +74,8 @@ export default function GroupList() {
 					</button>
 				))}
 
-				<button
-					type="button"
-					onClick={() => setPage((p) => Math.min(p + 1, pageCount))}
-					// disabled={page === pageCount}
-					// className="disabled:text-gray-5"
-				>
-					<Icon.ArrowRight />
+				<button type="button" onClick={() => setPage((p) => Math.min(p + 1, pageCount))}>
+					<Icon.ArrowRight className={clsx(page !== pageCount && 'text-gray-50')} />
 				</button>
 			</div>
 		</div>

@@ -1,28 +1,23 @@
-// import GroupEmpty from '@/features/group/components/GroupEmpty'
-import GroupList from '@/features/group/components/GroupList'
-import Icon from '@/shared/components/Icon'
-import Link from 'next/link'
+import GroupContainer from '@/features/group/components/GroupContainer'
+import type { GroupType } from '@/features/group/types/data'
+
+// TODO :: 목데이터 변경 필요
+const mockGroups: GroupType[] = Array.from({ length: 7 }, (_, i) => ({
+	id: i + 1,
+	name: '회사 동료들',
+	members: 4,
+	status: i === 6 ? '결과확인' : '참여하기',
+}))
 
 export default function GroupPage() {
 	return (
 		<>
-			<Link href="/" className="text-b1-medium text-orange flex items-center gap-1 px-6">
-				<Icon.ArrowForward />
-				메인 화면으로 돌아가기
-			</Link>
 			<div className="flex flex-1 flex-col items-center gap-6 py-6">
 				<h2 className="text-h2-bold">모두와 함께 음식 정하기</h2>
-				<article className="mb-6 flex w-[640px] flex-1 flex-col">
+				<article className="flex w-[640px] flex-1 flex-col">
 					<strong className="text-b1-bold">최근 생성된 그룹방</strong>
-					<GroupList />
+					<GroupContainer mockData={mockGroups} />
 				</article>
-
-				<button
-					type="button"
-					className="bg-orange text-h3-medium flex w-[640px] flex-1 justify-center rounded-3xl px-9 py-4 text-white"
-				>
-					새 그룹 만들기
-				</button>
 			</div>
 		</>
 	)
