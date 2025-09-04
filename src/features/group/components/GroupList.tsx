@@ -33,7 +33,7 @@ export default function GroupList({ mockData }: Props) {
 						<div className="flex items-center gap-4">
 							{group.status === '참여하기' ? (
 								<Link
-									href="#"
+									href={`/group/${group.id}`}
 									className="bg-gray-5 text-b3-medium rounded-3xl px-4 py-2 text-gray-50"
 								>
 									참여하기
