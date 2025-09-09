@@ -32,13 +32,42 @@ export default function RootLayout({
 			<head>
 				{/* DataLayer 초기화 - 프로덕션에서만 */}
 				{isProduction && (
-					<Script
-						id="gtm-datalayer"
-						strategy="beforeInteractive"
-						dangerouslySetInnerHTML={{
-							__html: `window.dataLayer = window.dataLayer || [];`,
-						}}
-					/>
+					<>
+						<Script
+							id="maze-snippet"
+							strategy="beforeInteractive"
+							dangerouslySetInnerHTML={{
+								__html: `(
+									function (m, a, z, e) {
+										var s, t;
+										try {
+											t = m.sessionStorage.getItem('maze-us');
+										} catch (err) {}
+
+										if (!t) {
+											t = new Date().getTime();
+											try {
+												m.sessionStorage.setItem('maze-us', t);
+											} catch (err) {}
+										}
+
+										s = a.createElement('script');
+										s.src = z + '?apiKey=' + e;
+										s.async = true;
+										a.getElementsByTagName('head')[0].appendChild(s);
+										m.mazeUniversalSnippetApiKey = e;
+									}
+								)(window, document, 'https://snippet.maze.co/maze-universal-loader.js', 'b9dbb54a-2d02-46b3-a4e6-7736437d666e');`,
+							}}
+						/>
+						<Script
+							id="gtm-datalayer"
+							strategy="beforeInteractive"
+							dangerouslySetInnerHTML={{
+								__html: `window.dataLayer = window.dataLayer || [];`,
+							}}
+						/>
+					</>
 				)}
 			</head>
 			<body className="font-pretendard min-h-screen">
