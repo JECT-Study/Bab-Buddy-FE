@@ -61,7 +61,7 @@ export default function Header() {
 
 				<button
 					onClick={handleLogout}
-					className="text-b2-medium hover:text-orange hover:bg-orange/10 rounded-2xl px-4 py-2 text-gray-700 transition-colors duration-200"
+					className="text-b2-medium hover:text-orange hover:bg-orange/10 rounded-2xl px-4 py-2 text-gray-50 transition-colors duration-200"
 				>
 					로그아웃
 				</button>
