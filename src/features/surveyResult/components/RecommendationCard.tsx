@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import Image from 'next/image'
 import Icon from '@/shared/components/Icon'
 
 import { ShareModal } from '@/features/share/components/ShareModal'
@@ -67,15 +66,14 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({
 		<div className="flex items-center gap-[36px] rounded-[24px] bg-[#F6F6F6] p-[36px]">
 			<div className="h-[300px] w-[600px] overflow-hidden">
 				{imgSrc && (
-					<Image
+					<img
 						src={imgSrc}
 						alt="추천 음식 이미지"
 						width={600}
 						height={300}
 						className="h-[300px] w-full rounded-[24px] object-cover"
 						loading="eager"
-						priority
-						unoptimized
+						referrerPolicy="no-referrer"
 					/>
 				)}
 			</div>
