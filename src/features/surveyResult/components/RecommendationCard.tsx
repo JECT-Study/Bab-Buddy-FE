@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import Image from 'next/image'
 import Icon from '@/shared/components/Icon'
 
 import { ShareModal } from '@/features/share/components/ShareModal'
@@ -23,7 +24,21 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({
 	backgroundImage,
 }) => {
 	const router = useRouter()
-	const [imgSrc] = useState(backgroundImage)
+	const [imgSrc, setImgSrc] = useState(backgroundImage)
+
+	useEffect(() => {
+		// https 환경에서 http 이미지는 프록시로 우회하여 SSL/혼합콘텐츠 오류 방지
+		if (typeof window !== 'undefined' && window.location.protocol === 'https:') {
+			try {
+				const u = new URL(backgroundImage)
+				if (u.protocol === 'http:') {
+					setImgSrc(`/api/image-proxy?url=${encodeURIComponent(backgroundImage)}`)
+					return
+				}
+			} catch {}
+		}
+		setImgSrc(backgroundImage)
+	}, [backgroundImage])
 
 	const onRetry = () => {
 		router.push('/foodSurvey/1')
@@ -66,14 +81,16 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({
 		<div className="flex items-center gap-[36px] rounded-[24px] bg-[#F6F6F6] p-[36px]">
 			<div className="h-[300px] w-[600px] overflow-hidden">
 				{imgSrc && (
-					<img
+					<Image
 						src={imgSrc}
 						alt="추천 음식 이미지"
 						width={600}
 						height={300}
 						className="h-[300px] w-full rounded-[24px] object-cover"
 						loading="eager"
+						unoptimized
 						referrerPolicy="no-referrer"
+						onError={() => setImgSrc('/assets/images/home_group_babbuddy.webp')}
 					/>
 				)}
 			</div>
