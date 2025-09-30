@@ -101,7 +101,16 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 
 	return (
 		<div className="relative flex flex-1 flex-col">
-			{/* 메인 컨텐츠 */}
+			<div className="flex-end pointer-events-none absolute right-0 bottom-0 z-[-1] inline-flex h-full w-[40%] pt-[39px] pl-[5px]">
+				<Image
+					src={backgroundImage}
+					alt="character"
+					fill
+					className="h-full w-auto object-contain"
+				/>
+			</div>
+
+			{/* 메인 컨텐츠 영역 */}
 			<div className="mx-[70px] mb-[100px] flex-1">
 				{/* 상단 네비게이션 */}
 				<div className="mb-8 flex items-center">
@@ -118,6 +127,7 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 						))}
 					</div>
 				</div>
+
 				{/* 제목 */}
 				<div className="mb-12">
 					<h1 className="text-h2-bold mb-4">
@@ -127,8 +137,9 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 					</h1>
 					<p className="text-h2-bold text-gray-700">{subtitle}</p>
 				</div>
+
 				{/* 카드 그리드 */}
-				<div className="mb-12 grid w-[70%] grid-cols-3 gap-[24px]">
+				<div className="grid-cols-auto-fit mb-12 grid w-[70%] grid-cols-3 gap-[24px]">
 					{options.map((option, index) =>
 						option.id !== 'null' ? (
 							<SurveyCard
@@ -146,14 +157,6 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 					)}
 				</div>
 
-				<div className="flex-end pointer-events-none absolute right-0 bottom-[120px] z-[-1] inline-flex h-[70%] w-[40%] pt-[39px] pl-[5px]">
-					<Image
-						src={backgroundImage}
-						alt="character"
-						fill
-						className="h-full w-auto object-contain"
-					/>
-				</div>
 				{/* 네비게이션 버튼 */}
 				<div className="text-h3-midium flex justify-between">
 					{step > 1 && (
