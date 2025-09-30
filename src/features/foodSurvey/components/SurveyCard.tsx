@@ -23,18 +23,16 @@ export const SurveyCard: React.FC<SurveyCardProps> = ({
 		<div
 			onClick={() => onClick(id)}
 			className={`relative flex min-h-[150px] cursor-pointer flex-col justify-between overflow-hidden rounded-[24px] border-1 p-6 ${
-				isSelected ? 'border-orange' : 'border-gray-30 bg-white'
+				isSelected ? 'border-[#EA580C] bg-[#FEF7F3]' : 'border-gray-30 bg-white'
 			}`}
 		>
-			{/* 텍스트 (왼쪽 위 정렬) */}
-			<div className="text-h3-medium">
+			<div className="text-b2-bold lg:text-h3-medium relative z-10 min-h-[70px]">
 				<div>{label}</div>
 				<div>{sublabel}</div>
 			</div>
 
-			{/* 아이콘 (오른쪽 아래 정렬, flexbox 사용) */}
-			<div className="flex items-end justify-end">
-				<Icon.FoodSurveyIcon size={`100%`} type={icon} />
+			<div className="absolute right-6 bottom-6 z-0 h-20 w-20">
+				<Icon.FoodSurveyIcon size={'100%'} type={icon} />
 			</div>
 		</div>
 	)
