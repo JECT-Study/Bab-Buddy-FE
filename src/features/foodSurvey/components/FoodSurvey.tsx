@@ -12,7 +12,6 @@ import type { SurveyStep } from '@/features/foodSurvey/store/foodSurveyStore'
 import type { SurveyResponse } from '@/features/surveyResult/types/surveyResultTypes'
 import { useLocationStore } from '@/shared/store/locationStore'
 import { completeOnboarding } from '@/features/myInfo/api/user'
-import Link from 'next/link'
 
 export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 	step,
@@ -71,6 +70,7 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 
 	const handleSelect = (tasteId: string) => {
 		setSelectedTaste(tasteId)
+		handleNextStep(tasteId)
 		setResponse(step as SurveyStep, tasteId)
 	}
 
@@ -80,8 +80,8 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 		}
 	}
 
-	const handleNextStep = async () => {
-		if (!selectedTaste) return
+	const handleNextStep = async (tasteId: string) => {
+		if (!tasteId) return
 
 		if (step < 3) {
 			router.push(`/foodSurvey/${step + 1}`)
