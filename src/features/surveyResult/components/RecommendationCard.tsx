@@ -7,6 +7,7 @@ import Icon from '@/shared/components/Icon'
 import { ShareModal } from '@/features/share/components/ShareModal'
 import { initializeKakao, shareToKakao, copyToClipboard } from '@/features/share/utils/share'
 import { useRouter } from 'next/navigation'
+import { useSecureImage } from '@/shared/hooks/useSecureImage'
 
 interface RecommendationCardProps {
 	id: number
@@ -24,21 +25,7 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({
 	backgroundImage,
 }) => {
 	const router = useRouter()
-	const [imgSrc, setImgSrc] = useState(backgroundImage)
-
-	useEffect(() => {
-		// https 환경에서 http 이미지는 프록시로 우회하여 SSL/혼합콘텐츠 오류 방지
-		if (typeof window !== 'undefined' && window.location.protocol === 'https:') {
-			try {
-				const u = new URL(backgroundImage)
-				if (u.protocol === 'http:') {
-					setImgSrc(`/api/image-proxy?url=${encodeURIComponent(backgroundImage)}`)
-					return
-				}
-			} catch {}
-		}
-		setImgSrc(backgroundImage)
-	}, [backgroundImage])
+	const [imgSrc, setImgSrc] = useSecureImage(backgroundImage)
 
 	const onRetry = () => {
 		router.push('/foodSurvey/1')
