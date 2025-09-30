@@ -2,6 +2,7 @@
 
 import Header from '@/shared/components/Header'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 export default function HomePage() {
@@ -30,7 +31,10 @@ export default function HomePage() {
 						/>
 					</div>
 				</div>
-				<div className="flex flex-1 flex-col justify-between rounded-[50px] bg-[#1A1A1A]">
+				<Link
+					className="flex flex-1 cursor-pointer flex-col justify-between rounded-[50px] bg-[#1A1A1A]"
+					href="/group"
+				>
 					<div className="mx-[40px] mt-[64px] flex flex-col">
 						<div className="text-h2-bold text-white">다같이 메뉴 정하기</div>
 						<div className="text-h3-medium text-white">모두의 취향을 반영해 음식을 정해요</div>
@@ -43,7 +47,7 @@ export default function HomePage() {
 							className="object-contain object-right-bottom"
 						/>
 					</div>
-				</div>
+				</Link>
 			</div>
 		</>
 	)
