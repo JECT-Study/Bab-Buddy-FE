@@ -1,7 +1,7 @@
 'use client'
 
 import Icon from '@/shared/components/Icon'
-import { ParticipantType } from '../../types/group'
+import { type ParticipantType } from '../../types/group'
 import Image from 'next/image'
 import { useState } from 'react'
 

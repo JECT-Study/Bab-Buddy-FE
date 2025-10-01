@@ -1,6 +1,6 @@
 'use client'
 import Modal from './Modal'
-import { KeyboardEventHandler, useState } from 'react'
+import { type KeyboardEventHandler, useState } from 'react'
 
 interface Props {
 	onClose: () => void

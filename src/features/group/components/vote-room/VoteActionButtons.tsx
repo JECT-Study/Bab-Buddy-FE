@@ -2,9 +2,9 @@
 
 import { ShareModal } from '@/features/share/components/ShareModal'
 import Icon from '@/shared/components/Icon'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import VoteEndModal from '../modal/VoteEndModal'
-import { copyToClipboard, initializeKakao, shareToKakao } from '@/features/share/utils/share'
+import { copyToClipboard, shareToKakao } from '@/features/share/utils/share'
 import { useInitializeKakaoShare } from '@/shared/hooks/useInitializeKakaoShare'
 
 interface VoteActionButtonsProps {
@@ -51,7 +51,7 @@ const useVoteActionButtons = (
 			imageUrl: invitationImageUrl,
 			link: invitationLink,
 		})
-	}, [])
+	}, [invitationTitle, invitationDescription, invitationImageUrl, invitationLink])
 
 	const handleLinkShare = useCallback(async () => {
 		const success = await copyToClipboard(invitationLink)
@@ -60,7 +60,7 @@ const useVoteActionButtons = (
 		} else {
 			alert('링크 복사에 실패했습니다.')
 		}
-	}, [])
+	}, [invitationLink])
 
 	return {
 		isShareModalOpen,

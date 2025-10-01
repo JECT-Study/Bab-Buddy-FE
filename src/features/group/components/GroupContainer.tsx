@@ -15,7 +15,7 @@ interface Props {
 const useMakeGroupRoom = () => {
 	const router = useRouter()
 
-	const handleSubmit = async (title: string) => {
+	const handleSubmit = async (/*title: string*/) => {
 		// const roomId = await makeGroupRoom(title)
 		// // TODO: 서버에서 roomId 생성 시 실패 응답 확인 필요
 		// if (roomId != null && roomId != 0 && roomId != -1) {
