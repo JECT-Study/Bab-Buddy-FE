@@ -46,7 +46,7 @@ export const AllergySurvey: React.FC = () => {
 				<div className="flex h-[82px] flex-col items-center gap-4">
 					<div className="text-h2-bold text-center">현재 알레르기를 겪고 있는 식재료가 있나요?</div>
 					<div className="text-b2-medium text-gray-30 mb-8 text-center" style={{ height: 54 }}>
-						(해당 사항에 모두 체크해주세요. 알레르기가 없으시면 견과류를 눌러주세요)
+						(해당 사항에 모두 체크해주세요. 알레르기가 없으시면 건너뛰기를 눌러주세요)
 					</div>
 				</div>
 				<div className="flex h-full w-full flex-1 items-end gap-4">

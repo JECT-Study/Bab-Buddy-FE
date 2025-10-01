@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { getUserInfo } from '../api/user'
 import type { User } from '../types/user'
 import Image from 'next/image'
+import { useSecureImage } from '@/shared/hooks/useSecureImage'
 
 export const ProfileSection: React.FC = () => {
 	const [user, setUser] = useState<User | null>(null)
@@ -19,20 +20,16 @@ export const ProfileSection: React.FC = () => {
 		fetchUserInfo()
 	}, [])
 
+	const [imgSrc] = useSecureImage(user?.profile || '')
+
 	return (
 		<div className="border-gray-10 flex flex-col gap-6 rounded-3xl border bg-white p-6">
 			<h2 className="text-h3-bold text-black">프로필 정보</h2>
 
 			<div className="flex items-center gap-4">
 				<div className="h-[69px] w-[69px] overflow-hidden rounded-full bg-gray-200">
-					{user?.profile ? (
-						<Image
-							src={user?.profile}
-							alt="profile"
-							width={69}
-							height={69}
-							className="object-cover"
-						/>
+					{imgSrc ? (
+						<Image src={imgSrc} alt="profile" width={69} height={69} className="object-cover" />
 					) : (
 						<div className="flex h-full w-full items-center justify-center text-gray-400">
 							<div className="h-[69px] w-[69px] rounded-full bg-gray-200" />

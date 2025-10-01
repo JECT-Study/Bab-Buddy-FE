@@ -62,7 +62,7 @@ const STEP_2_OPTIONS: SurveyOption[] = [
 	},
 	{
 		id: 'japanese',
-		label: '깔끔하고 정갈한한',
+		label: '깔끔하고 정갈한',
 		sublabel: '일식집',
 		icon: 'restaurant_japanese',
 	},

@@ -7,6 +7,7 @@ import Icon from '@/shared/components/Icon'
 import { ShareModal } from '@/features/share/components/ShareModal'
 import { initializeKakao, shareToKakao, copyToClipboard } from '@/features/share/utils/share'
 import { useRouter } from 'next/navigation'
+import { useSecureImage } from '@/shared/hooks/useSecureImage'
 
 interface RecommendationCardProps {
 	id: number
@@ -24,7 +25,7 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({
 	backgroundImage,
 }) => {
 	const router = useRouter()
-	const [imgSrc] = useState(backgroundImage)
+	const [imgSrc, setImgSrc] = useSecureImage(backgroundImage)
 
 	const onRetry = () => {
 		router.push('/foodSurvey/1')
@@ -74,8 +75,9 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({
 						height={300}
 						className="h-[300px] w-full rounded-[24px] object-cover"
 						loading="eager"
-						priority
 						unoptimized
+						referrerPolicy="no-referrer"
+						onError={() => setImgSrc('/assets/images/home_group_babbuddy.webp')}
 					/>
 				)}
 			</div>
