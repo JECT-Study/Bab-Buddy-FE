@@ -4,6 +4,7 @@ export const AuthStorage = {
 	setAccessToken: (token: string) => {
 		if (typeof window !== 'undefined') {
 			localStorage.setItem('accessToken', token)
+			document.cookie = `accessToken=${token}; path=/; SameSite=Lax`
 		}
 	},
 
@@ -19,6 +20,8 @@ export const AuthStorage = {
 	clearTokens: () => {
 		if (typeof window !== 'undefined') {
 			localStorage.removeItem('accessToken')
+			// 쿠키 삭제 (과거 날짜로 설정)
+			document.cookie = 'accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
 		}
 	},
 
