@@ -4,36 +4,36 @@ import Icon from '@/shared/components/Icon'
 import clsx from 'clsx'
 import Link from 'next/link'
 import { useState } from 'react'
-import type { GroupType } from '../types/data'
+import type { GroupType } from '../types/group'
 
 const GROUPS_PER_PAGE = 3
 
 interface Props {
-	mockData: GroupType[]
+	groups: GroupType[]
 }
 
-export default function GroupList({ mockData }: Props) {
+export default function GroupList({ groups }: Props) {
 	const [page, setPage] = useState(1)
 
-	const pageCount = Math.ceil(mockData.length / GROUPS_PER_PAGE)
-	const paginatedGroups = mockData.slice((page - 1) * GROUPS_PER_PAGE, page * GROUPS_PER_PAGE)
+	const pageCount = Math.ceil(groups.length / GROUPS_PER_PAGE)
+	const paginatedGroups = groups.slice((page - 1) * GROUPS_PER_PAGE, page * GROUPS_PER_PAGE)
 
 	return (
 		<div className="flex flex-1 flex-col pt-6">
 			<div className="flex min-h-[366px] flex-col gap-6">
 				{paginatedGroups.map((group) => (
 					<div
-						key={group.id}
+						key={group.roomId}
 						className="border-gray-10 flex items-center justify-between rounded-3xl border px-8 py-6"
 					>
 						<div className="flex flex-col gap-2">
-							<p className="text-b1-medium">{group.name}</p>
-							<p className="text-caption-medium text-gray-50">{group.members}명</p>
+							<p className="text-b1-medium">{group.title}</p>
+							<p className="text-caption-medium text-gray-50">{group.participantCount}명</p>
 						</div>
 						<div className="flex items-center gap-4">
-							{group.status === '참여하기' ? (
+							{group.voteStatus === 'ONGOING' ? (
 								<Link
-									href={`/group/${group.id}`}
+									href={`/group/${group.roomId}`}
 									className="bg-gray-5 text-b3-medium rounded-3xl px-4 py-2 text-gray-50"
 								>
 									참여하기
