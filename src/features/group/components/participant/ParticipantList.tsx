@@ -44,7 +44,7 @@ export default function ParticipantList({
 						{imageUrl ? (
 							<Image src={imageUrl} alt={`${name} image`} width={30} height={30} />
 						) : (
-							<Icon.GroupMembers className="h-[30px] w-[30px]" />
+							<Icon.GroupMembers size={30} />
 						)}
 						<span className="text-b2-medium text-gray-190">{name}</span>
 					</div>
