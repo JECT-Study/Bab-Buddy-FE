@@ -22,8 +22,8 @@ export const SurveyCard: React.FC<SurveyCardProps> = ({
 	return (
 		<div
 			onClick={() => onClick(id)}
-			className={`relative flex min-h-[150px] cursor-pointer flex-col justify-between overflow-hidden rounded-[24px] border-1 p-6 ${
-				isSelected ? 'border-orange' : 'border-gray-30 bg-white'
+			className={`relative flex min-h-[150px] cursor-pointer flex-col justify-between overflow-hidden rounded-[24px] border-1 bg-white p-6 ${
+				isSelected ? 'border-orange' : 'border-gray-30'
 			}`}
 		>
 			{/* 텍스트 (왼쪽 위 정렬) */}
