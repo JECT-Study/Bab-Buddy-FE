@@ -4,11 +4,11 @@ import { api } from './client'
 // OAuth 로그인 링크 요청
 export const getOAuthLoginUrl = async (): Promise<string> => {
 	try {
-		const response = await api.get<string>('/api/oauth2/login')
-
-		const kakaoLoginUrl = response.data
-
-		return kakaoLoginUrl
+		const response = await api.get<string>('/api/oauth2/login', {
+			responseType: 'text',
+		})
+		console.log(response.data, 'response.data', response)
+		return response.data
 	} catch (error) {
 		console.error('OAuth URL 요청 실패:', error)
 		throw error
