@@ -17,7 +17,7 @@ export default function DisLikeMenu({ room, setVoteMenus }: DisLikeMenuProps) {
 				placeholder="먹기 힘든 메뉴를 작성해주세요."
 			/>
 
-			<ul className="flex max-h-[339px] flex-1 flex-col gap-2 overflow-y-scroll">
+			<ul className="flex max-h-[339px] flex-1 flex-col gap-2 overflow-y-auto">
 				{dislikedMenus.map((menu) => (
 					<MenuItem key={menu.id} menu={menu} setMenus={setDislikedMenus} disableEdit={true} />
 				))}

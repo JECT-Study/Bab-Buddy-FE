@@ -32,7 +32,7 @@ export default function VoteRoom({ voteMenus, room }: VoteRoomProps) {
 					</ul>
 				</div>
 			</div>
-			<ul className="flex w-full flex-1 flex-col overflow-y-scroll">
+			<ul className="flex w-full flex-1 flex-col overflow-y-auto">
 				{voteMenus.map((menu) => (
 					<li
 						key={menu.menuId}

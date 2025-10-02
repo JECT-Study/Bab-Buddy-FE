@@ -18,7 +18,7 @@ export default function AddMenu({ room, setVoteMenus }: AddMenuProps) {
 			<MenuInputForm setMenus={setMenus} setVoteMenus={setVoteMenus} />
 			{/* 메뉴 목록 */}
 			{menus.length > 0 ? (
-				<ul className="flex max-h-[339px] flex-1 flex-col gap-2 overflow-y-scroll">
+				<ul className="flex max-h-[339px] flex-1 flex-col gap-2 overflow-y-auto">
 					{menus.map((menu) => (
 						<MenuItem key={menu.id} menu={menu} setMenus={setMenus} />
 					))}

@@ -69,7 +69,7 @@ export default function VoteRoomStepper({
 				</ul>
 			</div>
 			<button
-				className="text-b2-medium w-full rounded-3xl bg-orange-500 px-6 py-4 text-white"
+				className="text-b2-medium w-full rounded-3xl bg-orange-500 px-6 py-4 text-white outline-none"
 				onClick={handleEndModalOpen}
 			>
 				투표 결과보기
