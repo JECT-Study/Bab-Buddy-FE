@@ -10,7 +10,9 @@ interface ModalProps {
 export default function Modal({ children, onClose }: ModalProps) {
 	const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
 		e.preventDefault()
-		onClose()
+		if (e.target === e.currentTarget) {
+			onClose()
+		}
 	}
 
 	useOnPressEsc(onClose)

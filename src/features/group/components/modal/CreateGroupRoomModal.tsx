@@ -3,16 +3,17 @@ import Modal from './Modal'
 import { type KeyboardEventHandler, useState } from 'react'
 
 interface Props {
+	groupName: string
+	setGroupName: (groupName: string) => void
 	onClose: () => void
-	onSubmit: (roomName: string) => void
+	onNext: () => void
 }
 
-export default function CreateGroupRoomModal({ onClose, onSubmit }: Props) {
-	const [inputValue, setInputValue] = useState<string>('')
-
+export default function CreateGroupRoomModal({ groupName, setGroupName, onClose, onNext }: Props) {
 	const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
-		const target = e.target as HTMLInputElement
-		setInputValue(target.value)
+		if (e.key === 'Enter') {
+			onNext()
+		}
 	}
 
 	return (
@@ -21,20 +22,19 @@ export default function CreateGroupRoomModal({ onClose, onSubmit }: Props) {
 				<h2 className="text-h2-bold text-center">새 그룹 만들기</h2>
 				<input
 					type="text"
-					value={inputValue}
-					onChange={(e) => setInputValue(e.target.value)}
+					value={groupName}
+					onChange={(e) => setGroupName(e.target.value.slice(0, 20))}
 					onKeyDown={handleKeyDown}
-					placeholder="그룹 이름을 입력해주세요."
+					placeholder="그룹 이름을 입력해주세요. (최대 20자)"
 					className="text-b1-medium w-full rounded-full border border-gray-300 px-6 py-4 text-black placeholder-gray-400 focus:outline-none"
-					onClick={(e) => e.stopPropagation()}
 				/>
 				<div className="flex w-full flex-col gap-4">
 					<button
-						className={`text-h3-medium w-full rounded-[24px] px-8 py-4 transition ${inputValue.trim() ? 'bg-[#EA580C] text-[#FFFFFF]' : 'text-gray-20 bg-[#F6F6F6]'}`}
-						disabled={!inputValue.trim()}
-						onClick={() => onSubmit(inputValue)}
+						className={`text-h3-medium w-full rounded-[24px] px-8 py-4 transition ${groupName.trim() ? 'bg-[#EA580C] text-[#FFFFFF]' : 'text-gray-20 bg-[#F6F6F6]'}`}
+						disabled={!groupName.trim()}
+						onClick={onNext}
 					>
-						<span>그룹 만들기</span>
+						<span>다음</span>
 					</button>
 					<button
 						className={`text-h3-medium w-full rounded-[24px] bg-[#E0E0E0] px-8 py-4 text-black`}

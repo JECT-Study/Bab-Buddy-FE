@@ -4,10 +4,10 @@ import type { GroupType } from '@/features/group/types/group'
 
 // TODO :: 목데이터 변경 필요
 // const groups: GroupType[] = Array.from({ length: 7 }, (_, i) => ({
-// 	roomId: i + 1,
+// 	roomId: i + 1 + '',
 // 	title: '회사 동료들',
-// 	participantCount: 4,
-// 	voteStatus: 'ONGOING',
+// 	participantCount: i + 1,
+// 	voteStatus: i % 3 !== 0 ? 'ONGOING' : 'FINISHED',
 // }))
 
 const groups: GroupType[] = []
