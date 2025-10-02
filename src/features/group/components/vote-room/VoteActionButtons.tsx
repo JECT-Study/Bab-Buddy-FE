@@ -3,7 +3,6 @@
 import { ShareModal } from '@/features/share/components/ShareModal'
 import Icon from '@/shared/components/Icon'
 import { useCallback, useState } from 'react'
-import VoteEndModal from '../modal/VoteEndModal'
 import { copyToClipboard, shareToKakao } from '@/features/share/utils/share'
 import { useInitializeKakaoShare } from '@/shared/hooks/useInitializeKakaoShare'
 
@@ -21,9 +20,6 @@ const useVoteActionButtons = (
 	invitationLink: string,
 ) => {
 	const [isShareModalOpen, setIsShareModalOpen] = useState(false)
-	const [isEndModalOpen, setIsEndModalOpen] = useState(false)
-
-	console.log('TLQKF invitationImageUrl: ', invitationImageUrl)
 
 	// kakao 공유하기를 위한 kakao sdk 초기화
 	useInitializeKakaoShare()
@@ -35,14 +31,6 @@ const useVoteActionButtons = (
 	const handleShareModalClose = useCallback(() => {
 		setIsShareModalOpen(false)
 	}, [setIsShareModalOpen])
-
-	const handleEndModalOpen = useCallback(() => {
-		setIsEndModalOpen(true)
-	}, [setIsEndModalOpen])
-
-	const handleEndModalClose = useCallback(() => {
-		setIsEndModalOpen(false)
-	}, [setIsEndModalOpen])
 
 	const handleKakaoShare = useCallback(() => {
 		shareToKakao({
@@ -64,11 +52,8 @@ const useVoteActionButtons = (
 
 	return {
 		isShareModalOpen,
-		isEndModalOpen,
 		handleShareModalOpen,
 		handleShareModalClose,
-		handleEndModalOpen,
-		handleEndModalClose,
 		handleKakaoShare,
 		handleLinkShare,
 	}
@@ -82,11 +67,8 @@ export default function VoteActionButtons({
 }: VoteActionButtonsProps) {
 	const {
 		isShareModalOpen,
-		isEndModalOpen,
 		handleShareModalOpen,
 		handleShareModalClose,
-		handleEndModalOpen,
-		handleEndModalClose,
 		handleKakaoShare,
 		handleLinkShare,
 	} = useVoteActionButtons(
@@ -108,10 +90,10 @@ export default function VoteActionButtons({
 					<span>링크 공유하기</span>
 				</button>
 				<button
-					className="bg-gray-5 text-b2-medium text-gray-190 w-[41.7%] rounded-4xl px-2 py-4 outline-none"
-					onClick={handleEndModalOpen}
+					className="border-gray-10 text-b2-medium text-gray-190 w-[41.7%] rounded-4xl border-1 bg-white px-2 py-4 outline-none"
+					onClick={() => {}}
 				>
-					투표 끝내기
+					그룹방 삭제
 				</button>
 			</div>
 			<ShareModal
@@ -120,13 +102,6 @@ export default function VoteActionButtons({
 				onClose={handleShareModalClose}
 				onKakaoShare={handleKakaoShare}
 				onLinkShare={handleLinkShare}
-			/>
-			<VoteEndModal
-				isOpen={isEndModalOpen}
-				onClose={handleEndModalClose}
-				title="투표를 종료하고 결과를 확인하세요"
-				subtitle="(투표가 종료되면 더이상 메뉴 제안 및 투표를 할 수 없습니다.)"
-				callbackOnFinishVote={() => {}}
 			/>
 		</>
 	)
