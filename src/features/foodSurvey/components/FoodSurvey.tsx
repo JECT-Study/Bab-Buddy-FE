@@ -12,7 +12,6 @@ import type { SurveyStep } from '@/features/foodSurvey/store/foodSurveyStore'
 import type { SurveyResponse } from '@/features/surveyResult/types/surveyResultTypes'
 import { useLocationStore } from '@/shared/store/locationStore'
 import { completeOnboarding } from '@/features/myInfo/api/user'
-import Link from 'next/link'
 
 export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 	step,
@@ -71,6 +70,7 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 
 	const handleSelect = (tasteId: string) => {
 		setSelectedTaste(tasteId)
+		handleNextStep(tasteId)
 		setResponse(step as SurveyStep, tasteId)
 	}
 
@@ -80,8 +80,8 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 		}
 	}
 
-	const handleNextStep = async () => {
-		if (!selectedTaste) return
+	const handleNextStep = async (tasteId: string) => {
+		if (!tasteId) return
 
 		if (step < 3) {
 			router.push(`/foodSurvey/${step + 1}`)
@@ -101,14 +101,19 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 
 	return (
 		<div className="relative flex flex-1 flex-col">
-			{/* 메인 컨텐츠 */}
+			<div className="flex-end pointer-events-none absolute right-0 bottom-0 z-[-1] inline-flex h-full w-[40%] pt-[39px] pl-[5px]">
+				<Image
+					src={backgroundImage}
+					alt="character"
+					fill
+					className="h-full w-auto object-contain"
+				/>
+			</div>
+
+			{/* 메인 컨텐츠 영역 */}
 			<div className="mx-[70px] mb-[100px] flex-1">
 				{/* 상단 네비게이션 */}
-				<div className="mb-8 flex items-center justify-between">
-					<Link href="/home" className="text-b1-medium text-orange flex items-center gap-2">
-						<Icon.ArrowLeft className="text-orange" size={20} />
-						메인 화면으로 돌아가기
-					</Link>
+				<div className="mb-8 flex items-center">
 					<div className="flex gap-2 text-white">
 						{[1, 2, 3].map((stepNum) => (
 							<div
@@ -122,6 +127,7 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 						))}
 					</div>
 				</div>
+
 				{/* 제목 */}
 				<div className="mb-12">
 					<h1 className="text-h2-bold mb-4">
@@ -131,8 +137,9 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 					</h1>
 					<p className="text-h2-bold text-gray-700">{subtitle}</p>
 				</div>
+
 				{/* 카드 그리드 */}
-				<div className="mb-12 grid w-[70%] grid-cols-3 gap-[24px]">
+				<div className="grid-cols-auto-fit mb-12 grid w-[70%] grid-cols-3 gap-[24px]">
 					{options.map((option, index) =>
 						option.id !== 'null' ? (
 							<SurveyCard
@@ -150,16 +157,8 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 					)}
 				</div>
 
-				<div className="flex-end pointer-events-none absolute right-0 bottom-[120px] z-[-1] inline-flex h-[70%] w-[40%] pt-[39px] pl-[5px]">
-					<Image
-						src={backgroundImage}
-						alt="character"
-						fill
-						className="h-full w-auto object-contain"
-					/>
-				</div>
 				{/* 네비게이션 버튼 */}
-				<div className="flex justify-between">
+				<div className="text-h3-midium flex justify-between">
 					{step > 1 && (
 						<button
 							className="text-orange flex items-center gap-2 font-medium"
@@ -169,17 +168,15 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 							이전단계
 						</button>
 					)}
-					{step === 1 && <div />}
-					<button
-						className={`flex items-center gap-2 font-medium transition ${
-							selectedTaste ? 'text-orange' : 'text-gray-300'
-						}`}
-						disabled={!selectedTaste}
-						onClick={handleNextStep}
-					>
-						다음단계
-						<Icon.ArrowRight className={`${selectedTaste ? 'text-orange' : 'text-gray-30'}`} />
-					</button>
+					{step === 1 && (
+						<button
+							className="text-orange item-center flex gap-2 font-medium"
+							onClick={() => router.push('/home')}
+						>
+							<Icon.ArrowLeft className="text-orange" />
+							메인화면으로 돌아가기
+						</button>
+					)}
 				</div>
 			</div>
 		</div>
