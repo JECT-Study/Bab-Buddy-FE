@@ -65,7 +65,10 @@ export default function GroupContainer({ groups }: Props) {
 			{isModalOpen === 'method' && (
 				<VotingMethodModal
 					groupName={groupName}
-					onClose={() => setIsModalOpen(null)}
+					onClose={() => {
+						setIsModalOpen(null)
+						setGroupName('')
+					}}
 					onClickPrev={() => setIsModalOpen('roomName')}
 					onSubmit={handleSubmit}
 				/>
