@@ -6,10 +6,10 @@ export default function GroupLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<main className="bg-gray-5 flex min-h-screen flex-1 flex-col">
+		<main className="bg-gray-5 flex min-h-screen w-full flex-1 flex-col">
 			<Header />
-			<div className="flex justify-center">
-				<section className="flex w-3/4 min-w-[640px] flex-col rounded-[28px] p-6">
+			<div className="flex w-full justify-center">
+				<section className="flex w-full min-w-[640px] rounded-[28px] pt-[60px] pr-[70px] pb-[129px] pl-[95px]">
 					{children}
 				</section>
 			</div>
