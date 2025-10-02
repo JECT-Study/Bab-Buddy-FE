@@ -43,7 +43,7 @@ export default function VotingMethodModal({ onClose, groupName, onClickPrev, onS
 					{VOTING_METHODS.map((method) => (
 						<li
 							key={method.id}
-							className={`flex min-w-[323px] cursor-pointer flex-col items-center justify-center gap-8 rounded-3xl border px-20 py-10 ${votingMethod === method.id ? 'border-orange' : 'border-gray-30'} `}
+							className={`flex min-w-[323px] cursor-pointer flex-col items-center justify-center gap-8 rounded-3xl border px-20 py-10 ${votingMethod === method.id ? 'border-orange bg-[#FEF7F5]' : 'border-gray-30'} `}
 							onClick={(e) => {
 								e.stopPropagation()
 								handleClickVotingMethod(method.id)
