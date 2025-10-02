@@ -7,6 +7,7 @@ import Icon from '@/shared/components/Icon'
 interface MenuItemProps {
 	menu: MenuItemType
 	setMenus: React.Dispatch<React.SetStateAction<MenuItemType[]>>
+	disableEdit?: boolean
 }
 
 const useMenuItem = (
@@ -61,7 +62,7 @@ const useMenuItem = (
 	}
 }
 
-export default function MenuItem({ menu, setMenus }: MenuItemProps) {
+export default function MenuItem({ menu, setMenus, disableEdit = false }: MenuItemProps) {
 	const {
 		isEditable,
 		menuName,
@@ -83,16 +84,18 @@ export default function MenuItem({ menu, setMenus }: MenuItemProps) {
 				value={menuName}
 				onChange={handleChangeMenuName}
 				onKeyDown={handleKeyDown}
-				disabled={!isEditable}
+				disabled={disableEdit ? true : !isEditable}
 				ref={inputRef}
 			/>
 			<div className="flex items-center gap-4">
-				<button
-					className="text-b3-medium bg-gray-5 rounded-3xl px-4 py-2 text-gray-50 outline-none"
-					onClick={handleEditable}
-				>
-					<span>{isEditable ? '변경 완료' : '메뉴 변경'}</span>
-				</button>
+				{!disableEdit && (
+					<button
+						className="text-b3-medium bg-gray-5 rounded-3xl px-4 py-2 text-gray-50 outline-none"
+						onClick={handleEditable}
+					>
+						<span>{isEditable ? '변경 완료' : '메뉴 변경'}</span>
+					</button>
+				)}
 				<button
 					className="text-b3-medium bg-gray-5 rounded-3xl px-4 py-2 text-gray-50 outline-none"
 					onClick={hanedleDeleteMenu}
