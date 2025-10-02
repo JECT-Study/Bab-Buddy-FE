@@ -1,5 +1,5 @@
 // import { getGroupDetail } from '@/features/group/api/voteRoomApi'
-import VoteRoom from '@/features/group/components/vote-room/VoteRoom'
+import VoteRoomContainer from '@/features/group/components/vote-room/VoteRoomContainer'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -19,6 +19,24 @@ export default async function GroupDetailPage(/*{ params }: Props*/) {
 		title: '회사 동료들',
 		voteStatus: 'ONGOING',
 		menuList: [],
+		dislikeMenuList: [
+			{
+				id: '1',
+				name: '떡볶이',
+				createdBy: '1',
+			},
+			{
+				id: '2',
+				name: '치킨',
+				createdBy: '2',
+			},
+
+			{
+				id: '3',
+				name: '피자',
+				createdBy: '3',
+			},
+		],
 		participantList: [
 			{
 				id: '1',
@@ -55,5 +73,5 @@ export default async function GroupDetailPage(/*{ params }: Props*/) {
 		votedParticipants: 0,
 	}
 
-	return <VoteRoom room={detail!} />
+	return <VoteRoomContainer room={detail!} />
 }

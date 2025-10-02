@@ -26,6 +26,7 @@ export interface GroupDetailType {
 	// voteStatus: 'ONGOING' | 'FINISHED'
 	voteStatus: string
 	menuList: MenuItemType[]
+	dislikeMenuList: MenuItemType[]
 	participantList: ParticipantType[]
 	totalParticipants: number
 	votedParticipants: number
