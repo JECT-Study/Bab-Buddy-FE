@@ -34,7 +34,9 @@ export default function GroupContainer({ groups }: Props) {
 
 	return (
 		<>
-			{groups.length ? <GroupList groups={groups} /> : <GroupEmpty />}
+			<div className="flex min-h-[444px] items-center justify-center">
+				{groups.length ? <GroupList groups={groups} /> : <GroupEmpty />}
+			</div>
 
 			<button
 				type="button"
