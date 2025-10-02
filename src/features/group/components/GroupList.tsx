@@ -41,7 +41,7 @@ export default function GroupList({ groups }: Props) {
 							) : (
 								<>
 									<Link
-										href="#"
+										href={`/group/${group.roomId}/result`}
 										className="bg-gray-5 text-b3-medium rounded-3xl px-4 py-2 text-gray-50"
 									>
 										결과확인
