@@ -20,7 +20,7 @@ export default function ParticipantList({
 	const [page] = useState(1)
 
 	return (
-		<div className="border-gray-10 flex w-full flex-col gap-2 rounded-3xl border-1 bg-white p-6">
+		<div className="border-gray-10 flex w-full flex-1 flex-col gap-2 rounded-3xl border-1 bg-white p-6">
 			{/* 참여자 목록 헤더 */}
 			<div className="flex w-full items-center justify-between">
 				<span className="text-b1-medium">참여자 목록</span>
