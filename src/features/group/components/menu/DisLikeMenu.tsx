@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import { MenuItemType, VoteMenu, type GroupDetailType } from '../../types/group'
+import { type MenuItemType, type VoteMenu, type GroupDetailType } from '../../types/group'
 import MenuInputForm from '../input/MenuInputForm'
-import Image from 'next/image'
 import MenuItem from './MenuItem'
 
 interface DisLikeMenuProps {

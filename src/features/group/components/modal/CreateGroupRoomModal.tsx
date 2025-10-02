@@ -1,6 +1,6 @@
 'use client'
 import Modal from './Modal'
-import { type KeyboardEventHandler, useState } from 'react'
+import { type KeyboardEventHandler } from 'react'
 
 interface Props {
 	groupName: string

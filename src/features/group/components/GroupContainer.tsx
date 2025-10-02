@@ -3,7 +3,6 @@
 import GroupEmpty from '@/features/group/components/GroupEmpty'
 import GroupList from '@/features/group/components/GroupList'
 import type { GroupType } from '../types/group'
-import { useModal } from '@/shared/hooks/useModal'
 import CreateGroupRoomModal from './modal/CreateGroupRoomModal'
 // import { makeGroupRoom } from '../api/groupListApi'
 import { useRouter } from 'next/navigation'
