@@ -1,10 +1,13 @@
 'use client'
 
-import React from 'react'
+import React, { useRef } from 'react'
 import Icon from '@/shared/components/Icon'
 import Image from 'next/image'
+import { useOnPressEsc } from '@/shared/hooks/useOnPressEsc'
+import { useOnClickOutside } from '@/shared/hooks/useOnClickOutside'
 
 interface ShareModalProps {
+	title?: string
 	isOpen: boolean
 	onClose: () => void
 	onKakaoShare: () => void
@@ -12,18 +15,26 @@ interface ShareModalProps {
 }
 
 export const ShareModal: React.FC<ShareModalProps> = ({
+	title = '링크를 공유해 결과를 공유하세요',
 	isOpen,
 	onClose,
 	onKakaoShare,
 	onLinkShare,
 }) => {
+	const ref = useRef<HTMLDivElement>(null)
+	useOnPressEsc(onClose)
+	useOnClickOutside({ callback: onClose, ref })
+
 	if (!isOpen) return null
 
 	return (
 		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-			<div className="flex w-[527px] flex-col items-center gap-8 rounded-[24px] bg-white px-16 py-12">
+			<div
+				className="flex w-[527px] flex-col items-center gap-8 rounded-[24px] bg-white px-16 py-12"
+				ref={ref}
+			>
 				<h2 className="text-center text-[24px] leading-[35px] font-bold tracking-[-0.04em]">
-					링크를 공유해 결과를 공유하세요
+					{title}
 				</h2>
 				<div className="flex w-full flex-col gap-4">
 					<button
