@@ -17,7 +17,7 @@ export default function LoginPage() {
 		try {
 			// OAuth 로그인 링크 요청 (origin 포함 URL 생성)
 			const kakaoLoginUrl = await getOAuthLoginUrl()
-			window.location.href = kakaoLoginUrl
+			window.location.replace(kakaoLoginUrl)
 		} catch {
 			alert('카카오 로그인에 실패했습니다. 다시 시도해주세요.')
 		} finally {
