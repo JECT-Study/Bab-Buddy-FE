@@ -1,4 +1,4 @@
-import { VoteResultTopMenuType } from '../../types/group'
+import type { VoteResultTopMenuType } from '../../types/group'
 import Modal from './Modal'
 
 interface VoteResultModalProps {
