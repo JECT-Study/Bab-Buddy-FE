@@ -21,6 +21,8 @@ const VoteRoomContainer = ({ room }: Props) => {
 					activeStep={activeStep}
 					setActiveStep={setActiveStep}
 					roomId={room.roomId}
+					isHostUser={room.isHostUser}
+					votedCount={room.votedParticipants}
 				/>
 			</aside>
 			<div

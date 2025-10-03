@@ -8,6 +8,8 @@ interface VoteRoomStepperProps {
 	activeStep: number
 	setActiveStep: (step: number) => void
 	roomId: string
+	isHostUser: boolean
+	votedCount: number
 }
 
 const ASIDE_MENUS = [
@@ -30,6 +32,8 @@ export default function VoteRoomStepper({
 	activeStep,
 	setActiveStep,
 	roomId,
+	isHostUser,
+	votedCount,
 }: VoteRoomStepperProps) {
 	const router = useRouter()
 	const [isEndModalOpen, setIsEndModalOpen] = useState(false)
@@ -68,12 +72,15 @@ export default function VoteRoomStepper({
 					))}
 				</ul>
 			</div>
-			<button
-				className="text-b2-medium w-full rounded-3xl bg-orange-500 px-6 py-4 text-white outline-none"
-				onClick={handleEndModalOpen}
-			>
-				투표 결과보기
-			</button>
+			{isHostUser && (
+				<button
+					className={`text-b2-medium w-full rounded-3xl px-6 py-4 outline-none ${votedCount === 0 ? 'bg-gray-5 text-gray-10' : 'bg-orange-500 text-white'}`}
+					onClick={handleEndModalOpen}
+					disabled={votedCount === 0}
+				>
+					투표 결과보기
+				</button>
+			)}
 			<VoteEndModal
 				isOpen={isEndModalOpen}
 				onClose={handleEndModalClose}
