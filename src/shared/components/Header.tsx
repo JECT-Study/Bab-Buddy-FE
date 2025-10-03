@@ -16,7 +16,7 @@ const logoFont = localFont({
 // todo :: href 확인 필요
 const navLinks = [
 	{ href: '/foodSurvey/1', label: '개인메뉴 추천' },
-	// { href: '/group', label: '그룹메뉴 추천' },
+	{ href: '/group', label: '그룹메뉴 추천' },
 	{ href: '/myInfo', label: '마이페이지' },
 ]
 
