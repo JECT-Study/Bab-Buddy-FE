@@ -2,14 +2,12 @@
 import { useCallback, useState } from 'react'
 import VoteEndModal from '../modal/VoteEndModal'
 import { useRouter } from 'next/navigation'
+import { type GroupDetailType } from '../../types/group'
 
 interface VoteRoomStepperProps {
-	title: string
+	room: GroupDetailType
 	activeStep: number
 	setActiveStep: (step: number) => void
-	roomId: string
-	isHostUser: boolean
-	votedCount: number
 }
 
 const ASIDE_MENUS = [
@@ -28,12 +26,9 @@ const ASIDE_MENUS = [
 ]
 
 export default function VoteRoomStepper({
-	title,
+	room: { roomId, title, isHostUser, votedParticipants },
 	activeStep,
 	setActiveStep,
-	roomId,
-	isHostUser,
-	votedCount,
 }: VoteRoomStepperProps) {
 	const router = useRouter()
 	const [isEndModalOpen, setIsEndModalOpen] = useState(false)
@@ -74,9 +69,9 @@ export default function VoteRoomStepper({
 			</div>
 			{isHostUser && (
 				<button
-					className={`text-b2-medium w-full rounded-3xl px-6 py-4 outline-none ${votedCount === 0 ? 'bg-gray-5 text-gray-10' : 'bg-orange-500 text-white'}`}
+					className={`text-b2-medium w-full rounded-3xl px-6 py-4 outline-none ${votedParticipants === 0 ? 'bg-gray-5 text-gray-10' : 'bg-orange-500 text-white'}`}
 					onClick={handleEndModalOpen}
-					disabled={votedCount === 0}
+					disabled={votedParticipants === 0}
 				>
 					투표 결과보기
 				</button>

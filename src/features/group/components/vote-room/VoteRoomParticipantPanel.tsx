@@ -1,22 +1,14 @@
-import { type ParticipantType } from '../../types/group'
+import { type GroupDetailType, type ParticipantType } from '../../types/group'
 import ParticipantList from '../participant/ParticipantList'
 import VoteActionButtons from './VoteActionButtons'
 import { useState, useEffect } from 'react'
 
 interface VoteRoomParticipantPanelProps {
-	roomId: string
-	title: string
-	participantList: ParticipantType[]
-	totalParticipants: number
-	votedParticipants: number
+	room: GroupDetailType
 }
 
 export default function VoteRoomParticipantPanel({
-	roomId,
-	title,
-	participantList,
-	totalParticipants,
-	votedParticipants,
+	room: { roomId, title, isHostUser, participantList, totalParticipants, votedParticipants },
 }: VoteRoomParticipantPanelProps) {
 	const [invitationImageUrl, setInvitationImageUrl] = useState<string>('')
 	const [invitationLink, setInvitationLink] = useState<string>('')
@@ -43,6 +35,7 @@ export default function VoteRoomParticipantPanel({
 				invitationDescription={`${title} 그룹방에 초대합니다.`}
 				invitationImageUrl={invitationImageUrl}
 				invitationLink={invitationLink}
+				isDeleteButtonShowable={isHostUser}
 			/>
 		</>
 	)
