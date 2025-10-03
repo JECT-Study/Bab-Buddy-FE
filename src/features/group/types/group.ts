@@ -30,6 +30,7 @@ export interface GroupDetailType {
 	participantList: ParticipantType[]
 	totalParticipants: number
 	votedParticipants: number
+	isHostUser: boolean
 }
 
 export interface VoteMenu {
