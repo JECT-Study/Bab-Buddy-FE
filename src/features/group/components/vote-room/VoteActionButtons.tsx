@@ -5,6 +5,9 @@ import Icon from '@/shared/components/Icon'
 import { useCallback, useState } from 'react'
 import { copyToClipboard, shareToKakao } from '@/features/share/utils/share'
 import { useInitializeKakaoShare } from '@/shared/hooks/useInitializeKakaoShare'
+import DeleteGroupRoomModal from '../modal/DeleteGroupRoomModal'
+import { deleteVoteRoom } from '../../api/voteRoomApi'
+import { useRouter } from 'next/navigation'
 
 interface VoteActionButtonsProps {
 	invitationTitle: string
@@ -12,6 +15,7 @@ interface VoteActionButtonsProps {
 	invitationImageUrl: string
 	invitationLink: string
 	isDeleteButtonShowable: boolean
+	roomId: string
 }
 
 const useVoteActionButtons = (
@@ -66,7 +70,10 @@ export default function VoteActionButtons({
 	invitationImageUrl,
 	invitationLink,
 	isDeleteButtonShowable,
+	roomId,
 }: VoteActionButtonsProps) {
+	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+	const router = useRouter()
 	const {
 		isShareModalOpen,
 		handleShareModalOpen,
@@ -79,6 +86,10 @@ export default function VoteActionButtons({
 		invitationImageUrl,
 		invitationLink,
 	)
+	const handleDelete = useCallback(async () => {
+		await deleteVoteRoom(roomId)
+		router.push('/group')
+	}, [roomId, router])
 
 	return (
 		<>
@@ -94,7 +105,7 @@ export default function VoteActionButtons({
 				{isDeleteButtonShowable && (
 					<button
 						className="border-gray-10 text-b2-medium text-gray-190 w-[41.7%] rounded-4xl border-1 bg-white px-2 py-4 outline-none"
-						onClick={() => {}}
+						onClick={() => setIsDeleteModalOpen(true)}
 					>
 						그룹방 삭제
 					</button>
@@ -106,6 +117,11 @@ export default function VoteActionButtons({
 				onClose={handleShareModalClose}
 				onKakaoShare={handleKakaoShare}
 				onLinkShare={handleLinkShare}
+			/>
+			<DeleteGroupRoomModal
+				isOpen={isDeleteModalOpen}
+				onClose={() => setIsDeleteModalOpen(false)}
+				onDelete={handleDelete}
 			/>
 		</>
 	)

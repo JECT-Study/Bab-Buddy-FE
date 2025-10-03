@@ -1,4 +1,4 @@
-import { type GroupDetailType, type ParticipantType } from '../../types/group'
+import { type GroupDetailType } from '../../types/group'
 import ParticipantList from '../participant/ParticipantList'
 import VoteActionButtons from './VoteActionButtons'
 import { useState, useEffect } from 'react'
@@ -36,6 +36,7 @@ export default function VoteRoomParticipantPanel({
 				invitationImageUrl={invitationImageUrl}
 				invitationLink={invitationLink}
 				isDeleteButtonShowable={isHostUser}
+				roomId={roomId}
 			/>
 		</>
 	)
