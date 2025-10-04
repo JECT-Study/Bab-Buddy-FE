@@ -9,6 +9,7 @@ import type { Restaurant } from '../types/recommendationHistory'
 import type { FilterCategory } from '@/shared/components/FilterButtons'
 import type { SortOption } from '@/shared/components/SortDropdown'
 import type { BookmarkResponse } from '../types/bookmark'
+import { NoData } from './NoData'
 
 export const BookmarkTab: React.FC = () => {
 	const [bookmarkedRestaurants, setBookmarkedRestaurants] = useState<Restaurant[]>([])
@@ -57,20 +58,26 @@ export const BookmarkTab: React.FC = () => {
 
 			{/* 식당 카드 그리드 */}
 			{bookmarkedRestaurants.length > 0 ? (
-				<div className="grid grid-cols-2 gap-6">
-					{bookmarkedRestaurants.map((restaurant) => (
-						<RestaurantCard key={restaurant.id} restaurant={restaurant} />
-					))}
-				</div>
+				<>
+					<div className="grid grid-cols-2 gap-6">
+						{bookmarkedRestaurants.map((restaurant) => (
+							<RestaurantCard key={restaurant.id} restaurant={restaurant} />
+						))}
+					</div>
+					{/* 페이지네이션 */}
+					<Pagination
+						currentPage={currentPage}
+						totalPages={totalPages}
+						onPageChange={setCurrentPage}
+					/>
+				</>
 			) : (
-				<div className="border-gray-10 rounded-3xl border bg-white p-6 text-center">
-					<h2 className="text-h3-bold text-black">북마크</h2>
-					<p className="text-b2-medium text-gray-30 mt-4">북마크한 음식이 없습니다.</p>
-				</div>
+				<NoData
+					title="아직 북마크한 식당이 없어요."
+					subTitle1="추천받은 식당에서 마음에 드는 곳을 북마크하면"
+					subTitle2="여기서 따로 모아볼 수 있어요."
+				/>
 			)}
-
-			{/* 페이지네이션 */}
-			<Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
 		</div>
 	)
 }
