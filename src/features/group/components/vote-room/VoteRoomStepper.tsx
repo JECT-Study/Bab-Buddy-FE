@@ -1,13 +1,13 @@
 'use client'
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import VoteEndModal from '../modal/VoteEndModal'
 import { useRouter } from 'next/navigation'
+import { type GroupDetailType } from '../../types/group'
 
 interface VoteRoomStepperProps {
-	title: string
+	room: GroupDetailType
 	activeStep: number
 	setActiveStep: (step: number) => void
-	roomId: string
 }
 
 const ASIDE_MENUS = [
@@ -26,10 +26,9 @@ const ASIDE_MENUS = [
 ]
 
 export default function VoteRoomStepper({
-	title,
+	room: { roomId, title, isHostUser, votedParticipants, voteStatus },
 	activeStep,
 	setActiveStep,
-	roomId,
 }: VoteRoomStepperProps) {
 	const router = useRouter()
 	const [isEndModalOpen, setIsEndModalOpen] = useState(false)
@@ -46,6 +45,14 @@ export default function VoteRoomStepper({
 		setIsEndModalOpen(false)
 		router.push(`/group/${roomId}/result`)
 	}, [setIsEndModalOpen, router, roomId])
+
+	const isDisabled = useMemo(() => {
+		return (isHostUser && votedParticipants === 0) || (!isHostUser && voteStatus === 'ONGOING')
+	}, [votedParticipants, voteStatus, isHostUser])
+
+	const routeToResult = useCallback(() => {
+		router.push(`/group/${roomId}/result`)
+	}, [router, roomId])
 
 	return (
 		<>
@@ -69,10 +76,11 @@ export default function VoteRoomStepper({
 				</ul>
 			</div>
 			<button
-				className="text-b2-medium w-full rounded-3xl bg-orange-500 px-6 py-4 text-white outline-none"
-				onClick={handleEndModalOpen}
+				className={`text-b2-medium w-full rounded-3xl px-6 py-4 outline-none ${isDisabled ? 'bg-gray-5 text-gray-10' : 'bg-orange-500 text-white'}`}
+				onClick={isHostUser ? handleEndModalOpen : routeToResult}
+				disabled={isDisabled}
 			>
-				투표 결과보기
+				{isHostUser ? '투표 끝내기' : '투표 결과보기'}
 			</button>
 			<VoteEndModal
 				isOpen={isEndModalOpen}

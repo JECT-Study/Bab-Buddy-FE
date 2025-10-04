@@ -70,7 +70,8 @@ export default async function GroupDetailPage(/*{ params }: Props*/) {
 			},
 		],
 		totalParticipants: 6,
-		votedParticipants: 0,
+		votedParticipants: 1,
+		isHostUser: true,
 	}
 
 	return <VoteRoomContainer room={detail!} />
