@@ -36,7 +36,7 @@ const DislikedFoodSurvey: React.FC = () => {
 				<div className="flex h-[82px] flex-col items-center gap-4">
 					<div className="text-h2-bold text-center">특별히 싫어하시는 음식이 있으신가요?</div>
 					<div className="text-b2-medium text-gray-30 mb-8 h-[54px] text-center">
-						(결과에서 제외될 음식을 20개까지 등록 가능합니다.)
+						(입력하신 음식은 결과 추천에서 제외됩니다. 최대 20개까지 등록할 수 있어요.){' '}
 					</div>
 				</div>
 
@@ -70,7 +70,7 @@ const DislikedFoodSurvey: React.FC = () => {
 							disabled={foods.length === 0 || isLoading}
 							onClick={onClickNextStep}
 						>
-							{isLoading ? '처리중...' : '다음단계'}
+							{isLoading ? '처리중...' : '설문 완료하기'}
 							<Icon.ArrowRight
 								className={`${foods.length === 0 ? 'text-gray-30' : 'text-orange'}`}
 							/>
