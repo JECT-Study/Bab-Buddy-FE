@@ -29,6 +29,10 @@ const DislikedFoodSurvey: React.FC = () => {
 		handleCompleteOnboarding()
 	}
 
+	const onClickPrevStep = () => {
+		router.push('/allergySurvey')
+	}
+
 	return (
 		<div className="flex-1">
 			<main className="mx-auto flex h-[calc(100vh-110px)] w-full max-w-5xl flex-1 flex-col items-center gap-[48px] overflow-auto pb-[90px]">
@@ -45,10 +49,10 @@ const DislikedFoodSurvey: React.FC = () => {
 					<div className="flex h-full flex-col justify-end">
 						<button
 							className="text-orientation-mixed text-orange bg-transparent font-medium"
-							onClick={onClickNextStep}
+							onClick={onClickPrevStep}
 							disabled={isLoading}
 						>
-							{isLoading ? '처리중...' : '건너뛰기'}
+							{isLoading ? '처리중...' : '이전단계'}
 						</button>
 					</div>
 
