@@ -24,7 +24,7 @@ export default function GroupEmpty() {
 
 	return (
 		<>
-			<div className="flex flex-col items-center">
+			<div className="flex flex-col items-center pb-6">
 				<Image
 					src="/assets/images/groupVote-blank-babbuddy.webp"
 					alt="밥버디 캐릭터"
