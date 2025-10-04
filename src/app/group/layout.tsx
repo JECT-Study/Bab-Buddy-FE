@@ -9,7 +9,7 @@ export default function GroupLayout({
 		<main className="bg-gray-5 flex min-h-screen w-full flex-1 flex-col">
 			<Header />
 			<div className="flex w-full justify-center">
-				<section className="flex w-full min-w-[640px] rounded-[28px] pt-8 pr-[70px] pb-[129px] pl-[95px]">
+				<section className="flex w-full min-w-[640px] rounded-[28px] pt-12 pr-[70px] pl-[95px]">
 					{children}
 				</section>
 			</div>

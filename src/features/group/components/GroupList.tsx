@@ -19,12 +19,12 @@ export default function GroupList({ groups }: Props) {
 	const paginatedGroups = groups.slice((page - 1) * GROUPS_PER_PAGE, page * GROUPS_PER_PAGE)
 
 	return (
-		<div className="flex flex-1 flex-col pt-6">
-			<div className="flex min-h-[366px] flex-col gap-6">
+		<div className="flex flex-1 flex-col py-6">
+			<div className="flex min-h-[294px] flex-col gap-6">
 				{paginatedGroups.map((group) => (
 					<div
 						key={group.roomId}
-						className="border-gray-10 flex items-center justify-between rounded-3xl border px-8 py-6"
+						className="border-gray-10 flex items-center justify-between rounded-3xl border px-8 py-6 max-h-[82px]"
 					>
 						<div className="flex flex-col gap-2">
 							<p className="text-b1-medium">{group.title}</p>
