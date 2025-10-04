@@ -68,16 +68,12 @@ const DislikedFoodSurvey: React.FC = () => {
 					{/* 오른쪽 버튼 */}
 					<div className="flex h-full flex-col justify-end">
 						<button
-							className={`flex items-center font-medium ${
-								foods.length === 0 ? 'text-gray-30' : 'text-orange'
-							}`}
+							className="text-orange flex items-center font-medium"
 							disabled={foods.length === 0 || isLoading}
 							onClick={onClickNextStep}
 						>
 							{isLoading ? '처리중...' : '설문 완료하기'}
-							<Icon.ArrowRight
-								className={`${foods.length === 0 ? 'text-gray-30' : 'text-orange'}`}
-							/>
+							<Icon.ArrowRight className="text-orange" />
 						</button>
 					</div>
 				</div>
