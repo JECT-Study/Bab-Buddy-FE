@@ -36,3 +36,28 @@ export interface VoteMenu {
 	menuId: string
 	name: string
 }
+
+// 투표 결과 정보
+export interface VoteResultType {
+	voteRoomId: string
+	title: string
+	result: VoteResultMenuType
+}
+
+// 투표 결과 메뉴 정보
+export interface VoteResultMenuType {
+	topMenus: VoteResultTopMenuType[]
+}
+
+// 투표 결과 상위 메뉴 정보
+export interface VoteResultTopMenuType {
+	rank: number
+	count: number
+	menus: VoteResultMenuItemType[]
+}
+
+// 투표 결과 메뉴 아이템 정보
+export interface VoteResultMenuItemType {
+	menuName: string
+	voteCount: number
+}

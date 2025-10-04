@@ -39,7 +39,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
 				<div className="flex w-full flex-col gap-4">
 					<button
 						onClick={onKakaoShare}
-						className="bg-yellow flex w-full items-center gap-20 rounded-[50px] px-8 py-4"
+						className="bg-yellow flex w-full items-center gap-20 rounded-[50px] px-8 py-4 outline-none"
 					>
 						<div className="h-[37px] w-[37px]">
 							<Image src="/assets/icons/kakao.svg" alt="카카오" width={37} height={37} />
@@ -50,7 +50,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
 					</button>
 					<button
 						onClick={onLinkShare}
-						className="bg-gray-10 flex w-full items-center gap-20 rounded-[50px] px-8 py-4"
+						className="bg-gray-10 flex w-full items-center gap-20 rounded-[50px] px-8 py-4 outline-none"
 					>
 						<div className="h-[37px] w-[37px] p-2">
 							<Icon.Share size={23} className="h-full w-full text-black" />
