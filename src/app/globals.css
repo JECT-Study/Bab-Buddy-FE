@@ -162,10 +162,20 @@
 	--foreground: #171717;
 }
 
+[data-surface='group'] {
+	--bg: #f6f6f6;
+	--text: #000;
+}
+
 @media (prefers-color-scheme: dark) {
 	:root {
 		--background: #0a0a0a;
 		--foreground: #ededed;
+	}
+
+	[data-surface='group'] {
+		--bg: #000;
+		--text: #000;
 	}
 }
 
