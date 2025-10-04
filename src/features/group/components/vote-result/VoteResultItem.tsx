@@ -28,7 +28,7 @@ export default function VoteResultItem({ menu }: VoteResultItemProps) {
 				<div className="flex flex-col gap-[10px]">
 					<span className="text-b2-medium">{menu.menus[0].menuName}</span>
 					{isMoreThanOne && (
-						<div className="flex w-full cursor-pointer items-center" onClick={openModal}>
+						<div className="flex w-fit cursor-pointer items-center" onClick={openModal}>
 							<span className="text-b2-medium mr-1 text-gray-50">외 {menu.menus.length - 1}개</span>
 							<Icon.ArrowRight size={15} className="text-gray-50" />
 						</div>
