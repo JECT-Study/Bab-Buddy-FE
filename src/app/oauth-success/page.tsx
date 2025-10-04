@@ -30,7 +30,7 @@ const OAuthSuccessPage = () => {
 				if (isOnboardingCompleted) {
 					router.push('/home')
 				} else {
-					router.push('/allergySurvey')
+					router.push('/onboarding')
 				}
 			} catch {
 				setError('로그인 처리 중 오류가 발생했습니다.')
