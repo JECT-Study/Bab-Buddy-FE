@@ -33,17 +33,19 @@ export default function OnboardingPage() {
 
 			{/* 우측 콘텐츠 영역 */}
 			<div className="flex h-screen w-full flex-col items-center justify-center bg-white px-8 sm:flex-5">
-				<div className="w-full max-w-md text-center">
-					<h1 className="text-h2-bold text-gray-100">딱 맞는 추천을 위해, 간단한 설문이 있어요</h1>
+				<div className="flex w-full flex-col items-center justify-center gap-[12px] text-center">
+					<div>
+						<p className="text-h2-bold text-gray-100">딱 맞는 추천을 위해, 간단한 설문이 있어요</p>
 
-					<p className="text-body1 mb-6 text-gray-100">
-						알레르기나 못 먹는 음식이 있다면 알려주세요.
-						<br />
-						없다면 바로 넘어가도 괜찮아요 😊
-					</p>
+						<p className="text-body1 text-gray-100">
+							알레르기나 못 먹는 음식이 있다면 알려주세요.
+							<br />
+							없다면 바로 넘어가도 괜찮아요 😊
+						</p>
+					</div>
 
 					{/* 버튼 영역 */}
-					<div className="space-y-4">
+					<div className="w-1/3 space-y-4">
 						{/* 설문 건너뛰기 버튼 */}
 						<button
 							onClick={handleSkipSurvey}
