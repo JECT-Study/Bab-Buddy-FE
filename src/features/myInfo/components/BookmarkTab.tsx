@@ -57,7 +57,7 @@ export const BookmarkTab: React.FC = () => {
 			</div>
 
 			{/* 식당 카드 그리드 */}
-			{bookmarkedRestaurants.length > 0 ? (
+			{bookmarkedRestaurants.length < 0 ? (
 				<>
 					<div className="grid grid-cols-2 gap-6">
 						{bookmarkedRestaurants.map((restaurant) => (
@@ -74,8 +74,7 @@ export const BookmarkTab: React.FC = () => {
 			) : (
 				<NoData
 					title="아직 북마크한 식당이 없어요."
-					subTitle1="추천받은 식당에서 마음에 드는 곳을 북마크하면"
-					subTitle2="여기서 따로 모아볼 수 있어요."
+					subTitle="추천받은 식당에서 마음에 드는 곳을 북마크하면\n여기서 따로 모아볼 수 있어요."
 				/>
 			)}
 		</div>

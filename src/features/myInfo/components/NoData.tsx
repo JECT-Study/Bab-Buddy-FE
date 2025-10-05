@@ -2,8 +2,7 @@ import Image from 'next/image'
 
 interface NoDataProps {
 	title: string
-	subTitle1: string
-	subTitle2: string
+	subTitle: string
 }
 export const NoData = (textData: NoDataProps) => {
 	return (
@@ -17,8 +16,9 @@ export const NoData = (textData: NoDataProps) => {
 				/>
 				<div className="text-center">
 					<p className="text-b1-medium">{textData.title}</p>
-					<p className="text-b2-medium text-gray-30">{textData.subTitle1}</p>
-					<p className="text-b2-medium text-gray-30">{textData.subTitle2}</p>
+					<p className="text-b2-medium text-gray-30 whitespace-pre-line">
+						{textData.subTitle.replace(/\\n/g, '\n')}
+					</p>
 				</div>
 			</div>
 		</div>
