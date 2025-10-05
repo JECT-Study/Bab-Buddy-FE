@@ -45,8 +45,8 @@ export const AllergySurvey: React.FC = () => {
 		<>
 			{/* 본문 */}
 			<div
-				style={{ height: `calc(100vh - ${TOTAL_HEIGHT_DEDUCTION}px)` }}
-				className="relative flex flex-col"
+				style={{ '--total-deduction': `${TOTAL_HEIGHT_DEDUCTION}px` }}
+				className="relative flex h-[calc(100vh-var(--total-deduction))] flex-col"
 			>
 				<main
 					className={`mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 pt-10 sm:px-6 lg:px-8`}
