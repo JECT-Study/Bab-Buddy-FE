@@ -53,7 +53,7 @@ export const SurveyResult: React.FC = () => {
 
 	// 로딩 중
 	if (isLoading) {
-		return <ResultLoading /> // 부모의 Suspense fallback이 표시됨
+		return <ResultLoading />
 	}
 
 	// 에러 발생
