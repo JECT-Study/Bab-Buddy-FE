@@ -8,7 +8,7 @@ export const ResultLoading = () => {
 					src="/assets/icons/loading.svg"
 					alt="로딩"
 					fill
-					className="animate-spin object-contain"
+					className="object-contain"
 					priority
 				/>
 			</div>
