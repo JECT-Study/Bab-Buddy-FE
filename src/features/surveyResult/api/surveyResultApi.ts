@@ -13,32 +13,4 @@ const getRestaurantListApi = async (foodId: number): Promise<Restaurant[]> => {
 	return response.data
 }
 
-export const useRecommendation = () => {
-	const [isSurveyLoading, setIsSurveyLoading] = useState(false)
-	const [isRestaurantLoading, setIsRestaurantLoading] = useState(false)
-
-	const submitSurvey = async (surveyResponses: SurveyResponse) => {
-		try {
-			setIsSurveyLoading(true)
-			return await submitSurveyApi(surveyResponses)
-		} finally {
-			setIsSurveyLoading(false)
-		}
-	}
-
-	const fetchRestaurants = async (foodId: number) => {
-		try {
-			setIsRestaurantLoading(true)
-			return await getRestaurantListApi(foodId)
-		} finally {
-			setIsRestaurantLoading(false)
-		}
-	}
-
-	return {
-		isSurveyLoading,
-		isRestaurantLoading,
-		submitSurvey,
-		fetchRestaurants,
-	}
-}
+export { submitSurveyApi, getRestaurantListApi }
