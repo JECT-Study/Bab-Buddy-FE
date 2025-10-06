@@ -61,10 +61,6 @@ export const LocationPermissionModal: React.FC<LocationPermissionModalProps> = (
 							<span className="text-orange mr-2">•</span>
 							<span>위치 정보는 맛집 추천 목적으로만 사용됩니다</span>
 						</li>
-						<li className="flex items-start">
-							<span className="text-orange mr-2">•</span>
-							<span>언제든지 설정에서 권한을 변경할 수 있습니다</span>
-						</li>
 					</ul>
 				</div>
 
