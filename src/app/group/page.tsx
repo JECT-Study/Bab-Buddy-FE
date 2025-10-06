@@ -1,20 +1,17 @@
-// import { getGroups } from '@/features/group/api/groupListApi'
+import { getGroups } from '@/features/group/api/groupListApi'
 import GroupContainer from '@/features/group/components/GroupContainer'
 import type { GroupType } from '@/features/group/types/group'
 
 // TODO :: 목데이터 변경 필요
-const groups: GroupType[] = Array.from({ length: 7 }, (_, i) => ({
-	roomId: i + 1 + '',
-	title: '회사 동료들',
-	participantCount: i + 1,
-	voteStatus: i % 3 !== 0 ? 'ONGOING' : 'FINISHED',
-}))
-
-// const groups: GroupType[] = []
+// const groups: GroupType[] = Array.from({ length: 7 }, (_, i) => ({
+// 	roomId: i + 1 + '',
+// 	title: '회사 동료들',
+// 	participantCount: i + 1,
+// 	voteStatus: i % 3 !== 0 ? 'ONGOING' : 'FINISHED',
+// }))
 
 export default async function GroupPage() {
-	// const groups = await getGroups()
-	// console.log('groups', groups)
+	const groups = (await getGroups()) || []
 
 	return (
 		<>
