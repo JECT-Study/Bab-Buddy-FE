@@ -54,6 +54,11 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 				setShowLocationModal(true)
 			}, 800)
 			return () => clearTimeout(timer)
+		} else {
+			if (surveyResponses.address || hasRequestedPermission) {
+				return
+			}
+			router.push('/foodSurvey/1')
 		}
 	}, [])
 
