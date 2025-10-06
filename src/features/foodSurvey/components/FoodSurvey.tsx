@@ -6,12 +6,11 @@ import SurveyCard from '@/features/foodSurvey/components/SurveyCard'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import type { FoodSurveyProps } from '@/features/foodSurvey/types/foodSurveyTypes'
-import { getAddressFromCoords } from '@/features/foodSurvey/api/addressApi'
 import { useFoodSurveyStore } from '@/features/foodSurvey/store/foodSurveyStore'
 import type { SurveyStep } from '@/features/foodSurvey/store/foodSurveyStore'
 import type { SurveyResponse } from '@/features/surveyResult/types/surveyResultTypes'
-import { useLocationStore } from '@/shared/store/locationStore'
-import { completeOnboarding } from '@/features/myInfo/api/user'
+import { LocationPermissionModal } from './LocationPermissionModal'
+import { useLocation } from '../hooks/useLocation'
 
 export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 	step,
@@ -23,10 +22,16 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 	options,
 }) => {
 	const router = useRouter()
-	const { surveyResponses, setResponse, setAddress } = useFoodSurveyStore()
-	const { setLocation } = useLocationStore()
+	const { surveyResponses, setResponse } = useFoodSurveyStore()
 	const [selectedTaste, setSelectedTaste] = useState<string | null>(null)
-
+	const {
+		hasRequestedPermission,
+		showLocationModal,
+		setShowLocationModal,
+		checkLocationPermission,
+		handleDenyLocation,
+		handleAcceptLocation,
+	} = useLocation()
 	// Load saved response for current step
 	useEffect(() => {
 		const currentResponse = surveyResponses[`survey${step}` as keyof SurveyResponse]
@@ -35,38 +40,22 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 		}
 	}, [step, surveyResponses])
 
-	// Get user's location and address
+	// Check if we should show location permission modal
 	useEffect(() => {
-		const getAddress = async () => {
-			if (!navigator.geolocation) {
-				console.error('Geolocation is not supported by this browser.')
+		// 첫 번째 단계에서만 모달 표시
+		if (step === 1) {
+			checkLocationPermission()
+			// 이미 주소가 있거나 권한 요청을 한 적이 있으면 표시하지 않음
+			if (surveyResponses.address || hasRequestedPermission) {
 				return
 			}
-
-			try {
-				const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-					navigator.geolocation.getCurrentPosition(resolve, reject, {
-						enableHighAccuracy: true,
-						timeout: 5000,
-						maximumAge: 0,
-					})
-				})
-
-				const { latitude, longitude } = position.coords
-				setLocation({ lat: latitude, lng: longitude })
-				const response = await getAddressFromCoords(latitude, longitude)
-				if (response.address) {
-					setAddress(response.address)
-				}
-			} catch (error) {
-				console.error('Error in getAddress:', error)
-			}
+			// 약간의 딜레이를 주어 자연스럽게 표시
+			const timer = setTimeout(() => {
+				setShowLocationModal(true)
+			}, 800)
+			return () => clearTimeout(timer)
 		}
-
-		if (!surveyResponses.address) {
-			getAddress()
-		}
-	}, [setAddress, surveyResponses.address, setLocation])
+	}, [])
 
 	const handleSelect = (tasteId: string) => {
 		setSelectedTaste(tasteId)
@@ -86,21 +75,19 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 		if (step < 3) {
 			router.push(`/foodSurvey/${step + 1}`)
 		} else {
-			try {
-				// 마지막 단계에서 온보딩 완료 처리
-				await completeOnboarding()
-				console.log('✅ 온보딩 완료: /surveyResult으로 이동')
-				router.push('/surveyResult')
-			} catch (error) {
-				console.error('❌ 온보딩 완료 처리 실패:', error)
-				// 에러 발생 시에도 결과 페이지로 이동 (사용자 경험을 위해)
-				router.push('/surveyResult')
-			}
+			router.push('/surveyResult')
 		}
 	}
 
 	return (
 		<div className="relative flex flex-1 flex-col">
+			{/* 위치 권한 안내 모달 */}
+			<LocationPermissionModal
+				isOpen={showLocationModal}
+				onAccept={handleAcceptLocation}
+				onDeny={handleDenyLocation}
+			/>
+
 			<div className="flex-end pointer-events-none absolute right-0 bottom-0 z-[-1] inline-flex h-full w-[40%] pt-[39px] pl-[5px]">
 				<Image
 					src={backgroundImage}
