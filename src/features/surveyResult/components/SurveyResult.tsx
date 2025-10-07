@@ -4,53 +4,12 @@ import React, { useEffect, useState } from 'react'
 import { RecommendationCard } from './RecommendationCard'
 import { RestaurantCard } from './RestaurantCard'
 import MapSection from './MapSection'
-import { useFoodSurveyStore } from '@/features/foodSurvey/store/foodSurveyStore'
-import type { SurveyResultInfo } from '../types/surveyResultTypes'
-import type { Restaurant } from '@/features/myInfo/types/recommendationHistory'
-import { submitSurveyApi, getRestaurantListApi, getFoodListApi } from '../api/surveyResultApi'
 import { ResultLoading } from '@/shared/components/ResultLoading'
 import { FoodCard } from './FoodCard'
+import { useSurveyResult } from '../hooks/useSurveyResult'
 
 export const SurveyResult: React.FC = () => {
-	const { surveyResponses, clearResponses } = useFoodSurveyStore()
-	const [surveyResult, setSurveyResult] = useState<SurveyResultInfo | null>(null)
-	const [restaurants, setRestaurants] = useState<Restaurant[]>([])
-	const [foods, setFoods] = useState<string[]>([])
-	const [isLoading, setIsLoading] = useState(true)
-	const [error, setError] = useState<Error | null>(null)
-
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				setIsLoading(true)
-
-				const result = await submitSurveyApi(surveyResponses)
-				// if (!result) {
-				// 	throw new Error('설문 결과를 가져올 수 없습니다.')
-				// }
-
-				setSurveyResult(result)
-
-				const restaurantList = await getRestaurantListApi(result.id)
-				setRestaurants(restaurantList || [])
-				if (restaurantList.length === 0) {
-					const foodList = await getFoodListApi(result.id)
-					setFoods(foodList)
-				}
-
-				// API 호출이 모두 성공한 후에 clearResponses 호출
-				clearResponses()
-			} catch (error) {
-				console.error('Error:', error)
-				setError(error as Error)
-			} finally {
-				setIsLoading(false)
-			}
-		}
-
-		fetchData()
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+	const { surveyResult, restaurants, foods, isLoading, error } = useSurveyResult()
 
 	// 로딩 중
 	if (isLoading) {
