@@ -57,7 +57,7 @@ export const BookmarkTab: React.FC = () => {
 			</div>
 
 			{/* 식당 카드 그리드 */}
-			{bookmarkedRestaurants.length < 0 ? (
+			{bookmarkedRestaurants.length > 0 ? (
 				<>
 					<div className="grid grid-cols-2 gap-6">
 						{bookmarkedRestaurants.map((restaurant) => (
