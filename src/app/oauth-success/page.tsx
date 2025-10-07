@@ -3,14 +3,14 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AuthUtils } from '@/shared/utils/auth'
-import { checkOnboardingStatus } from '@/features/myInfo/api/user'
+import { redirectToOnboarding } from '@/shared/utils/onBoarding'
 
 const OAuthSuccessPage = () => {
 	const router = useRouter()
 	const [error, setError] = useState<string | null>(null)
 
 	useEffect(() => {
-		const handleOAuthSuccess = async () => {
+		const handleOAuthSuccess = () => {
 			try {
 				// URL에서 accessToken 추출
 				const accessToken = AuthUtils.parseTokenFromUrl()
@@ -22,16 +22,7 @@ const OAuthSuccessPage = () => {
 
 				// 토큰 저장
 				AuthUtils.handleOAuthSuccess(accessToken)
-
-				// onboarding-status 확인
-				const isOnboardingCompleted = await checkOnboardingStatus()
-
-				// 응답값에 따라 적절한 페이지로 리다이렉트
-				if (isOnboardingCompleted) {
-					router.push('/home')
-				} else {
-					router.push('/onboarding')
-				}
+				redirectToOnboarding(router)
 			} catch {
 				setError('로그인 처리 중 오류가 발생했습니다.')
 			}
