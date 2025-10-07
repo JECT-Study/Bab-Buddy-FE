@@ -15,7 +15,7 @@ export const getGroups = async () => {
 
 	try {
 		const response = await serverClient.get<GroupType[]>(
-			`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/voterooms/list`,
+			`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/voterooms`,
 		)
 		return response?.data
 	} catch (e) {
@@ -23,7 +23,7 @@ export const getGroups = async () => {
 	}
 }
 
-export const makeGroupRoom = async (title: string) => {
+export const makeGroupRoom = async (title: string, votingMethod: 'vote' | 'random') => {
 	const token = await getServerAccessToken()
 
 	if (token == null) {
@@ -33,7 +33,7 @@ export const makeGroupRoom = async (title: string) => {
 	try {
 		const response = await api.post(
 			`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/voterooms/createroom`,
-			{ title },
+			{ title, status: 'ONGOING', votingMethod },
 		)
 		return response?.data
 	} catch (e) {
