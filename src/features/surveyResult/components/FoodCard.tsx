@@ -1,10 +1,12 @@
+import { memo } from 'react'
+
 interface FoodCardProps {
 	index: 2 | 3
 	userName: string
 	food: string
 }
 
-export const FoodCard = (props: FoodCardProps) => {
+export const FoodCard = memo((props: FoodCardProps) => {
 	return (
 		<div className="bg-gray-5 flex-1 rounded-[24px] p-[24px]">
 			<div className="text-h2-bold">
@@ -14,4 +16,4 @@ export const FoodCard = (props: FoodCardProps) => {
 			<div className="text-h1-bold">{props.food}</div>
 		</div>
 	)
-}
+})

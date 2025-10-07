@@ -1,6 +1,7 @@
 import Image from 'next/image'
+import { memo } from 'react'
 
-export const ResultLoading = () => {
+export const ResultLoading = memo(() => {
 	return (
 		<div className="flex min-h-[400px] flex-col items-center justify-center gap-4 text-center">
 			<div className="relative h-16 w-16">
@@ -18,4 +19,4 @@ export const ResultLoading = () => {
 			</div>
 		</div>
 	)
-}
+})
