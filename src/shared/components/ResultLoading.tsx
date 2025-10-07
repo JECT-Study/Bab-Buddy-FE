@@ -20,3 +20,5 @@ export const ResultLoading = memo(() => {
 		</div>
 	)
 })
+
+ResultLoading.displayName = 'ResultLoading'

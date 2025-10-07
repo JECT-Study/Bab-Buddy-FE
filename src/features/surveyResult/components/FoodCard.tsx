@@ -17,3 +17,4 @@ export const FoodCard = memo((props: FoodCardProps) => {
 		</div>
 	)
 })
+FoodCard.displayName = 'FoodCard'

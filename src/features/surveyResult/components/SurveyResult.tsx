@@ -1,6 +1,5 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
 import { RecommendationCard } from './RecommendationCard'
 import { RestaurantCard } from './RestaurantCard'
 import MapSection from './MapSection'
