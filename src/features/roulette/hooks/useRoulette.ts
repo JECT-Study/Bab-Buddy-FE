@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { RouletteResult, FoodCategory } from '../types/rouletteTypes'
+import type { RouletteResult, FoodCategory } from '../types/rouletteTypes'
 import { getMenuItemsByCategory } from '../utils/rouletteUtils'
 
 /**

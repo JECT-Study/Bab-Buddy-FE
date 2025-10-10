@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import FoodCategorySelector from './FoodCategorySelector'
-import { FoodCategory } from '../types/rouletteTypes'
+import type { FoodCategory } from '../types/rouletteTypes'
 import { generateResultId } from '../utils/rouletteUtils'
 import Image from 'next/image'
 

@@ -1,4 +1,4 @@
-import { FoodCategory } from '../types/rouletteTypes'
+import type { FoodCategory } from '../types/rouletteTypes'
 import { MENU_DATA } from '../data/menuData'
 
 // 카테고리 옵션 (컴포넌트에서 사용)
@@ -61,6 +61,7 @@ export const copyToClipboard = async (text: string): Promise<boolean> => {
 		await navigator.clipboard.writeText(text)
 		return true
 	} catch (err) {
+		console.log(err)
 		return false
 	}
 }

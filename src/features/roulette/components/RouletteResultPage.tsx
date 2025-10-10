@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import RouletteResultModal from './RouletteResultModal'
 import RouletteSpinner from './RouletteSpinner'
-import { RouletteResult, FoodCategory } from '../types/rouletteTypes'
+import type { RouletteResult, FoodCategory } from '../types/rouletteTypes'
 import { generateShareUrl, copyToClipboard } from '../utils/rouletteUtils'
 import { useRoulette } from '../hooks/useRoulette'
 

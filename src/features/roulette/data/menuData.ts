@@ -1,4 +1,4 @@
-import { FoodCategory } from '../types/rouletteTypes'
+import type { FoodCategory } from '../types/rouletteTypes'
 
 // 개별 카테고리별 메뉴 데이터
 const CATEGORY_MENUS = {

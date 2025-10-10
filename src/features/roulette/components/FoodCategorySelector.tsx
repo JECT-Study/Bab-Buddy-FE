@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { FoodCategorySelectorProps } from '../types/rouletteTypes'
+import type { FoodCategorySelectorProps } from '../types/rouletteTypes'
 import { CATEGORY_OPTIONS } from '../utils/rouletteUtils'
 
 const FoodCategorySelector: React.FC<FoodCategorySelectorProps> = ({

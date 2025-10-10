@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Image from 'next/image'
-import { RouletteResultModalProps } from '../types/rouletteTypes'
+import type { RouletteResultModalProps } from '../types/rouletteTypes'
 
 const RouletteResultModal: React.FC<RouletteResultModalProps> = ({
 	isOpen,
