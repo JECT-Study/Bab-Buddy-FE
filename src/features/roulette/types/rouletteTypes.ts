@@ -1,4 +1,4 @@
-export type FoodCategory = '전체' | '한식' | '중식' | '일식' | '양식' | '기타'
+export type FoodCategory = 'all' | 'korean' | 'chinese' | 'japanese' | 'western' | 'etc'
 
 export interface RouletteResult {
 	result: string

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import RouletteResultModal from './RouletteResultModal'
 import RouletteSpinner from './RouletteSpinner'
-import { RouletteResult } from '../types/rouletteTypes'
+import { RouletteResult, FoodCategory } from '../types/rouletteTypes'
 import { generateShareUrl, copyToClipboard } from '../utils/rouletteUtils'
 import { useRoulette } from '../hooks/useRoulette'
 
@@ -16,13 +16,14 @@ const RouletteResultPage = () => {
 	const { generateRouletteResult } = useRoulette()
 
 	useEffect(() => {
-		// URL에서 음식 이름 확인
+		// URL에서 음식 이름과 카테고리 확인
 		const urlParams = new URLSearchParams(window.location.search)
 		const foodName = urlParams.get('food')
+		const category = (urlParams.get('category') as FoodCategory) || 'all'
 
 		// 3초 후 결과 생성
 		setTimeout(() => {
-			const finalResult = generateRouletteResult(foodName)
+			const finalResult = generateRouletteResult(category, foodName)
 			setResult(finalResult)
 
 			// 결과 모달 표시
@@ -35,7 +36,11 @@ const RouletteResultPage = () => {
 	const handleShare = async () => {
 		if (!result) return
 
-		const shareUrl = generateShareUrl(resultId, result.result)
+		// URL에서 카테고리 정보 가져오기
+		const urlParams = new URLSearchParams(window.location.search)
+		const category = (urlParams.get('category') as FoodCategory) || 'all'
+
+		const shareUrl = generateShareUrl(resultId, result.result, category)
 		const success = await copyToClipboard(shareUrl)
 
 		if (success) {

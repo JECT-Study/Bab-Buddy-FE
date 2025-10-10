@@ -9,14 +9,18 @@ import Image from 'next/image'
 
 const RoulettePage = () => {
 	const router = useRouter()
-	const [selectedCategory, setSelectedCategory] = useState<FoodCategory>('전체')
+	const [selectedCategory, setSelectedCategory] = useState<FoodCategory>('all')
 
 	const handleSpin = () => {
 		// 고유한 결과 ID 생성
 		const newResultId = generateResultId()
 
+		// 선택된 카테고리를 URL 파라미터로 전달
+		const categoryParam =
+			selectedCategory !== 'all' ? `?category=${encodeURIComponent(selectedCategory)}` : ''
+
 		// 결과 페이지로 이동
-		router.push(`/roulette/result/${newResultId}`)
+		router.push(`/roulette/result/${newResultId}${categoryParam}`)
 	}
 
 	return (
