@@ -19,16 +19,23 @@ const RouletteResultPage = () => {
 	const category = (searchParams.get('category') as FoodCategory) || 'all'
 
 	useEffect(() => {
-		// 3초 후 결과 생성
-		setTimeout(() => {
+		let timer1: ReturnType<typeof setTimeout>
+		let timer2: ReturnType<typeof setTimeout> | undefined
+
+		timer1 = setTimeout(() => {
 			const finalResult = generateRouletteResult(category, foodName)
 			setResult(finalResult)
 
-			// 결과 모달 표시
-			setTimeout(() => {
+			timer2 = setTimeout(() => {
 				setShowResultModal(true)
 			}, 500)
 		}, 3000)
+
+		return () => {
+			clearTimeout(timer1)
+			clearTimeout(timer2)
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [resultId])
 
 	const shareUrl = result ? generateShareUrl(resultId, result.result, category) : ''
