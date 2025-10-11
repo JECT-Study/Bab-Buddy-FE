@@ -76,15 +76,3 @@ export const generateRouletteResult = (
 		}
 	}
 }
-
-/**
- * URL에서 룰렛 관련 파라미터를 추출합니다
- * @returns URL 파라미터 객체
- */
-export const getRouletteUrlParams = () => {
-	const urlParams = new URLSearchParams(window.location.search)
-	return {
-		foodName: urlParams.get('food'),
-		category: (urlParams.get('category') as FoodCategory) || 'all',
-	}
-}

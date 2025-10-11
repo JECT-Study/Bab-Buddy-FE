@@ -5,22 +5,20 @@ import { useParams } from 'next/navigation'
 import RouletteResultModal from './RouletteResultModal'
 import RouletteSpinner from './RouletteSpinner'
 import type { RouletteResult, FoodCategory } from '../types/rouletteTypes'
-import {
-	generateRouletteResult,
-	generateShareUrl,
-	getRouletteUrlParams,
-} from '../utils/rouletteUtils'
+import { generateRouletteResult, generateShareUrl } from '../utils/rouletteUtils'
 import { useShareActions } from '@/shared/hooks/useShareActions'
+import { useSearchParams } from 'next/navigation'
 
 const RouletteResultPage = () => {
 	const params = useParams()
 	const resultId = params.id as string
 	const [result, setResult] = useState<RouletteResult | null>(null)
 	const [showResultModal, setShowResultModal] = useState(false)
+	const searchParams = useSearchParams()
+	const foodName = searchParams.get('food')
+	const category = (searchParams.get('category') as FoodCategory) || 'all'
 
 	useEffect(() => {
-		const { foodName, category } = getRouletteUrlParams()
-
 		// 3초 후 결과 생성
 		setTimeout(() => {
 			const finalResult = generateRouletteResult(category, foodName)
@@ -33,18 +31,17 @@ const RouletteResultPage = () => {
 		}, 3000)
 	}, [resultId])
 
+	const shareUrl = result ? generateShareUrl(resultId, result.result, category) : ''
+	const { handleLinkShare } = useShareActions(
+		'룰렛 결과',
+		result ? `${result.result} 메뉴가 나왔어요!` : '',
+		'',
+		shareUrl,
+	)
+
+	// 일반 함수에서는 Hook에서 받은 함수만 사용
 	const handleShare = async () => {
 		if (!result) return
-
-		const { category } = getRouletteUrlParams()
-		const shareUrl = generateShareUrl(resultId, result.result, category)
-		const { handleLinkShare } = useShareActions(
-			'룰렛 결과',
-			`${result.result} 메뉴가 나왔어요!`,
-			'',
-			shareUrl,
-		)
-
 		await handleLinkShare()
 	}
 
