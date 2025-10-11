@@ -5,21 +5,21 @@ import { useParams } from 'next/navigation'
 import RouletteResultModal from './RouletteResultModal'
 import RouletteSpinner from './RouletteSpinner'
 import type { RouletteResult, FoodCategory } from '../types/rouletteTypes'
-import { generateShareUrl, copyToClipboard } from '../utils/rouletteUtils'
-import { useRoulette } from '../hooks/useRoulette'
+import {
+	generateRouletteResult,
+	generateShareUrl,
+	getRouletteUrlParams,
+} from '../utils/rouletteUtils'
+import { useShareActions } from '@/shared/hooks/useShareActions'
 
 const RouletteResultPage = () => {
 	const params = useParams()
 	const resultId = params.id as string
 	const [result, setResult] = useState<RouletteResult | null>(null)
 	const [showResultModal, setShowResultModal] = useState(false)
-	const { generateRouletteResult } = useRoulette()
 
 	useEffect(() => {
-		// URL에서 음식 이름과 카테고리 확인
-		const urlParams = new URLSearchParams(window.location.search)
-		const foodName = urlParams.get('food')
-		const category = (urlParams.get('category') as FoodCategory) || 'all'
+		const { foodName, category } = getRouletteUrlParams()
 
 		// 3초 후 결과 생성
 		setTimeout(() => {
@@ -31,24 +31,21 @@ const RouletteResultPage = () => {
 				setShowResultModal(true)
 			}, 500)
 		}, 3000)
-	}, [resultId, generateRouletteResult])
+	}, [resultId])
 
 	const handleShare = async () => {
 		if (!result) return
 
-		// URL에서 카테고리 정보 가져오기
-		const urlParams = new URLSearchParams(window.location.search)
-		const category = (urlParams.get('category') as FoodCategory) || 'all'
-
+		const { category } = getRouletteUrlParams()
 		const shareUrl = generateShareUrl(resultId, result.result, category)
-		const success = await copyToClipboard(shareUrl)
+		const { handleLinkShare } = useShareActions(
+			'룰렛 결과',
+			`${result.result} 메뉴가 나왔어요!`,
+			'',
+			shareUrl,
+		)
 
-		if (success) {
-			alert('링크가 클립보드에 복사되었습니다!')
-		} else {
-			// 클립보드 복사 실패 시 URL을 표시
-			alert(`공유할 링크: ${shareUrl}`)
-		}
+		await handleLinkShare()
 	}
 
 	const handleCloseModal = () => {

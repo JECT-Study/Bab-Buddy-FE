@@ -3,6 +3,7 @@
 import React from 'react'
 import Image from 'next/image'
 import type { RouletteResultModalProps } from '../types/rouletteTypes'
+import { getLastKoreanLetter } from '@/features/group/utils/groupUtils'
 
 const RouletteResultModal: React.FC<RouletteResultModalProps> = ({
 	isOpen,
@@ -23,7 +24,8 @@ const RouletteResultModal: React.FC<RouletteResultModalProps> = ({
 				<div className="text-h3-bold mb-6 text-center">
 					<h2 className="text-gray-80">축하합니다! 🎉</h2>
 					<p className="text-gray-80">
-						<span className="text-orange font-bold">{result}</span>이(가) 당첨되었어요!
+						<span className="text-orange font-bold">{result}</span>
+						{getLastKoreanLetter(result)} 당첨되었어요!
 					</p>
 				</div>
 

@@ -52,16 +52,39 @@ export const generateShareUrl = (
 }
 
 /**
- * 클립보드에 텍스트를 복사합니다
- * @param text 복사할 텍스트
- * @returns 복사 성공 여부
+ * 룰렛 결과를 생성합니다
+ * @param category 선택된 음식 카테고리
+ * @param foodName URL에서 전달받은 음식 이름 (선택사항)
+ * @returns 룰렛 결과
  */
-export const copyToClipboard = async (text: string): Promise<boolean> => {
-	try {
-		await navigator.clipboard.writeText(text)
-		return true
-	} catch (err) {
-		console.log(err)
-		return false
+export const generateRouletteResult = (
+	category: FoodCategory = 'all',
+	foodName?: string | null,
+) => {
+	const menuItems = getMenuItemsByCategory(category)
+
+	if (foodName && menuItems.includes(foodName)) {
+		// URL에 음식 이름이 있으면 해당 음식 사용
+		return {
+			result: foodName,
+		}
+	} else {
+		// 없으면 해당 카테고리에서 랜덤 선택
+		const randomMenu = menuItems[Math.floor(Math.random() * menuItems.length)]
+		return {
+			result: randomMenu,
+		}
+	}
+}
+
+/**
+ * URL에서 룰렛 관련 파라미터를 추출합니다
+ * @returns URL 파라미터 객체
+ */
+export const getRouletteUrlParams = () => {
+	const urlParams = new URLSearchParams(window.location.search)
+	return {
+		foodName: urlParams.get('food'),
+		category: (urlParams.get('category') as FoodCategory) || 'all',
 	}
 }
