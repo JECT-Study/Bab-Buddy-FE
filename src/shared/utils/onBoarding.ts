@@ -1,7 +1,8 @@
-import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
+import { useRouter } from 'next/navigation'
 import { checkOnboardingStatus } from '@/features/myInfo/api/user'
+type AppRouter = ReturnType<typeof useRouter>
 
-export const redirectToOnboarding = async (router: AppRouterInstance) => {
+export const redirectToOnboarding = async (router: AppRouter) => {
 	try {
 		const isOnboardingCompleted = await checkOnboardingStatus()
 
