@@ -8,6 +8,8 @@ import { getConvertCategory } from '@/shared/hooks/useCategory'
 import type { Restaurant } from '../types/recommendationHistory'
 import type { FilterCategory } from '@/shared/components/FilterButtons'
 import type { SortOption } from '@/shared/components/SortDropdown'
+import type { BookmarkResponse } from '../types/bookmark'
+import { NoData } from './NoData'
 
 export const BookmarkTab: React.FC = () => {
 	const [bookmarkedRestaurants, setBookmarkedRestaurants] = useState<Restaurant[]>([])
@@ -15,14 +17,16 @@ export const BookmarkTab: React.FC = () => {
 	const [selectedCategory, setSelectedCategory] = useState<FilterCategory>('전체')
 	const [selectedSort, setSelectedSort] = useState<SortOption>('최신순')
 	const [currentPage, setCurrentPage] = useState(1)
+	const [totalPages, setTotalPages] = useState(0)
 
 	const fetchBookmark = async () => {
-		const response = await getBookmark(
+		const response: BookmarkResponse = await getBookmark(
 			getConvertCategory(selectedCategory),
 			selectedSort === '최신순' ? 'LATEST' : 'OLDEST',
 			currentPage,
 		)
-		setBookmarkedRestaurants(response as unknown as Restaurant[])
+		setBookmarkedRestaurants(response.content)
+		setTotalPages(response.totalPages)
 	}
 
 	useEffect(() => {
@@ -41,37 +45,6 @@ export const BookmarkTab: React.FC = () => {
 		setCurrentPage(1)
 	}
 
-	// 필터링 및 정렬된 식당 목록
-	const getFilteredAndSortedRestaurants = () => {
-		let filtered = bookmarkedRestaurants
-
-		// 카테고리 필터링
-		if (selectedCategory !== '전체') {
-			filtered = filtered.filter((restaurant) => restaurant.restaurantType === selectedCategory)
-		}
-
-		// 정렬
-		filtered.sort((a, b) => {
-			switch (selectedSort) {
-				case '최신순':
-					return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-				case '오래된순':
-					return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-				default:
-					return 0
-			}
-		})
-
-		return filtered
-	}
-
-	const filteredRestaurants = getFilteredAndSortedRestaurants()
-
-	// 페이지네이션
-	const itemsPerPage = 12
-	const totalPages = Math.ceil(filteredRestaurants.length / itemsPerPage)
-	const startIndex = (currentPage - 1) * itemsPerPage
-	const restaurants = filteredRestaurants.slice(startIndex, startIndex + itemsPerPage)
 	return (
 		<div className="flex flex-col gap-6">
 			{/* 필터 및 정렬 */}
@@ -84,21 +57,26 @@ export const BookmarkTab: React.FC = () => {
 			</div>
 
 			{/* 식당 카드 그리드 */}
-			{restaurants.length > 0 ? (
-				<div className="grid grid-cols-2 gap-6">
-					{restaurants.map((restaurant) => (
-						<RestaurantCard key={restaurant.id} restaurant={restaurant} />
-					))}
-				</div>
+			{bookmarkedRestaurants.length > 0 ? (
+				<>
+					<div className="grid grid-cols-2 gap-6">
+						{bookmarkedRestaurants.map((restaurant) => (
+							<RestaurantCard key={restaurant.id} restaurant={restaurant} />
+						))}
+					</div>
+					{/* 페이지네이션 */}
+					<Pagination
+						currentPage={currentPage}
+						totalPages={totalPages}
+						onPageChange={setCurrentPage}
+					/>
+				</>
 			) : (
-				<div className="border-gray-10 rounded-3xl border bg-white p-6 text-center">
-					<h2 className="text-h3-bold text-black">북마크</h2>
-					<p className="text-b2-medium text-gray-30 mt-4">북마크한 음식이 없습니다.</p>
-				</div>
+				<NoData
+					title="아직 북마크한 식당이 없어요."
+					subTitle="추천받은 식당에서 마음에 드는 곳을 북마크하면\n여기서 따로 모아볼 수 있어요."
+				/>
 			)}
-
-			{/* 페이지네이션 */}
-			<Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
 		</div>
 	)
 }

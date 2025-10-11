@@ -15,10 +15,9 @@ export default function LoginPage() {
 	const handleKakaoLogin = async () => {
 		setIsLoading(true)
 		try {
-			// OAuth 로그인 링크 요청
+			// OAuth 로그인 링크 요청 (origin 포함 URL 생성)
 			const kakaoLoginUrl = await getOAuthLoginUrl()
-			// window.location.replace(kakaoLoginUrl)
-			window.location.href = kakaoLoginUrl
+			window.location.replace(kakaoLoginUrl)
 		} catch {
 			alert('카카오 로그인에 실패했습니다. 다시 시도해주세요.')
 		} finally {
@@ -45,10 +44,8 @@ export default function LoginPage() {
 			</div>
 			{/* 우측: 텍스트, 설명, 카카오 로그인 버튼 */}
 			<div className="flex h-screen w-full flex-col items-center justify-center bg-white sm:flex-5">
-				<h1 className="text-h1 mb-4 text-center font-bold">오늘 뭐 먹을지 고민 중이신가요?</h1>
-				<p className="text-body2 mb-8 text-center text-gray-500">
-					입맛 따라 기본 메뉴, 메뉴 추천 도와드릴게요 :)
-				</p>
+				<p className="text-h2-bold mb-4 text-center">오늘 뭐 먹을지 고민 중이신가요?</p>
+				<p className="text-body1 mb-8 text-center">입맛 따라 기분 따라 메뉴 추천 도와드릴게요 :)</p>
 				<button
 					onClick={handleKakaoLogin}
 					disabled={isLoading}

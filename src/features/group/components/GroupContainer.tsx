@@ -42,7 +42,7 @@ export default function GroupContainer({ groups }: Props) {
 
 	return (
 		<>
-			<div className="flex min-h-[444px] items-center justify-center">
+			<div className="flex min-h-[283px] items-center justify-center">
 				{groups.length ? <GroupList groups={groups} /> : <GroupEmpty />}
 			</div>
 
