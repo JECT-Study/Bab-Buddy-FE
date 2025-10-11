@@ -93,7 +93,7 @@ export const RecommendationHistoryTab: React.FC = () => {
 				<div className="border-gray-10 flex min-h-[300px] items-center justify-center rounded-[24px] border">
 					<p className="text-red-500">추천 히스토리를 불러오는데 실패했습니다.</p>
 				</div>
-			) : recommendationHistory.length < 0 ? (
+			) : recommendationHistory.length > 0 ? (
 				<>
 					<div className="flex flex-col gap-6">
 						{recommendationHistory.map((history, index) => (
