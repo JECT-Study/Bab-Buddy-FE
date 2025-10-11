@@ -1,4 +1,4 @@
-import { useRouter } from 'next/navigation'
+import type { useRouter } from 'next/navigation'
 import { checkOnboardingStatus } from '@/features/myInfo/api/user'
 type AppRouter = ReturnType<typeof useRouter>
 
