@@ -32,8 +32,8 @@ export default function LoginPage() {
 	}
 	return (
 		<div className="flex min-h-screen w-screen flex-col overflow-hidden sm:flex-row">
-			{/* 좌측 이미지 영역: 모바일에서는 숨김, md 이상에서만 보임 */}
-			<div className="relative hidden h-60 w-full min-w-[550px] bg-[#ea590e] sm:block sm:h-screen sm:flex-4">
+			{/* 좌측 이미지 영역: lg 이상에서만 보임 */}
+			<div className="relative hidden h-60 w-full min-w-[550px] bg-[#ea590e] lg:block lg:h-screen lg:flex-4">
 				<Image
 					src="/assets/images/login.webp"
 					alt="밥버디 캐릭터"
