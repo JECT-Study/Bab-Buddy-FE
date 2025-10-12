@@ -53,6 +53,7 @@ export default function HomePage() {
 								src="/assets/images/home_group_babbuddy.webp"
 								alt="home-1"
 								fill
+								priority
 								sizes="600px"
 								className="object-contain object-right-bottom"
 							/>

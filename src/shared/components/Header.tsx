@@ -13,7 +13,6 @@ const logoFont = localFont({
 	display: 'swap',
 })
 
-// todo :: href 확인 필요
 const navLinks = [
 	{ href: '/foodSurvey/1', label: '개인메뉴 추천' },
 	{ href: '/group', label: '그룹메뉴 추천' },
@@ -40,7 +39,14 @@ export default function Header() {
 	return (
 		<header className="flex items-center justify-between px-[72px] py-8">
 			<Link href="/home" className="flex items-center gap-2">
-				<Image src="/assets/icons/logo.svg" alt="로고" width={43} height={43} />
+				<Image
+					src="/assets/icons/logo.svg"
+					alt="로고"
+					width={43}
+					height={43}
+					className="h-[43px] w-[43px]"
+					priority
+				/>
 				<strong className={clsx(logoFont.className, 'text-orange text-4xl font-bold')}>
 					밥버디
 				</strong>
