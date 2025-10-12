@@ -31,7 +31,7 @@ export const AllergyCard: React.FC<AllergyCardProps> = ({
 				{!checked && (
 					<span className="border-gray-30 mr-3 flex h-[20px] w-[20px] items-center justify-center rounded border bg-white"></span>
 				)}
-				<span className="text-b1-bold">{label}</span>
+				<span className="text-b1-bold text-gray-100">{label}</span>
 			</div>
 
 			<div className="text-right">
