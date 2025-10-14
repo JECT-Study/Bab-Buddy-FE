@@ -2,7 +2,6 @@
 
 import Icon from '@/shared/components/Icon'
 import Link from 'next/link'
-import { useState } from 'react'
 import type { GroupType } from '../types/group'
 import { Pagination } from '@/shared/components/Pagination'
 import { usePagination } from '@/shared/hooks/usePagination'
