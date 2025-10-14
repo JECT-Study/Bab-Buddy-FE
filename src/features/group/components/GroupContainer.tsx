@@ -4,7 +4,7 @@ import GroupEmpty from '@/features/group/components/GroupEmpty'
 import GroupList from '@/features/group/components/GroupList'
 import type { GroupType } from '../types/group'
 import CreateGroupRoomModal from './modal/CreateGroupRoomModal'
-// import { makeGroupRoom } from '../api/groupListApi'
+import { makeGroupRoom } from '../api/groupListApi'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import VotingMethodModal from './modal/VotingMethodModal'
@@ -17,11 +17,12 @@ const useMakeGroupRoom = () => {
 	const router = useRouter()
 
 	const handleSubmit = async (title: string, votingMethod: 'vote' | 'random') => {
-		// const roomId = await makeGroupRoom(title)
-		// // TODO: 서버에서 roomId 생성 시 실패 응답 확인 필요
-		// if (roomId != null && roomId != 0 && roomId != -1) {
-		// 	return router.push(`/group/${roomId}`)
-		// }
+		const roomId = await makeGroupRoom(title, votingMethod)
+
+		// TODO: 서버에서 roomId 생성 시 실패 응답 확인 필요
+		if (roomId != null && roomId != 0 && roomId != -1) {
+			return router.push(`/group/${roomId}`)
+		}
 
 		console.log('title', title, 'votingMethod', votingMethod)
 		return router.push(`/group/1`)
