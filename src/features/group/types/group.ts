@@ -3,6 +3,7 @@ export interface GroupType {
 	title: string
 	voteStatus: 'ONGOING' | 'FINISHED'
 	participantCount: number
+	isHostUser: boolean
 }
 
 // 메뉴 정보
