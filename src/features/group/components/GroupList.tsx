@@ -1,10 +1,11 @@
 'use client'
 
 import Icon from '@/shared/components/Icon'
-import clsx from 'clsx'
 import Link from 'next/link'
 import { useState } from 'react'
 import type { GroupType } from '../types/group'
+import { Pagination } from '@/shared/components/Pagination'
+import { usePagination } from '@/shared/hooks/usePagination'
 
 const GROUPS_PER_PAGE = 3
 
@@ -13,15 +14,15 @@ interface Props {
 }
 
 export default function GroupList({ groups }: Props) {
-	const [page, setPage] = useState(1)
-
-	const pageCount = Math.ceil(groups.length / GROUPS_PER_PAGE)
-	const paginatedGroups = groups.slice((page - 1) * GROUPS_PER_PAGE, page * GROUPS_PER_PAGE)
+	const { totalPages, page, paginatedItems, handlePageChange } = usePagination<GroupType>({
+		items: groups,
+		itemCountPerPage: GROUPS_PER_PAGE,
+	})
 
 	return (
 		<div className="flex flex-1 flex-col py-6">
 			<div className="flex min-h-[294px] flex-col gap-6">
-				{paginatedGroups.map((group) => (
+				{paginatedItems.map((group) => (
 					<div
 						key={group.roomId}
 						className="border-gray-10 flex max-h-[82px] items-center justify-between rounded-3xl border px-8 py-6"
@@ -59,26 +60,7 @@ export default function GroupList({ groups }: Props) {
 			</div>
 
 			<div className="mt-6 flex items-center justify-center gap-4">
-				<button type="button" onClick={() => setPage((p) => Math.max(p - 1, 1))}>
-					<Icon.ArrowLeft className={clsx(page !== 1 && 'text-gray-50')} />
-				</button>
-
-				{Array.from({ length: pageCount }, (_, i) => (
-					<button
-						key={i + 1}
-						onClick={() => setPage(i + 1)}
-						className={clsx(
-							'flex h-7.5 w-7.5 items-center justify-center rounded-full',
-							page === i + 1 && 'bg-gray-5',
-						)}
-					>
-						{i + 1}
-					</button>
-				))}
-
-				<button type="button" onClick={() => setPage((p) => Math.min(p + 1, pageCount))}>
-					<Icon.ArrowRight className={clsx(page !== pageCount && 'text-gray-50')} />
-				</button>
+				<Pagination currentPage={page} totalPages={totalPages} onPageChange={handlePageChange} />
 			</div>
 		</div>
 	)
