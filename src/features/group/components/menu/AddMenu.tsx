@@ -44,7 +44,7 @@ export default function AddMenu({ roomId, menuList }: AddMenuProps) {
 			{menus.length > 0 ? (
 				<ul className="flex max-h-[339px] flex-1 flex-col gap-2 overflow-y-auto">
 					{menus.map((menu) => (
-						<MenuItem key={menu.id} menu={menu} setMenus={setMenus} />
+						<MenuItem key={menu.id} menu={menu} />
 					))}
 				</ul>
 			) : (
