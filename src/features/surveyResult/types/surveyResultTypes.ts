@@ -14,3 +14,7 @@ export interface SurveyResponse {
 	survey3: string | null
 	address: string | null
 }
+
+export interface FoodResponse {
+	foodName: string
+}
