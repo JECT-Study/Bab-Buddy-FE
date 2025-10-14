@@ -3,3 +3,7 @@ export interface User {
 	email: string
 	profile: string
 }
+
+export interface ExtendedUser extends User {
+	userId: string
+}

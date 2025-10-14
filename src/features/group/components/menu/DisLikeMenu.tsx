@@ -16,7 +16,7 @@ export default function DisLikeMenu({ roomId, dislikeMenuList }: DisLikeMenuProp
 	const handleSubmit = async (inputValue: string) => {
 		const menuId = await addDislikeMenuOnVoteRoom(roomId, inputValue)
 		if (menuId == null) {
-			alert('불호 메뉴 등록에 실패했습니다.')
+			alert('싫어하는 메뉴 등록에 실패했습니다.')
 			return
 		}
 
