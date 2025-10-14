@@ -1,4 +1,4 @@
-import { MenuItemType } from '../../types/group'
+import type { MenuItemType } from '../../types/group'
 import Icon from '@/shared/components/Icon'
 import Image from 'next/image'
 import { useState } from 'react'

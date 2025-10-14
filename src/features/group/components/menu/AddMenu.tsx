@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { MenuItemType } from '../../types/group'
+import type { MenuItemType } from '../../types/group'
 import Image from 'next/image'
 import MenuItem from './MenuItem'
 import MenuInputForm from '../input/MenuInputForm'

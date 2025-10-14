@@ -42,7 +42,6 @@ export default function DisLikeMenu({ roomId, dislikeMenuList }: DisLikeMenuProp
 					<MenuItem
 						key={menu.id}
 						menu={menu}
-						setMenus={setDislikedMenus}
 						disableEdit={true}
 						handleDeleteMenu={handleDeleteMenu}
 					/>

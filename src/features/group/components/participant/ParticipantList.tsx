@@ -1,9 +1,8 @@
 'use client'
 
 import Icon from '@/shared/components/Icon'
-import { type ParticipantType } from '../../types/group'
+import type { ParticipantType } from '../../types/group'
 import Image from 'next/image'
-import { useState } from 'react'
 import Pagination from '@/shared/components/pagination/Pagination'
 
 interface ParticipantListProps {
