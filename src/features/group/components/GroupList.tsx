@@ -24,7 +24,7 @@ export default function GroupList({ groups }: Props) {
 				{paginatedGroups.map((group) => (
 					<div
 						key={group.roomId}
-						className="border-gray-10 flex items-center justify-between rounded-3xl border px-8 py-6 max-h-[82px]"
+						className="border-gray-10 flex max-h-[82px] items-center justify-between rounded-3xl border px-8 py-6"
 					>
 						<div className="flex flex-col gap-2">
 							<p className="text-b1-medium">{group.title}</p>
@@ -46,9 +46,11 @@ export default function GroupList({ groups }: Props) {
 									>
 										결과확인
 									</Link>
-									<button type="button" className="bg-gray-5 rounded-3xl px-4 py-2">
-										<Icon.Trash />
-									</button>
+									{group.isHostUser && (
+										<button type="button" className="bg-gray-5 rounded-3xl px-4 py-2">
+											<Icon.Trash />
+										</button>
+									)}
 								</>
 							)}
 						</div>
@@ -56,7 +58,7 @@ export default function GroupList({ groups }: Props) {
 				))}
 			</div>
 
-			<div className="text-gray-30 mt-6 flex items-center justify-center gap-4">
+			<div className="mt-6 flex items-center justify-center gap-4">
 				<button type="button" onClick={() => setPage((p) => Math.max(p - 1, 1))}>
 					<Icon.ArrowLeft className={clsx(page !== 1 && 'text-gray-50')} />
 				</button>
