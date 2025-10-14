@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
 export default function OnboardingPage() {
@@ -17,22 +16,26 @@ export default function OnboardingPage() {
 	}
 
 	return (
-		<div className="flex min-h-screen w-screen flex-col overflow-hidden sm:flex-row">
-			{/* 좌측 캐릭터 영역 */}
-			<div className="bg-gray-5 relative hidden h-60 w-full min-w-[550px] sm:block sm:h-screen sm:flex-4">
-				<div className="absolute bottom-[95px] left-1/2 h-[500px] w-[500px] -translate-x-1/2">
-					<Image
-						src="/assets/images/home-personal-babbuddy.webp"
-						alt="밥버디 캐릭터"
-						fill
-						className="object-contain"
-						priority
-					/>
+		<div className="flex min-h-screen w-screen flex-col overflow-hidden md:flex-row">
+			{/* 좌측 캐릭터 영역 - lg 이상에서만 표시 */}
+			<div className="relative hidden w-full min-w-[550px] overflow-hidden bg-gray-100 lg:block lg:h-screen lg:flex-4">
+				<div className="absolute -right-20 -bottom-32 aspect-[685.35/685.35] h-[685.354px] w-[685.354px] shrink-0 rotate-[-14.526deg]">
+					<video
+						className="absolute inset-0 h-full w-full object-contain"
+						autoPlay
+						loop
+						muted
+						playsInline
+						preload="auto"
+					>
+						<source src="/assets/video/onBoarding.mp4" type="video/mp4" />
+						밥버디 캐릭터
+					</video>
 				</div>
 			</div>
 
 			{/* 우측 콘텐츠 영역 */}
-			<div className="flex h-screen w-full flex-col items-center justify-center bg-white px-8 sm:flex-5">
+			<div className="flex h-screen w-full flex-col items-center justify-center bg-white px-8 md:flex-5">
 				<div className="flex w-full flex-col items-center justify-center gap-[12px] text-center">
 					<div>
 						<p className="text-h2-bold text-gray-100">딱 맞는 추천을 위해, 간단한 설문이 있어요</p>
