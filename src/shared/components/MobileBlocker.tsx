@@ -11,6 +11,7 @@ const logoFont = localFont({
 })
 
 const MIN_WIDTH = 768
+
 const MOBILE_BLOCK_TEXT_INFO = {
 	'mobile-device': {
 		title: '밥버디 서비스는 PC로 이용해주세요.',
@@ -23,10 +24,16 @@ const MOBILE_BLOCK_TEXT_INFO = {
 } as const
 
 type BlockReasonType = keyof typeof MOBILE_BLOCK_TEXT_INFO
+
 interface MobileBlockerProps {
 	blockReason?: BlockReasonType
 }
 
+/**
+ * 모바일/좁은 화면 차단 페이지 컴포넌트
+ * @description 데스크톱 전용 서비스임을 안내하고 접근을 제한합니다
+ * @param blockReason - 차단 사유 ('mobile-device': 모바일 기기 감지, 'narrow-viewport': 화면 너비 부족)
+ */
 const MobileBlocker = React.memo(
 	({ blockReason = 'narrow-viewport' }: MobileBlockerProps) => {
 		const { title, description } = MOBILE_BLOCK_TEXT_INFO[blockReason]
@@ -58,9 +65,12 @@ const MobileBlocker = React.memo(
 			</div>
 		)
 	},
+	// blockReason이 변경되지 않으면 리렌더링 방지
 	(prevProps, nextProps) => {
 		return prevProps.blockReason === nextProps.blockReason
 	},
 )
+
+MobileBlocker.displayName = 'MobileBlocker'
 
 export default MobileBlocker
