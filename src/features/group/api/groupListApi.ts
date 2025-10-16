@@ -23,6 +23,17 @@ export const getGroups = async () => {
 	}
 }
 
+export const getGroupsOnClient = async () => {
+	try {
+		const response = await api.get<GroupType[]>(
+			`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/voterooms`,
+		)
+		return response?.data
+	} catch (e) {
+		console.error('getGroups error[client]: ', e)
+	}
+}
+
 export const makeGroupRoom = async (title: string, votingMethod: 'vote' | 'random') => {
 	const token = await getServerAccessToken()
 

@@ -1,17 +1,11 @@
 'use client'
 
-import GroupEmpty from '@/features/group/components/GroupEmpty'
 import GroupList from '@/features/group/components/GroupList'
-import type { GroupType } from '../types/group'
 import CreateGroupRoomModal from './modal/CreateGroupRoomModal'
 import { makeGroupRoom } from '../api/groupListApi'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import VotingMethodModal from './modal/VotingMethodModal'
-
-interface Props {
-	groups: GroupType[]
-}
 
 const useMakeGroupRoom = () => {
 	const router = useRouter()
@@ -25,13 +19,13 @@ const useMakeGroupRoom = () => {
 		}
 
 		console.log('title', title, 'votingMethod', votingMethod)
-		return router.push(`/group/1`)
+		return router.push(`/group/${roomId}`)
 	}
 
 	return { handleSubmit }
 }
 
-export default function GroupContainer({ groups }: Props) {
+export default function GroupContainer() {
 	const { handleSubmit } = useMakeGroupRoom()
 	const [groupName, setGroupName] = useState<string>('')
 	const [isModalOpen, setIsModalOpen] = useState<'roomName' | 'method' | null>(null)
@@ -43,9 +37,7 @@ export default function GroupContainer({ groups }: Props) {
 
 	return (
 		<>
-			<div className="flex min-h-[283px] items-center justify-center">
-				{groups.length ? <GroupList groups={groups} /> : <GroupEmpty />}
-			</div>
+			<GroupList />
 
 			<button
 				type="button"
