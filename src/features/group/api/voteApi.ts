@@ -1,6 +1,6 @@
 import { getServerAccessToken } from '@/shared/utils/api'
 import { redirect } from 'next/navigation'
-import { api } from '@/shared/api/client'
+import { serverClient } from '@/shared/api/serverClient'
 
 // 투표 결과 조회
 export const getVoteResult = async (voteRoomId: string) => {
@@ -11,7 +11,7 @@ export const getVoteResult = async (voteRoomId: string) => {
 	}
 
 	try {
-		const response = await api.get(`/api/voterooms/result/${voteRoomId}`)
+		const response = await serverClient.get(`/api/voterooms/result/${voteRoomId}`)
 		return response.data
 	} catch (error) {
 		console.error('getVoteResult error: ', error)

@@ -13,12 +13,17 @@ interface VoteResultProps {
 }
 
 export default function VoteResult({ result }: VoteResultProps) {
+	const shareUrl =
+		typeof window !== 'undefined'
+			? `${window.location.origin}/group/${result.voteRoomId}/result`
+			: `https://www.ricebuddy.site/group/${result.voteRoomId}/result`
+
 	const { isOpen, closeModal, openModal } = useModal()
 	const { handleKakaoShare, handleLinkShare } = useShareActions(
 		`${result.title} 그룹 투표 결과를 확인해보세요!`,
 		'오늘의 메뉴는 이렇게 선정됐어요!',
 		'https://www.ricebuddy.site/assets/images/home-personal-babbuddy.webp',
-		`${window.location.origin}/group/${result.voteRoomId}/result`,
+		shareUrl,
 	)
 
 	const lastKoreanLetter = getLastKoreanLetter(result.result.topMenus[0].menus[0].menuName || '')
