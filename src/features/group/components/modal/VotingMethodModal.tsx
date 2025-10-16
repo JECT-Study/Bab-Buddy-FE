@@ -19,7 +19,7 @@ const VOTING_METHODS = [
 		image: '/assets/icons/group_vote.svg',
 	},
 	{
-		id: 'RANDOM' as VotingType,
+		id: 'ROULETTE' as VotingType,
 		title: '랜덤으로 정하기',
 		subTitle: '랜덤으로 메뉴를 정해요',
 		image: '/assets/icons/group_random.svg',
