@@ -59,7 +59,7 @@ export default function MobileDetector() {
 		return () => {
 			window.removeEventListener('resize', handleResize)
 		}
-	}, [setIsMobile])
+	}, [setIsMobile, router])
 
 	// 이 컴포넌트는 UI를 렌더링하지 않음
 	return null
