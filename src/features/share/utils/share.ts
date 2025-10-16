@@ -12,11 +12,29 @@ declare global {
 	}
 }
 
+// Kakao SDK가 로드될 때까지 기다리는 함수
+const waitForKakaoSDK = (callback: () => void, maxAttempts = 50) => {
+	let attempts = 0
+	const checkKakao = () => {
+		if (window.Kakao) {
+			callback()
+		} else if (attempts < maxAttempts) {
+			attempts++
+			setTimeout(checkKakao, 100) // 100ms마다 체크
+		} else {
+			console.error('Kakao SDK load timeout')
+		}
+	}
+	checkKakao()
+}
+
 export const initializeKakao = () => {
 	const initKakao = () => {
-		if (window.Kakao && !window.Kakao.isInitialized()) {
-			window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY)
-		}
+		waitForKakaoSDK(() => {
+			if (window.Kakao && !window.Kakao.isInitialized()) {
+				window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY)
+			}
+		})
 	}
 
 	if (document.readyState === 'complete') {
@@ -28,7 +46,7 @@ export const initializeKakao = () => {
 }
 
 export const shareToKakao = ({ title, description, imageUrl, link }: ShareData) => {
-	if (!window.Kakao?.Share) {
+	if (!window.Kakao?.Share || !window.Kakao.isInitialized()) {
 		console.error('Kakao SDK is not loaded')
 		return
 	}

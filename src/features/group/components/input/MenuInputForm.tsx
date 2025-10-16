@@ -1,17 +1,14 @@
 import Icon from '@/shared/components/Icon'
 import { useRef, useState, type KeyboardEventHandler } from 'react'
-import { type MenuItemType, type VoteMenu } from '../../types/group'
 
 interface MenuInputFormProps {
 	placeholder?: string
-	setMenus: React.Dispatch<React.SetStateAction<MenuItemType[]>>
-	setVoteMenus: React.Dispatch<React.SetStateAction<VoteMenu[]>>
+	onSubmit: (inputValue: string) => void | Promise<void>
 }
 
 export default function MenuInputForm({
-	setMenus,
-	setVoteMenus,
 	placeholder = '제안하고 싶은 메뉴를 작성해주세요.',
+	onSubmit,
 }: MenuInputFormProps) {
 	const inputRef = useRef<HTMLInputElement>(null)
 	const [inputValue, setInputValue] = useState('')
@@ -22,19 +19,8 @@ export default function MenuInputForm({
 		}
 	}
 
-	const handleAddMenu = async () => {
-		// const menuId = await addMenuOnVoteRoom(room.roomId, inputValue)
-		// if (menuId == null) {
-		// 	return
-		// }
-
-		const menuId = Math.random().toString(36).substring(2, 15)
-
-		setMenus((prev: MenuItemType[]) => [
-			...prev,
-			{ id: menuId, name: inputValue, createdBy: 'babbuddy' },
-		])
-		setVoteMenus((prev: VoteMenu[]) => [...prev, { menuId, name: inputValue }])
+	const handleAddMenu = () => {
+		onSubmit(inputValue)
 		setInputValue('')
 		inputRef.current?.focus()
 	}

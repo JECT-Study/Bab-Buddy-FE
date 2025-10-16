@@ -1,6 +1,5 @@
 import AddMenu from '../menu/AddMenu'
-import { type GroupDetailType, type VoteMenu } from '../../types/group'
-import { useState } from 'react'
+import { type GroupDetailType } from '../../types/group'
 import SwitchCases from '@/shared/components/SwitchCases'
 import DisLikeMenu from '../menu/DisLikeMenu'
 import VoteRoom from './VoteRoom'
@@ -28,9 +27,10 @@ const STEP_CONTENTS = {
 
 type StepType = keyof typeof STEP_CONTENTS
 
-export default function VoteRoomContent({ step, room }: VoteRoomContentProps) {
-	const [voteMenus, setVoteMenus] = useState<VoteMenu[]>([])
-
+export default function VoteRoomContent({
+	step,
+	room: { roomId, menuList, dislikeMenuList },
+}: VoteRoomContentProps) {
 	return (
 		<>
 			{/* 스텝 제목 및 서브타이틀 */}
@@ -42,11 +42,11 @@ export default function VoteRoomContent({ step, room }: VoteRoomContentProps) {
 			<div className="flex h-full w-full">
 				<div className="flex h-full max-h-full w-full flex-col gap-2">
 					<SwitchCases
-						step={step}
-						stepCases={{
-							1: <AddMenu room={room} setVoteMenus={setVoteMenus} />,
-							2: <DisLikeMenu room={room} setVoteMenus={setVoteMenus} />,
-							3: <VoteRoom room={room} voteMenus={voteMenus} />,
+						value={step}
+						cases={{
+							1: <AddMenu roomId={roomId} menuList={menuList} />,
+							2: <DisLikeMenu roomId={roomId} dislikeMenuList={dislikeMenuList} />,
+							3: <VoteRoom voteMenus={menuList} dislikeMenuList={dislikeMenuList} />,
 						}}
 					/>
 				</div>

@@ -2,18 +2,14 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import type { MenuItemType } from '../../types/group'
 import Icon from '@/shared/components/Icon'
-// import { deleteMenuOnVoteRoom } from '../../api/voteRoomApi'
 
 interface MenuItemProps {
 	menu: MenuItemType
-	setMenus: React.Dispatch<React.SetStateAction<MenuItemType[]>>
+	handleDeleteMenu?: (menuId: string) => void
 	disableEdit?: boolean
 }
 
-const useMenuItem = (
-	menu: MenuItemType,
-	setMenus: React.Dispatch<React.SetStateAction<MenuItemType[]>>,
-) => {
+const useMenuItem = (menu: MenuItemType) => {
 	const [isEditable, setIsEditable] = useState(false)
 	const [menuName, setMenuName] = useState(menu.name)
 	const inputRef = useRef<HTMLInputElement>(null)
@@ -39,11 +35,6 @@ const useMenuItem = (
 		setIsEditable((prev) => !prev)
 	}, [setIsEditable])
 
-	const hanedleDeleteMenu = useCallback(async () => {
-		// await deleteMenuOnVoteRoom(menu.id)
-		setMenus((prev) => prev.filter((_menu) => _menu.id !== menu.id))
-	}, [setMenus, menu.id])
-
 	useEffect(() => {
 		// isEditable이 true가 되면 input에 포커스
 		if (isEditable) {
@@ -58,20 +49,12 @@ const useMenuItem = (
 		handleChangeMenuName,
 		handleKeyDown,
 		handleEditable,
-		hanedleDeleteMenu,
 	}
 }
 
-export default function MenuItem({ menu, setMenus, disableEdit = false }: MenuItemProps) {
-	const {
-		isEditable,
-		menuName,
-		inputRef,
-		handleChangeMenuName,
-		handleKeyDown,
-		handleEditable,
-		hanedleDeleteMenu,
-	} = useMenuItem(menu, setMenus)
+export default function MenuItem({ menu, handleDeleteMenu, disableEdit = false }: MenuItemProps) {
+	const { isEditable, menuName, inputRef, handleChangeMenuName, handleKeyDown, handleEditable } =
+		useMenuItem(menu)
 
 	return (
 		<li
@@ -98,7 +81,7 @@ export default function MenuItem({ menu, setMenus, disableEdit = false }: MenuIt
 				)}
 				<button
 					className="text-b3-medium bg-gray-5 rounded-3xl px-4 py-2 text-gray-50 outline-none"
-					onClick={hanedleDeleteMenu}
+					onClick={() => handleDeleteMenu?.(menu.name)}
 				>
 					<Icon.Trash />
 				</button>

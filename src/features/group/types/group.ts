@@ -3,6 +3,7 @@ export interface GroupType {
 	title: string
 	voteStatus: 'ONGOING' | 'FINISHED'
 	participantCount: number
+	isHostUser: boolean
 }
 
 // 메뉴 정보
@@ -32,6 +33,8 @@ export interface GroupDetailType {
 	votedParticipants: number
 	isHostUser: boolean
 }
+
+export type VotingType = 'VOTE' | 'RANDOM'
 
 export interface VoteMenu {
 	menuId: string

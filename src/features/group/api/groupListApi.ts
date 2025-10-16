@@ -1,7 +1,7 @@
 import { serverClient } from '@/shared/api/serverClient'
 import { getServerAccessToken } from '@/shared/utils/api'
 import { redirect } from 'next/navigation'
-import type { GroupType } from '../types/group'
+import type { GroupType, VotingType } from '../types/group'
 import { api } from '@/shared/api/client'
 
 export const getGroups = async () => {
@@ -15,7 +15,7 @@ export const getGroups = async () => {
 
 	try {
 		const response = await serverClient.get<GroupType[]>(
-			`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/voterooms/list`,
+			`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/voterooms`,
 		)
 		return response?.data
 	} catch (e) {
@@ -23,17 +23,23 @@ export const getGroups = async () => {
 	}
 }
 
-export const makeGroupRoom = async (title: string) => {
-	const token = await getServerAccessToken()
-
-	if (token == null) {
-		return redirect('/login')
+export const getGroupsOnClient = async () => {
+	try {
+		const response = await api.get<GroupType[]>(
+			`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/voterooms`,
+		)
+		return response?.data ?? []
+	} catch (e) {
+		console.error('getGroups error[client]: ', e)
+		return []
 	}
+}
 
+export const makeGroupRoom = async (title: string, votingMethod: VotingType) => {
 	try {
 		const response = await api.post(
 			`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/voterooms/createroom`,
-			{ title },
+			{ title, status: 'ONGOING', menuSelectMethod: votingMethod },
 		)
 		return response?.data
 	} catch (e) {
