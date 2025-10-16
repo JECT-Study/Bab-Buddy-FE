@@ -1,6 +1,6 @@
 interface SwitchCasesProps {
-	value: number
-	cases: Record<number, React.ReactNode>
+	value: string | number
+	cases: Record<string | number, React.ReactNode>
 	defaultCase?: React.ReactNode
 }
 
