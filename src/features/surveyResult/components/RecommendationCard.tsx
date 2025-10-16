@@ -84,12 +84,13 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({
 			<div className="flex flex-1 flex-col">
 				<div className="mb-6 flex flex-col gap-4 rounded-[24px] bg-white p-6">
 					<div className="flex flex-col gap-1">
-						<h2 className="text-[32px] leading-[42px] font-medium tracking-[-0.04em]">
+						{/* TODO : 텍스트 색상 다크모드 반영 필요 */}
+						<div className="text-[32px] leading-[42px] font-medium tracking-[-0.04em] text-gray-100">
 							{userName}님께 딱맞춘 오늘의 메뉴
-						</h2>
-						<h1 className="text-[40px] leading-[50px] font-bold tracking-[-0.04em]">
+						</div>
+						<div className="text-h1-bold leading-[50px] font-bold tracking-[-0.04em] text-gray-100">
 							{recommendedMenu}
-						</h1>
+						</div>
 					</div>
 					<p className="text-[18px] leading-[27px] font-medium tracking-[-0.02em] text-[#777677]">
 						{recommendationReason}

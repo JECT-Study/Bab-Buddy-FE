@@ -26,7 +26,7 @@ export const SurveyCard: React.FC<SurveyCardProps> = ({
 				isSelected ? 'border-[#EA580C] bg-[#FEF7F3]' : 'border-gray-30 bg-white'
 			}`}
 		>
-			<div className="text-b2-bold lg:text-h3-medium relative z-10 min-h-[70px]">
+			<div className="text-b2-bold lg:text-h3-medium relative z-10 min-h-[70px] text-gray-100">
 				<div>{label}</div>
 				<div>{sublabel}</div>
 			</div>
