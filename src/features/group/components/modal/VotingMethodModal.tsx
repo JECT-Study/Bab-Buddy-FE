@@ -2,25 +2,24 @@
 import Modal from './Modal'
 import { useState } from 'react'
 import Image from 'next/image'
+import type { VotingType } from '../../types/group'
 
 interface Props {
 	groupName: string
 	onClose: () => void
 	onClickPrev: () => void
-	onSubmit: (groupName: string, votingMethod: 'vote' | 'random') => void
+	onSubmit: (groupName: string, votingMethod: VotingType) => void
 }
-
-type VotingType = 'vote' | 'random'
 
 const VOTING_METHODS = [
 	{
-		id: 'vote' as VotingType,
+		id: 'VOTE' as VotingType,
 		title: '투표로 정하기',
 		subTitle: '다수결 투표로 메뉴를 정해요',
 		image: '/assets/icons/group_vote.svg',
 	},
 	{
-		id: 'random' as VotingType,
+		id: 'RANDOM' as VotingType,
 		title: '랜덤으로 정하기',
 		subTitle: '랜덤으로 메뉴를 정해요',
 		image: '/assets/icons/group_random.svg',
@@ -28,7 +27,7 @@ const VOTING_METHODS = [
 ]
 
 export default function VotingMethodModal({ onClose, groupName, onClickPrev, onSubmit }: Props) {
-	const [votingMethod, setVotingMethod] = useState<VotingType>('vote')
+	const [votingMethod, setVotingMethod] = useState<VotingType>('VOTE')
 
 	const handleClickVotingMethod = (votingMethod: VotingType) => {
 		setVotingMethod(votingMethod)

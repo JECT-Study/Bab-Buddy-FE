@@ -34,6 +34,8 @@ export interface GroupDetailType {
 	isHostUser: boolean
 }
 
+export type VotingType = 'VOTE' | 'RANDOM'
+
 export interface VoteMenu {
 	menuId: string
 	name: string

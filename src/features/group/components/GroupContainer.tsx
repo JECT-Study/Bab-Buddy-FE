@@ -6,11 +6,12 @@ import { makeGroupRoom } from '../api/groupListApi'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import VotingMethodModal from './modal/VotingMethodModal'
+import type { VotingType } from '../types/group'
 
 const useMakeGroupRoom = () => {
 	const router = useRouter()
 
-	const handleSubmit = async (title: string, votingMethod: 'vote' | 'random') => {
+	const handleSubmit = async (title: string, votingMethod: VotingType) => {
 		const roomId = await makeGroupRoom(title, votingMethod)
 
 		// TODO: 서버에서 roomId 생성 시 실패 응답 확인 필요

@@ -1,7 +1,7 @@
 import { serverClient } from '@/shared/api/serverClient'
 import { getServerAccessToken } from '@/shared/utils/api'
 import { redirect } from 'next/navigation'
-import type { GroupType } from '../types/group'
+import type { GroupType, VotingType } from '../types/group'
 import { api } from '@/shared/api/client'
 
 export const getGroups = async () => {
@@ -34,17 +34,11 @@ export const getGroupsOnClient = async () => {
 	}
 }
 
-export const makeGroupRoom = async (title: string, votingMethod: 'vote' | 'random') => {
-	const token = await getServerAccessToken()
-
-	if (token == null) {
-		return redirect('/login')
-	}
-
+export const makeGroupRoom = async (title: string, votingMethod: VotingType) => {
 	try {
 		const response = await api.post(
 			`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/voterooms/createroom`,
-			{ title, status: 'ONGOING', votingMethod },
+			{ title, status: 'ONGOING', menuSelectMethod: votingMethod },
 		)
 		return response?.data
 	} catch (e) {
