@@ -26,9 +26,88 @@ export const getGroupDetail = async (id: string) => {
 			...groupDetail.data,
 			isHostUser: groupDetail.data.hostUser,
 			dislikeMenuList: groupDislikeFoods.data,
+			menuSelectMethod: 'VOTE',
 		}
 	} catch (e) {
 		console.error('getGroupDetail error[serverClient]: ', e)
+		return {
+			roomId: '',
+			title: '',
+			voteStatus: 'ONGOING',
+			menuList: [
+				{
+					id: '',
+					name: '',
+					createdBy: '',
+				},
+			],
+			dislikeMenuList: [
+				{
+					id: '',
+					name: '',
+					createdBy: '',
+				},
+			],
+			participantList: [
+				{
+					id: '',
+					name: '',
+					imageUrl: '',
+				},
+			],
+			totalParticipants: 0,
+			votedParticipants: 0,
+			isHostUser: false,
+			menuSelectMethod: 'VOTE',
+		}
+	}
+}
+
+export const getGroupDetailOnClient = async (id: string): Promise<GroupDetailType> => {
+	try {
+		const [groupDetail, groupDislikeFoods] = await Promise.all([
+			api.get<ServerGroupDetailType>(`/api/voterooms/${id}`),
+			api.get<MenuItemType[]>(`/api/voterooms/dislike/${id}`),
+		])
+
+		return {
+			...groupDetail.data,
+			isHostUser: groupDetail.data.hostUser,
+			dislikeMenuList: groupDislikeFoods.data,
+			menuSelectMethod: 'VOTE',
+		}
+	} catch (e) {
+		console.error('getGroupDetail error[api]: ', e)
+		return {
+			roomId: '',
+			title: '',
+			voteStatus: 'ONGOING',
+			menuList: [
+				{
+					id: '',
+					name: '',
+					createdBy: '',
+				},
+			],
+			dislikeMenuList: [
+				{
+					id: '',
+					name: '',
+					createdBy: '',
+				},
+			],
+			participantList: [
+				{
+					id: '',
+					name: '',
+					imageUrl: '',
+				},
+			],
+			totalParticipants: 0,
+			votedParticipants: 0,
+			isHostUser: false,
+			menuSelectMethod: 'VOTE',
+		}
 	}
 }
 
@@ -88,12 +167,6 @@ export const deleteMenuOnVoteRoom = async (menuId: string) => {
 
 // 싫어하는 메뉴 등록
 export const addDislikeMenuOnVoteRoom = async (roomId: string, name: string) => {
-	const token = await getServerAccessToken()
-
-	if (token == null) {
-		return redirect('/login')
-	}
-
 	try {
 		const response = await api.post<string>(`/api/voterooms/dislike`, { roomId, name })
 		if (response.data == null) {
@@ -108,34 +181,24 @@ export const addDislikeMenuOnVoteRoom = async (roomId: string, name: string) => 
 
 // 싫어하는 메뉴 삭제
 export const deleteDislikeMenuOnVoteRoom = async (roomId: string, name: string) => {
-	const token = await getServerAccessToken()
-
-	if (token == null) {
-		return redirect('/login')
-	}
-
 	try {
 		const response = await api.delete<string>(`/api/voterooms/dislike`, {
-			params: { roomId, name },
+			data: { roomId, name },
 		})
+
 		if (response.data == null) {
 			throw new Error('deleteDislikeMenuOnVoteRoom error: ', response.data)
 		}
 
-		return response.data
+		return true
 	} catch (e) {
 		console.error('deleteDislikeMenuOnVoteRoom error: ', e)
+		return false
 	}
 }
 
 // 메뉴 투표
 export const voteMenu = async (voteRoomId: string, menuId: string) => {
-	const token = await getServerAccessToken()
-
-	if (token == null) {
-		return redirect('/login')
-	}
-
 	try {
 		const response = await api.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/vote/register`, {
 			voteRoomId,
@@ -149,12 +212,6 @@ export const voteMenu = async (voteRoomId: string, menuId: string) => {
 
 // 그룹방(투표방) 삭제
 export const deleteVoteRoom = async (voteRoomId: string) => {
-	const token = await getServerAccessToken()
-
-	if (token == null) {
-		return redirect('/login')
-	}
-
 	try {
 		const response = await api.patch(`/api/voterooms/delete/${voteRoomId}`)
 		return response.data
