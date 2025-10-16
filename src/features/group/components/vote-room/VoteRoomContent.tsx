@@ -42,8 +42,8 @@ export default function VoteRoomContent({
 			<div className="flex h-full w-full">
 				<div className="flex h-full max-h-full w-full flex-col gap-2">
 					<SwitchCases
-						step={step}
-						stepCases={{
+						value={step}
+						cases={{
 							1: <AddMenu roomId={roomId} menuList={menuList} />,
 							2: <DisLikeMenu roomId={roomId} dislikeMenuList={dislikeMenuList} />,
 							3: <VoteRoom voteMenus={menuList} dislikeMenuList={dislikeMenuList} />,

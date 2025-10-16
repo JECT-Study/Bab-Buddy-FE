@@ -1,15 +1,15 @@
 interface SwitchCasesProps {
-	step: number
-	stepCases: Record<number, React.ReactNode>
+	value: number
+	cases: Record<number, React.ReactNode>
 	defaultCase?: React.ReactNode
 }
 
 export default function SwitchCases({
-	step,
-	stepCases,
+	value,
+	cases,
 	defaultCase = SwitchCases.defaultCase,
 }: SwitchCasesProps) {
-	return <>{stepCases[step] || defaultCase}</>
+	return <>{cases[value] || defaultCase}</>
 }
 
 SwitchCases.defaultCase = (
