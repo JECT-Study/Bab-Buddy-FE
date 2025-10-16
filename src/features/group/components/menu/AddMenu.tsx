@@ -5,41 +5,39 @@ import MenuItem from './MenuItem'
 import MenuInputForm from '../input/MenuInputForm'
 import { addMenuOnVoteRoom } from '../../api/voteRoomApi'
 import { useUser } from '@/shared/hooks/useUser'
+import SwitchCases from '@/shared/components/SwitchCases'
 
 type AddMenuProps = {
 	roomId: string
 	menuList: MenuItemType[]
 }
 
-export default function AddMenu({ roomId, menuList }: AddMenuProps) {
-	const [menus, setMenus] = useState(menuList)
-	const { user, loading, error } = useUser()
+const Loading = () => {
+	return (
+		<div className="flex flex-1 items-center justify-center">
+			<div className="border-gray-30 h-8 w-8 animate-spin rounded-full border-t-2 border-b-2"></div>
+		</div>
+	)
+}
 
-	// 로딩 중이거나 에러가 있을 때 처리
-	if (loading) {
-		return <div>사용자 정보를 불러오는 중...</div>
-	}
+const Error = ({ error }: { error: Error | null }) => {
+	return (
+		<div className="flex flex-1 flex-col items-center justify-center rounded-lg bg-red-50 p-4">
+			<p className="text-b1-bold mb-2 text-red-500">문제가 발생했습니다.</p>
+			<p className="text-gray-80 mb-4">{error?.message ?? '알 수 없는 오류가 발생했습니다.'}</p>
+			<button
+				className="rounded bg-red-400 px-4 py-2 font-semibold text-white transition hover:bg-red-500"
+				onClick={() => window.location.reload()}
+			>
+				새로고침
+			</button>
+		</div>
+	)
+}
 
-	if (error) {
-		return <div>사용자 정보를 불러오는데 실패했습니다.</div>
-	}
-
-	const handleSubmit = async (inputValue: string) => {
-		const menuId = await addMenuOnVoteRoom(roomId, inputValue)
-		if (menuId == null) {
-			alert('메뉴 등록에 실패했습니다.')
-			return
-		}
-
-		setMenus((prev: MenuItemType[]) => [
-			...prev,
-			{ id: menuId, name: inputValue, createdBy: user?.userId ?? '' },
-		])
-	}
-
+const MenuList = ({ menus }: { menus: MenuItemType[] }) => {
 	return (
 		<>
-			<MenuInputForm onSubmit={handleSubmit} />
 			{/* 메뉴 목록 */}
 			{menus.length > 0 ? (
 				<ul className="flex max-h-[339px] flex-1 flex-col gap-2 overflow-y-auto">
@@ -63,6 +61,38 @@ export default function AddMenu({ roomId, menuList }: AddMenuProps) {
 					</p>
 				</div>
 			)}
+		</>
+	)
+}
+
+export default function AddMenu({ roomId, menuList }: AddMenuProps) {
+	const [menus, setMenus] = useState(menuList)
+	const { user, loading, error } = useUser()
+
+	const handleSubmit = async (inputValue: string) => {
+		const menuId = await addMenuOnVoteRoom(roomId, inputValue)
+		if (menuId == null) {
+			alert('메뉴 등록에 실패했습니다.')
+			return
+		}
+
+		setMenus((prev: MenuItemType[]) => [
+			...prev,
+			{ id: menuId, name: inputValue, createdBy: user?.userId ?? '' },
+		])
+	}
+
+	return (
+		<>
+			<MenuInputForm onSubmit={handleSubmit} />
+			<SwitchCases
+				value={error != null ? 'error' : loading ? 'loading' : 'menuList'}
+				cases={{
+					error: <Error error={error} />,
+					loading: <Loading />,
+					menuList: <MenuList menus={menus} />,
+				}}
+			/>
 		</>
 	)
 }
