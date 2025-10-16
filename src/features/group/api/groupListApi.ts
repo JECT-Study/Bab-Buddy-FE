@@ -28,9 +28,10 @@ export const getGroupsOnClient = async () => {
 		const response = await api.get<GroupType[]>(
 			`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/voterooms`,
 		)
-		return response?.data
+		return response?.data ?? []
 	} catch (e) {
 		console.error('getGroups error[client]: ', e)
+		return []
 	}
 }
 

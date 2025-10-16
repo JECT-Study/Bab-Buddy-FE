@@ -10,15 +10,16 @@ import { useQuery } from '@tanstack/react-query'
 import GroupEmpty from './GroupEmpty'
 
 const GROUPS_PER_PAGE = 3
+const DEFAULT_POLLING_INTERVAL = 5000
 
-export const useGroupList = (pollingInterval = 5000) => {
+export const useGroupList = (pollingInterval = DEFAULT_POLLING_INTERVAL) => {
 	return useQuery({
 		queryKey: ['groups'],
 		queryFn: getGroupsOnClient,
 		refetchInterval: pollingInterval, // 5초마다 자동 폴링
 		// refetchIntervalInBackground: true, // 백그라운드에서도 폴링
 		refetchOnWindowFocus: true, // 윈도우 포커스 시 리페치
-		staleTime: 3000, // 3초 동안은 캐시 사용
+		staleTime: pollingInterval, // 3초 동안은 캐시 사용
 	})
 }
 
