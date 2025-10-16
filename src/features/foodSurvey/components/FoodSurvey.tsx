@@ -94,13 +94,16 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 				onDeny={handleDenyLocation}
 			/>
 
-			<div className="flex-end pointer-events-none absolute right-0 bottom-0 z-[-1] inline-flex h-full w-[40%] pt-[39px] pl-[5px]">
-				<Image
-					src={backgroundImage}
-					alt="character"
-					fill
-					className="h-full w-auto object-contain"
-				/>
+			<div className="pointer-events-none absolute right-0 bottom-0 z-[-1] h-full w-[40%]">
+				<div className="relative h-full w-full">
+					<Image
+						src={backgroundImage}
+						alt="character"
+						fill
+						sizes="592px"
+						className="object-contain object-right-bottom"
+					/>
+				</div>
 			</div>
 
 			{/* 메인 컨텐츠 영역 */}
@@ -123,12 +126,12 @@ export const FoodSurvey: React.FC<FoodSurveyProps> = ({
 
 				{/* 제목 */}
 				<div className="mb-12">
-					<h1 className="text-h2-bold mb-4">
+					<div className="text-h2-bold mb-4">
 						{beforeText}
 						<span className="text-orange">{highlightText}</span>
 						{afterText}
-					</h1>
-					<p className="text-h2-bold text-gray-700">{subtitle}</p>
+					</div>
+					<div className="text-h2-bold">{subtitle}</div>
 				</div>
 
 				{/* 카드 그리드 */}
