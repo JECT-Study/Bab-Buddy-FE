@@ -2,11 +2,11 @@ import { type NextRequest, NextResponse, userAgent } from 'next/server'
 
 export function middleware(request: NextRequest) {
 	const url = request.nextUrl
+	const { device } = userAgent(request)
 
-	// 이미 /mobile-block 경로면 그냥 통과
-	if (url.pathname === '/mobile-block') {
-		return NextResponse.next()
-	}
+	// device.type can be: 'mobile', 'tablet', 'console', 'smarttv',
+	// 'wearable', 'embedded', or undefined (for desktop browsers)
+	const isDesktop = device.type === undefined
 
 	// ✅ 정적 파일 요청은 모두 통과 (확장자 있는 파일)
 	if (/\.\w+$/.test(url.pathname)) {
@@ -20,11 +20,15 @@ export function middleware(request: NextRequest) {
 		return NextResponse.next()
 	}
 
-	const { device } = userAgent(request)
-
-	// device.type can be: 'mobile', 'tablet', 'console', 'smarttv',
-	// 'wearable', 'embedded', or undefined (for desktop browsers)
-	const isDesktop = device.type === undefined
+	// 이미 /mobile-block 경로인 경우
+	if (url.pathname === '/mobile-block') {
+		// 데스크톱이면 /home으로 redirect
+		if (isDesktop) {
+			return NextResponse.redirect(new URL('/home', request.url))
+		}
+		// 모바일이면 통과(모바일 블럭 페이지 유지)
+		return NextResponse.next()
+	}
 
 	// 데스크톱이 아니면 /mobile-block으로 rewrite
 	if (!isDesktop) {

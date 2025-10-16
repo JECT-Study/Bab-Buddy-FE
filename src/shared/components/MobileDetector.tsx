@@ -2,9 +2,11 @@
 
 import { useEffect } from 'react'
 import { useMobileStore } from '@/shared/store/mobileStore'
+import { useRouter } from 'next/navigation'
 
 export default function MobileDetector() {
 	const { setIsMobile } = useMobileStore()
+	const router = useRouter()
 
 	/** coarse 포인터(터치) 입력 장치가 있는지 감지 (모바일/태블릿) */
 	const hasCoarsePointer = () => {
@@ -33,10 +35,15 @@ export default function MobileDetector() {
 			const small = mqSmall.matches
 			const coarse = hasCoarsePointer()
 			const touch = hasTouch()
+
 			// 간단 휴리스틱: 화면이 작고, 터치 또는 hover 불가이면 모바일 UI
 			const clientGuess = small && (coarse || touch || mqHoverNone.matches)
+			if (clientGuess) {
+				router.push('/mobile-block')
+				return
+			}
 
-			setIsMobile(isMobile && clientGuess)
+			setIsMobile(isMobile)
 		}
 
 		// 초기 실행
