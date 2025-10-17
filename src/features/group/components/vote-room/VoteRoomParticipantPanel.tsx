@@ -8,7 +8,15 @@ interface VoteRoomParticipantPanelProps {
 }
 
 export default function VoteRoomParticipantPanel({
-	room: { roomId, title, isHostUser, participantList, totalParticipants, votedParticipants },
+	room: {
+		roomId,
+		title,
+		isHostUser,
+		participantList,
+		totalParticipants,
+		votedParticipants,
+		menuSelectMethod,
+	},
 }: VoteRoomParticipantPanelProps) {
 	const [invitationImageUrl, setInvitationImageUrl] = useState<string>('')
 	const [invitationLink, setInvitationLink] = useState<string>('')
@@ -26,6 +34,7 @@ export default function VoteRoomParticipantPanel({
 		<>
 			{/* 참여자 목록 */}
 			<ParticipantList
+				menuSelectMethod={menuSelectMethod}
 				participantList={participantList}
 				totalParticipants={totalParticipants}
 				votedParticipants={votedParticipants}

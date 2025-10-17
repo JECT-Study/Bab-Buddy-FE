@@ -14,12 +14,9 @@ const useMakeGroupRoom = () => {
 	const handleSubmit = async (title: string, votingMethod: VotingType) => {
 		const roomId = await makeGroupRoom(title, votingMethod)
 
-		// TODO: 서버에서 roomId 생성 시 실패 응답 확인 필요
 		if (roomId != null && roomId != 0 && roomId != -1) {
 			return router.push(`/group/${roomId}`)
 		}
-
-		return router.push(`/group/${roomId}`)
 	}
 
 	return { handleSubmit }

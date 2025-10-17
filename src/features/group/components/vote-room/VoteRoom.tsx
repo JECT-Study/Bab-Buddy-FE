@@ -2,18 +2,26 @@ import type { MenuItemType } from '../../types/group'
 import Icon from '@/shared/components/Icon'
 import Image from 'next/image'
 import { useState } from 'react'
+import { voteMenu } from '../../api/voteRoomApi'
 
 interface VoteRoomProps {
+	roomId: string
 	voteMenus: MenuItemType[]
 	dislikeMenuList: MenuItemType[]
+	votedMenuName: string
 }
 
-export default function VoteRoom({ voteMenus, dislikeMenuList }: VoteRoomProps) {
-	const [activeMenuId, setActiveMenuId] = useState<string | null>(null)
+export default function VoteRoom({
+	roomId,
+	voteMenus,
+	dislikeMenuList,
+	votedMenuName,
+}: VoteRoomProps) {
+	const [activeMenuName, setActiveMenuName] = useState<string>(votedMenuName)
 
 	const handleClickMenu = async (menu: MenuItemType) => {
-		// await voteMenu(menu.menuId)
-		setActiveMenuId(menu.id)
+		await voteMenu(roomId, menu.menuId)
+		setActiveMenuName(menu.name)
 	}
 
 	return (
@@ -24,9 +32,9 @@ export default function VoteRoom({ voteMenus, dislikeMenuList }: VoteRoomProps) 
 					<span>⚠️ 이런 메뉴는 못먹거나 오늘 먹고 싶지 않아요</span>
 					<ul className="flex gap-2">
 						{dislikeMenuList.length > 0 ? (
-							dislikeMenuList.map(({ id, name }) => (
+							dislikeMenuList.map(({ menuId, name }) => (
 								<li
-									key={id}
+									key={menuId}
 									className="text-b3-medium text-whi rounded-[20px] bg-gray-50 px-4 py-1 text-white"
 								>
 									{name}
@@ -40,14 +48,20 @@ export default function VoteRoom({ voteMenus, dislikeMenuList }: VoteRoomProps) 
 			</div>
 			<ul className="flex max-h-[339px] w-full flex-1 flex-col overflow-y-auto">
 				{voteMenus.length ? (
-					voteMenus.map(({ id, name, ...rest }) => (
-						<li key={id} className="border-gray-10 flex items-center justify-between border-b p-6">
+					voteMenus.map(({ menuId, name, ...rest }) => (
+						<li
+							key={menuId}
+							className="border-gray-10 flex items-center justify-between border-b p-6"
+						>
 							<span className="text-b2-medium">{name}</span>
 							<button
-								className={`flex items-center justify-center rounded-3xl px-4 py-2 ${activeMenuId === id ? 'bg-gray-100' : 'bg-gray-5'}`}
-								onClick={() => handleClickMenu({ id, name, ...rest })}
+								className={`flex items-center justify-center rounded-3xl px-4 py-2 ${activeMenuName === name ? 'bg-gray-100' : 'bg-gray-5'}`}
+								onClick={() => handleClickMenu({ menuId, name, ...rest })}
 							>
-								<Icon.ThumbsUp size={24} className={`${activeMenuId === id ? 'fill-white' : ''}`} />
+								<Icon.ThumbsUp
+									size={24}
+									className={`${activeMenuName === name ? 'fill-white' : ''}`}
+								/>
 							</button>
 						</li>
 					))

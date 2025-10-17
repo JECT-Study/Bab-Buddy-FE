@@ -32,8 +32,6 @@ export default function GroupList() {
 		itemCountPerPage: GROUPS_PER_PAGE,
 	})
 
-	console.log('[GroupList] groups', groups)
-
 	if (groups.length === 0) {
 		return <GroupEmpty />
 	}

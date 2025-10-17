@@ -2,6 +2,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import type { MenuItemType } from '../../types/group'
 import Icon from '@/shared/components/Icon'
+import { updateMenuOnVoteRoom } from '../../api/voteRoomApi'
+import { useQueryClient } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
 
 interface MenuItemProps {
 	menu: MenuItemType
@@ -10,6 +13,9 @@ interface MenuItemProps {
 }
 
 const useMenuItem = (menu: MenuItemType) => {
+	const queryClient = useQueryClient()
+	const { id } = useParams()
+
 	const [isEditable, setIsEditable] = useState(false)
 	const [menuName, setMenuName] = useState(menu.name)
 	const inputRef = useRef<HTMLInputElement>(null)
@@ -18,22 +24,33 @@ const useMenuItem = (menu: MenuItemType) => {
 		(e: React.ChangeEvent<HTMLInputElement>) => {
 			setMenuName(e.target.value)
 		},
-		[setMenuName],
+		[menu.menuId],
 	)
 
+	const handleUpdateMenuName = useCallback(async () => {
+		const isUpdated = await updateMenuOnVoteRoom(menu.menuId, menuName)
+		if (isUpdated) {
+			queryClient.invalidateQueries({ queryKey: ['group', id] })
+		}
+	}, [menu.menuId, menuName])
+
 	const handleKeyDown = useCallback(
-		(e: React.KeyboardEvent<HTMLInputElement>) => {
+		async (e: React.KeyboardEvent<HTMLInputElement>) => {
 			if (e.key === 'Enter') {
+				await handleUpdateMenuName()
 				setIsEditable(false)
 				inputRef.current?.blur()
 			}
 		},
-		[setIsEditable],
+		[setIsEditable, handleUpdateMenuName],
 	)
 
-	const handleEditable = useCallback(() => {
+	const handleEditable = useCallback(async () => {
+		if (isEditable) {
+			await handleUpdateMenuName()
+		}
 		setIsEditable((prev) => !prev)
-	}, [setIsEditable])
+	}, [setIsEditable, handleUpdateMenuName])
 
 	useEffect(() => {
 		// isEditable이 true가 되면 input에 포커스
@@ -59,7 +76,7 @@ export default function MenuItem({ menu, handleDeleteMenu, disableEdit = false }
 	return (
 		<li
 			className="border-gray-10 flex w-full items-center justify-between border-b p-6"
-			data-menu-id={menu.id}
+			data-menu-id={menu.menuId}
 		>
 			<input
 				name="menuName"
@@ -81,7 +98,7 @@ export default function MenuItem({ menu, handleDeleteMenu, disableEdit = false }
 				)}
 				<button
 					className="text-b3-medium bg-gray-5 rounded-3xl px-4 py-2 text-gray-50 outline-none"
-					onClick={() => handleDeleteMenu?.(menu.id, menu.name)}
+					onClick={() => handleDeleteMenu?.(menu.menuId, menu.name)}
 				>
 					<Icon.Trash />
 				</button>

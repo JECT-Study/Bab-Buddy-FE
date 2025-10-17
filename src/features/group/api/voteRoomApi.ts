@@ -1,11 +1,29 @@
 import { getServerAccessToken } from '@/shared/utils/api'
 import { redirect } from 'next/navigation'
-import type { GroupDetailType, MenuItemType } from '../types/group'
+import type { GroupDetailType, MenuItemType, VotingType } from '../types/group'
 import { serverClient } from '@/shared/api/serverClient'
 import { api } from '@/shared/api/client'
 
 interface ServerGroupDetailType extends Omit<GroupDetailType, 'isHostUser'> {
 	hostUser: boolean
+}
+
+// 그룹방 메뉴 선택 방식 조회
+export const getGroupMenuSelectMethod = async (id: string) => {
+	const token = await getServerAccessToken()
+	if (token == null) {
+		return redirect('/login')
+	}
+
+	try {
+		const response = await serverClient.get<{ menuSelectMethod: VotingType }>(
+			`/api/voterooms/menu-select-method/${id}`,
+		)
+		return response.data
+	} catch (e) {
+		console.error('getGroupMenuSelectMethod error[serverClient]: ', e)
+		return { menuSelectMethod: 'VOTE' }
+	}
 }
 
 // 그룹방 참여
@@ -17,7 +35,6 @@ export const joinGroup = async (id: string) => {
 		}
 
 		const response = await serverClient.post(`/api/voterooms/join/${id}`)
-		console.log('[joinGroup] response', response.status)
 		if (response.status == 200) {
 			return true
 		} else {
@@ -55,14 +72,14 @@ export const getGroupDetail = async (id: string) => {
 			voteStatus: 'ONGOING',
 			menuList: [
 				{
-					id: '',
+					menuId: '',
 					name: '',
 					createdBy: '',
 				},
 			],
 			dislikeMenuList: [
 				{
-					id: '',
+					menuId: '',
 					name: '',
 					createdBy: '',
 				},
@@ -78,10 +95,10 @@ export const getGroupDetail = async (id: string) => {
 			votedParticipants: 0,
 			isHostUser: false,
 			menuSelectMethod: 'VOTE',
+			votedMenuName: '',
 		}
 	}
 }
-
 export const getGroupDetailOnClient = async (id: string): Promise<GroupDetailType> => {
 	try {
 		const [groupDetail, groupDislikeFoods] = await Promise.all([
@@ -102,14 +119,14 @@ export const getGroupDetailOnClient = async (id: string): Promise<GroupDetailTyp
 			voteStatus: 'ONGOING',
 			menuList: [
 				{
-					id: '',
+					menuId: '',
 					name: '',
 					createdBy: '',
 				},
 			],
 			dislikeMenuList: [
 				{
-					id: '',
+					menuId: '',
 					name: '',
 					createdBy: '',
 				},
@@ -125,6 +142,74 @@ export const getGroupDetailOnClient = async (id: string): Promise<GroupDetailTyp
 			votedParticipants: 0,
 			isHostUser: false,
 			menuSelectMethod: 'VOTE',
+			votedMenuName: '',
+		}
+	}
+}
+
+// 그룹방 룰렛 상세 조회
+export const getGroupRouletteDetail = async (id: string): Promise<GroupDetailType> => {
+	const token = await getServerAccessToken()
+
+	if (token == null) {
+		return redirect('/login')
+	}
+
+	try {
+		const rouletteDetail = await serverClient.get<ServerGroupDetailType>(
+			`/api/voterooms/roulette/${id}`,
+		)
+
+		return {
+			...rouletteDetail.data,
+			isHostUser: rouletteDetail.data.hostUser,
+		}
+	} catch (e) {
+		console.error('getGroupRouletteDetail error[serverClient]: ', e)
+		return {
+			roomId: '',
+			title: '',
+			voteStatus: 'ONGOING',
+			menuList: [],
+			dislikeMenuList: [],
+			participantList: [],
+			totalParticipants: 0,
+			votedParticipants: 0,
+			isHostUser: false,
+			menuSelectMethod: 'VOTE',
+			votedMenuName: '',
+		}
+	}
+}
+
+export const getGroupRouletteDetailOnClient = async (id: string): Promise<GroupDetailType> => {
+	const token = await getServerAccessToken()
+
+	if (token == null) {
+		return redirect('/login')
+	}
+
+	try {
+		const rouletteDetail = await api.get<ServerGroupDetailType>(`/api/voterooms/roulette/${id}`)
+
+		return {
+			...rouletteDetail.data,
+			isHostUser: rouletteDetail.data.hostUser,
+		}
+	} catch (e) {
+		console.error('getGroupRouletteDetail error[api]: ', e)
+		return {
+			roomId: '',
+			title: '',
+			voteStatus: 'ONGOING',
+			menuList: [],
+			dislikeMenuList: [],
+			participantList: [],
+			totalParticipants: 0,
+			votedParticipants: 0,
+			isHostUser: false,
+			menuSelectMethod: 'VOTE',
+			votedMenuName: '',
 		}
 	}
 }
@@ -137,6 +222,19 @@ export const addMenuOnVoteRoom = async (voteRoomId: string, name: string) => {
 			throw new Error('addMenu error: ', response.data)
 		}
 
+		return response.data
+	} catch (e) {
+		console.error('addMenu error: ', e)
+	}
+}
+
+// 룰렛 메뉴 등록
+export const addMenuOnRoulette = async (voteRoomId: string, name: string) => {
+	try {
+		const response = await api.post<string>(`/api/voterooms/roulette/${voteRoomId}`, { name })
+		if (response.data == null) {
+			throw new Error('addMenu error: ', response.data)
+		}
 		return response.data
 	} catch (e) {
 		console.error('addMenu error: ', e)
@@ -159,9 +257,10 @@ export const updateMenuOnVoteRoom = async (menuId: string, name: string) => {
 export const deleteMenuOnVoteRoom = async (menuId: string) => {
 	try {
 		const response = await api.delete(`/api/menu/delete/${menuId}`)
-		return response.data
+		return response.status == 200
 	} catch (e) {
 		console.error('deleteMenuOnVoteRoom error: ', e)
+		return false
 	}
 }
 
@@ -221,19 +320,16 @@ export const deleteVoteRoom = async (voteRoomId: string) => {
 }
 
 // 룰렛 결과 저장
-export const saveRouletteResult = async (menuName: string) => {
-	console.log('menuName: ', menuName)
+export const saveRouletteResult = async (menuName: string, roomId: string) => {
 	try {
-		// const response = await api.post(`/api/voterooms/roulette/result`, {
-		// 	menuName,
-		// })
-		// return response.data
-
-		await new Promise((resolve) => setTimeout(resolve, 3000))
-		return 200
+		const response = await api.post(`/api/voterooms/roulette/${roomId}`, {
+			menuName,
+			menuSelectMethod: 'ROULETTE',
+		})
+		return response.status == 200
 	} catch (e) {
 		console.error('saveRouletteResult error: ', e)
-		return 500
+		return false
 	}
 }
 

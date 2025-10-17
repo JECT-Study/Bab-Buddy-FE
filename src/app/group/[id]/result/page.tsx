@@ -1,5 +1,7 @@
-import { getVoteResult } from '@/features/group/api/voteApi'
+import { getRouletteResult, getVoteResult } from '@/features/group/api/voteApi'
+import { getGroupMenuSelectMethod } from '@/features/group/api/voteRoomApi'
 import VoteResult from '@/features/group/components/vote-result/VoteResult'
+import { VotingType } from '@/features/group/types/group'
 interface ResultPageProps {
 	params: Promise<{
 		id: string
@@ -8,7 +10,10 @@ interface ResultPageProps {
 
 export default async function ResultPage({ params }: ResultPageProps) {
 	const { id } = await params
-	const result = await getVoteResult(id)
+	const { menuSelectMethod } = await getGroupMenuSelectMethod(id)
 
-	return <VoteResult result={result} />
+	const result =
+		menuSelectMethod === 'ROULETTE' ? await getRouletteResult(id) : await getVoteResult(id)
+
+	return <VoteResult menuSelectMethod={menuSelectMethod as VotingType} result={result} />
 }

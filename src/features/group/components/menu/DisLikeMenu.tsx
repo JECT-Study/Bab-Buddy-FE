@@ -32,7 +32,7 @@ export default function DisLikeMenu({ roomId, dislikeMenuList }: DisLikeMenuProp
 
 		setDislikedMenus((prev: MenuItemType[]) => [
 			...prev,
-			{ id: menuId ?? '', name: inputValue, createdBy: user?.userId ?? '' },
+			{ menuId: menuId ?? '', name: inputValue, createdBy: user?.userId ?? '' },
 		])
 	}
 
@@ -40,7 +40,7 @@ export default function DisLikeMenu({ roomId, dislikeMenuList }: DisLikeMenuProp
 		async (menuId: string, menuName: string) => {
 			const isDeleted = await deleteDislikeMenuOnVoteRoom(roomId, menuName)
 			if (isDeleted) {
-				setDislikedMenus((prev) => prev.filter((_menu) => _menu.id !== menuId))
+				setDislikedMenus((prev) => prev.filter((_menu) => _menu.menuId !== menuId))
 			}
 		},
 		[roomId],
@@ -52,7 +52,7 @@ export default function DisLikeMenu({ roomId, dislikeMenuList }: DisLikeMenuProp
 			<ul className="flex max-h-[339px] flex-1 flex-col gap-2 overflow-y-auto">
 				{dislikedMenus.map((menu) => (
 					<MenuItem
-						key={menu.id}
+						key={menu.menuId}
 						menu={menu}
 						disableEdit={true}
 						handleDeleteMenu={handleDeleteMenu}
