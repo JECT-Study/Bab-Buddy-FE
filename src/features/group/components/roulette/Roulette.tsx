@@ -36,7 +36,7 @@ const useRouletteResult = (menuList: string[], roomId: string, isHostUser: boole
 		return () => {
 			clearTimeout(timer1)
 		}
-	}, [menuList, router, roomId])
+	}, [menuList, router, roomId, isHostUser])
 
 	return resultRef.current
 }

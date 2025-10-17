@@ -53,7 +53,7 @@ const useVoteRoomCompletion = (room: GroupDetailType | undefined) => {
 				router.push(`/group/${room.roomId}/result`)
 			})
 		}
-	}, [room])
+	}, [room, router])
 
 	return { isRouletteFinished, setIsRouletteFinished }
 }
