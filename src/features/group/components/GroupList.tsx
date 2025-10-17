@@ -6,8 +6,9 @@ import type { GroupType } from '../types/group'
 import { Pagination } from '@/shared/components/Pagination'
 import { usePagination } from '@/shared/hooks/usePagination'
 import { getGroupsOnClient } from '../api/groupListApi'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import GroupEmpty from './GroupEmpty'
+import { deleteVoteRoom } from '../api/voteRoomApi'
 
 const GROUPS_PER_PAGE = 3
 const DEFAULT_POLLING_INTERVAL = 5000
@@ -24,8 +25,8 @@ export const useGroupList = (pollingInterval = DEFAULT_POLLING_INTERVAL) => {
 }
 
 export default function GroupList() {
+	const queryClient = useQueryClient()
 	const { data: groups = [] } = useGroupList()
-
 	const { totalPages, page, paginatedItems, handlePageChange } = usePagination<GroupType>({
 		items: groups,
 		itemCountPerPage: GROUPS_PER_PAGE,
@@ -33,6 +34,11 @@ export default function GroupList() {
 
 	if (groups.length === 0) {
 		return <GroupEmpty />
+	}
+
+	const handleDeleteGroup = async (roomId: string) => {
+		await deleteVoteRoom(roomId)
+		queryClient.invalidateQueries({ queryKey: ['groups'] })
 	}
 
 	return (
@@ -65,7 +71,11 @@ export default function GroupList() {
 											결과확인
 										</Link>
 										{group.isHostUser && (
-											<button type="button" className="bg-gray-5 rounded-3xl px-4 py-2">
+											<button
+												type="button"
+												className="bg-gray-5 rounded-3xl px-4 py-2"
+												onClick={() => handleDeleteGroup(group.roomId)}
+											>
 												<Icon.Trash />
 											</button>
 										)}
