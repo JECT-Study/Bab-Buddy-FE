@@ -17,7 +17,7 @@ export interface MenuItemType {
 export interface ParticipantType {
 	id: string
 	name: string
-	imageUrl: string
+	image: string
 }
 
 // 그룹방 디테일 정보
