@@ -2,7 +2,7 @@
 import RouletteSpinner from '@/features/roulette/components/RouletteSpinner'
 import type { MenuItemType } from '../../types/group'
 import { useEffect, useRef } from 'react'
-import { saveRouletteResult } from '../../api/voteRoomApi'
+import { saveRouletteResult, terminateVoteRoom } from '../../api/voteRoomApi'
 import { useRouter } from 'next/navigation'
 
 interface RouletteProps {
@@ -19,9 +19,10 @@ const useRouletteResult = (menuList: string[], roomId: string) => {
 
 		timer1 = setTimeout(async () => {
 			resultRef.current = menuList[Math.floor(Math.random() * menuList.length)]
-			const res = await saveRouletteResult(resultRef.current)
+			const isSaved = await saveRouletteResult(resultRef.current, roomId)
 
-			if (res === 200) {
+			if (isSaved) {
+				await terminateVoteRoom(roomId)
 				router.push(`/group/${roomId}/result`)
 			} else {
 				alert('룰렛 결과 저장 실패')

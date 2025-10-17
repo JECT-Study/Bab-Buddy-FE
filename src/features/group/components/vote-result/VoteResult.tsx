@@ -6,14 +6,23 @@ import { useShareActions } from '@/shared/hooks/useShareActions'
 import { useModal } from '@/shared/hooks/useModal'
 import { getLastKoreanLetter } from '../../utils/groupUtils'
 import VoteResultList from './VoteResultList'
-import type { VoteResultType } from '../../types/group'
+import type { RouletteResultType, VoteResultType, VotingType } from '../../types/group'
+import RouletteResult from './RouletteResult'
 
 interface VoteResultProps {
-	result: VoteResultType
+	result: VoteResultType | RouletteResultType
+	menuSelectMethod: VotingType
 }
 
-export default function VoteResult({ result }: VoteResultProps) {
-	const KEY = result.menuSelectMethod
+export default function VoteResult({ menuSelectMethod, result }: VoteResultProps) {
+	let menuName: string
+	if ('selectedMenuName' in result) {
+		menuName = result.selectedMenuName
+	} else {
+		menuName = result.result.topMenus[0].menus[0].menuName
+	}
+
+	const KEY = menuSelectMethod === 'ROULETTE' ? 'ROULETTE' : 'VOTE'
 	const isVote = KEY === 'VOTE'
 	const TEXT_MAP = {
 		ROULETTE: {
@@ -39,7 +48,7 @@ export default function VoteResult({ result }: VoteResultProps) {
 		getShareUrl(),
 	)
 
-	const lastKoreanLetter = getLastKoreanLetter(result.result.topMenus[0].menus[0].menuName || '')
+	const lastKoreanLetter = getLastKoreanLetter(menuName)
 
 	return (
 		<div className="flex h-full w-full justify-center rounded-3xl bg-white p-6">
@@ -49,18 +58,19 @@ export default function VoteResult({ result }: VoteResultProps) {
 					{TEXT_MAP[KEY].title}
 				</h3>
 				{/* 투표 결과 */}
-				<div className="bg-gray-5 flex w-full flex-1 flex-col gap-6 rounded-3xl px-8 py-6">
+				<div className="bg-gray-5 flex w-full flex-1 flex-col items-center gap-6 rounded-3xl px-8 py-6">
 					{isVote && (
 						<p className="text-b1-medium w-full text-center text-gray-100">
 							<span>가장 많은 득표수를 받은</span>{' '}
-							<span className="text-orange">
-								{result.result.topMenus[0].menus[0].menuName.substring(0, 21)}
-							</span>
+							<span className="text-orange">{menuName.substring(0, 21)}</span>
 							<span>{lastKoreanLetter}</span> <span className="text-orange">1위</span>
 							<span>로 선정되었어요!</span>
 						</p>
 					)}
-					<VoteResultList result={result.result} menuSelectMethod={KEY} />
+					{isVote && (
+						<VoteResultList result={(result as VoteResultType).result} menuSelectMethod={KEY} />
+					)}
+					{!isVote && <RouletteResult menu={(result as RouletteResultType).selectedMenuName} />}
 				</div>
 				{/* 결과 공유 버튼 */}
 				<ShareButton

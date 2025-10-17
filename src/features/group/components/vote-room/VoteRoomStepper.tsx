@@ -4,6 +4,8 @@ import VoteEndModal from '../modal/VoteEndModal'
 import { useRouter } from 'next/navigation'
 import { type GroupDetailType } from '../../types/group'
 import { terminateVoteRoom } from '../../api/voteRoomApi'
+import { useModal } from '@/shared/hooks/useModal'
+import WaitingForResultModal from '../modal/WaitingForResultModal'
 
 interface VoteRoomStepperProps {
 	room: GroupDetailType
@@ -29,13 +31,14 @@ const ASIDE_MENUS = [
 ]
 
 export default function VoteRoomStepper({
-	room: { roomId, title, isHostUser, votedParticipants, voteStatus, menuSelectMethod },
+	room: { roomId, title, isHostUser, votedParticipants, voteStatus, menuSelectMethod, menuList },
 	activeStep,
 	setActiveStep,
 	setIsRouletteFinished,
 }: VoteRoomStepperProps) {
 	const router = useRouter()
 	const [isEndModalOpen, setIsEndModalOpen] = useState(false)
+	const { isOpen, openModal, closeModal } = useModal()
 
 	const isRoulette = menuSelectMethod === 'ROULETTE'
 
@@ -56,15 +59,20 @@ export default function VoteRoomStepper({
 	const handleFinishRoulette = useCallback(async () => {
 		setIsEndModalOpen(false)
 		setIsRouletteFinished(true)
-		await terminateVoteRoom(roomId)
-	}, [setIsEndModalOpen, setIsRouletteFinished, roomId])
+	}, [setIsEndModalOpen, setIsRouletteFinished])
 
 	const isDisabled =
-		(isHostUser && votedParticipants === 0) || (!isHostUser && voteStatus === 'ONGOING')
+		(isHostUser && votedParticipants === 0) ||
+		(!isHostUser && voteStatus === 'ONGOING') ||
+		(isHostUser && menuSelectMethod === 'ROULETTE' && menuList.length === 0)
 
 	const routeToResult = useCallback(() => {
+		if (voteStatus === 'ONGOING') {
+			openModal()
+			return
+		}
 		router.push(`/group/${roomId}/result`)
-	}, [router, roomId])
+	}, [router, roomId, openModal, voteStatus])
 
 	return (
 		<>
@@ -98,7 +106,7 @@ export default function VoteRoomStepper({
 				onClick={isHostUser ? handleEndModalOpen : routeToResult}
 				disabled={isDisabled}
 			>
-				{isHostUser ? (isRoulette ? '결과 확인하기' : '투표 끝내기') : '투표 결과보기'}
+				{isRoulette ? '결과 확인하기' : isHostUser ? '투표 끝내기' : '투표 결과보기'}
 			</button>
 			<VoteEndModal
 				voteMethod={menuSelectMethod}
@@ -106,6 +114,7 @@ export default function VoteRoomStepper({
 				onClose={handleEndModalClose}
 				callbackOnFinishVote={isRoulette ? handleFinishRoulette : handleFinishVote}
 			/>
+			<WaitingForResultModal isOpen={isOpen} onClose={closeModal} />
 		</>
 	)
 }

@@ -1,12 +1,13 @@
 'use client'
 
 import Icon from '@/shared/components/Icon'
-import type { ParticipantType } from '../../types/group'
+import type { ParticipantType, VotingType } from '../../types/group'
 import Image from 'next/image'
 import { Pagination } from '@/shared/components/Pagination'
 import { usePagination } from '@/shared/hooks/usePagination'
 
 interface ParticipantListProps {
+	menuSelectMethod: VotingType
 	participantList: ParticipantType[]
 	totalParticipants: number
 	votedParticipants: number
@@ -15,6 +16,7 @@ interface ParticipantListProps {
 const PARTICIPANTS_PER_PAGE = 6
 
 export default function ParticipantList({
+	menuSelectMethod,
 	participantList,
 	totalParticipants,
 	votedParticipants,
@@ -37,8 +39,18 @@ export default function ParticipantList({
 			{/* 투표 진행 상태 */}
 			<div className="bg-gray-5 mb-4 rounded-3xl p-3">
 				<p className="text-b2-medium text-gray-30">
-					투표참여 {totalParticipants}명 중{' '}
-					<span className="font-semibold text-orange-500">{votedParticipants}명 완료!</span>
+					{menuSelectMethod === 'VOTE' ? (
+						<>
+							투표참여 {totalParticipants}명 중{' '}
+							<span className="font-semibold text-orange-500">{votedParticipants}명 완료!</span>
+						</>
+					) : (
+						<>
+							룰렛 총{` `}
+							<span className="font-semibold text-orange-500">{totalParticipants}명</span>
+							{` `}참여 중
+						</>
+					)}
 				</p>
 			</div>
 

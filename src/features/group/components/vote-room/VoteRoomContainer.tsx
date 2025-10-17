@@ -5,25 +5,38 @@ import VoteRoomParticipantPanel from './VoteRoomParticipantPanel'
 import VoteRoomStepper from './VoteRoomStepper'
 import VoteRoomContent from './VoteRoomContent'
 import { useQuery } from '@tanstack/react-query'
-import { getGroupDetailOnClient } from '../../api/voteRoomApi'
+import { getGroupDetailOnClient, getGroupRouletteDetailOnClient } from '../../api/voteRoomApi'
+import type { VotingType } from '../../types/group'
 
 const DEFAULT_POLLING_INTERVAL = 5000
 
-const useGroupRoomDetail = (roomId: string, pollingInterval = DEFAULT_POLLING_INTERVAL) => {
-	console.log(pollingInterval)
+const useGroupRoomDetail = (
+	roomId: string,
+	menuSelectMethod: VotingType,
+	pollingInterval = DEFAULT_POLLING_INTERVAL,
+) => {
 	return useQuery({
-		queryKey: ['group', roomId],
-		queryFn: async () => await getGroupDetailOnClient(roomId),
-		// refetchInterval: pollingInterval, // 5초마다 자동 폴링
-		// // refetchIntervalInBackground: true, // 백그라운드에서도 폴링
-		// refetchOnWindowFocus: true, // 윈도우 포커스 시 리페치
-		// staleTime: pollingInterval, // 5초 동안은 캐시 사용
+		queryKey: ['group', menuSelectMethod, roomId],
+		queryFn: async () =>
+			menuSelectMethod === 'ROULETTE'
+				? await getGroupRouletteDetailOnClient(roomId)
+				: await getGroupDetailOnClient(roomId),
+		refetchInterval: pollingInterval, // 5초마다 자동 폴링
+		// refetchIntervalInBackground: true, // 백그라운드에서도 폴링
+		refetchOnWindowFocus: true, // 윈도우 포커스 시 리페치
+		staleTime: pollingInterval, // 5초 동안은 캐시 사용
 	})
 }
 
-const VoteRoomContainer = ({ roomId }: { roomId: string }) => {
+const VoteRoomContainer = ({
+	roomId,
+	menuSelectMethod,
+}: {
+	roomId: string
+	menuSelectMethod: VotingType
+}) => {
 	const [activeStep, setActiveStep] = useState(1)
-	const { data: room, isFetching } = useGroupRoomDetail(roomId)
+	const { data: room, isLoading } = useGroupRoomDetail(roomId, menuSelectMethod)
 	const [isRouletteFinished, setIsRouletteFinished] = useState(false)
 
 	// TODO API 붙인 후 확인할 것.
@@ -35,7 +48,7 @@ const VoteRoomContainer = ({ roomId }: { roomId: string }) => {
 		}
 	}, [room])
 
-	if (isFetching) {
+	if (isLoading) {
 		return <div>Loading...</div>
 	}
 

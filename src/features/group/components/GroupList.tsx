@@ -32,8 +32,6 @@ export default function GroupList() {
 		itemCountPerPage: GROUPS_PER_PAGE,
 	})
 
-	console.log('[GroupList] groups', groups)
-
 	if (groups.length === 0) {
 		return <GroupEmpty />
 	}
@@ -67,7 +65,7 @@ export default function GroupList() {
 								) : (
 									<>
 										<Link
-											href={`/group/${group.roomId}/result`}
+											href={`/group/${group.roomId}${group.menuSelectMethod === 'VOTE' ? '/result' : ''}`}
 											className="bg-gray-5 text-b3-medium rounded-3xl px-4 py-2 text-gray-50"
 										>
 											결과확인

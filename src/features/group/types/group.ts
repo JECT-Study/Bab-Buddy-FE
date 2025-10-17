@@ -4,11 +4,12 @@ export interface GroupType {
 	voteStatus: 'ONGOING' | 'FINISHED'
 	participantCount: number
 	isHostUser: boolean
+	menuSelectMethod: VotingType
 }
 
 // 메뉴 정보
 export interface MenuItemType {
-	id: string
+	menuId: string
 	name: string
 	createdBy: string
 }
@@ -33,6 +34,7 @@ export interface GroupDetailType {
 	votedParticipants: number
 	isHostUser: boolean
 	menuSelectMethod: VotingType
+	votedMenuName: string
 }
 
 export type VotingType = 'VOTE' | 'ROULETTE'
@@ -50,6 +52,12 @@ export interface VoteResultType {
 	menuSelectMethod: VotingType
 }
 
+export interface RouletteResultType {
+	voteRoomId: string
+	title: string
+	selectedMenuName: string
+	menuSelectMethod: VotingType
+}
 // 투표 결과 메뉴 정보
 export interface VoteResultMenuType {
 	topMenus: VoteResultTopMenuType[]

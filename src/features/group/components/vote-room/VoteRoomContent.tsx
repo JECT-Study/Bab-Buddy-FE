@@ -41,7 +41,7 @@ type StepContent = {
 
 export default function VoteRoomContent({
 	step,
-	room: { roomId, menuList, dislikeMenuList, menuSelectMethod },
+	room: { roomId, menuList, dislikeMenuList, menuSelectMethod, votedMenuName },
 	isRouletteFinished,
 }: VoteRoomContentProps) {
 	const stepContents = menuSelectMethod === 'ROULETTE' ? ROULETTE_STEP_CONTENTS : STEP_CONTENTS
@@ -67,8 +67,21 @@ export default function VoteRoomContent({
 							1: (
 								<AddMenu roomId={roomId} menuList={menuList} menuSelectMethod={menuSelectMethod} />
 							),
-							2: <DisLikeMenu roomId={roomId} dislikeMenuList={dislikeMenuList} />,
-							3: <VoteRoom voteMenus={menuList} dislikeMenuList={dislikeMenuList} />,
+							2: (
+								<DisLikeMenu
+									roomId={roomId}
+									dislikeMenuList={dislikeMenuList}
+									menuSelectMethod={menuSelectMethod}
+								/>
+							),
+							3: (
+								<VoteRoom
+									roomId={roomId}
+									voteMenus={menuList}
+									dislikeMenuList={dislikeMenuList}
+									votedMenuName={votedMenuName}
+								/>
+							),
 						}}
 					/>
 				</div>

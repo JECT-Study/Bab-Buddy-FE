@@ -1,11 +1,13 @@
-import { useState } from 'react'
+'use client'
+import { useCallback, useState } from 'react'
 import type { MenuItemType, VotingType } from '../../types/group'
 import Image from 'next/image'
 import MenuItem from './MenuItem'
 import MenuInputForm from '../input/MenuInputForm'
-import { addMenuOnVoteRoom } from '../../api/voteRoomApi'
+import { addMenuOnVoteRoom, deleteMenuOnVoteRoom } from '../../api/voteRoomApi'
 import { useUser } from '@/shared/hooks/useUser'
 import SwitchCases from '@/shared/components/SwitchCases'
+import { useQueryClient } from '@tanstack/react-query'
 
 type AddMenuProps = {
 	roomId: string
@@ -36,14 +38,34 @@ const Error = ({ error }: { error: Error | null }) => {
 	)
 }
 
-const MenuList = ({ menus }: { menus: MenuItemType[] }) => {
+const MenuList = ({
+	roomId,
+	menus,
+	menuSelectMethod,
+}: {
+	roomId: string
+	menus: MenuItemType[]
+	menuSelectMethod: VotingType
+}) => {
+	const queryClient = useQueryClient()
+
+	const handleDeleteMenu = useCallback(
+		async (menuId: string) => {
+			const isDeleted = await deleteMenuOnVoteRoom(menuId)
+			if (isDeleted) {
+				queryClient.invalidateQueries({ queryKey: ['group', menuSelectMethod, roomId] })
+			}
+		},
+		[roomId, menuSelectMethod, queryClient],
+	)
+
 	return (
 		<>
 			{/* 메뉴 목록 */}
 			{menus.length > 0 ? (
 				<ul className="flex max-h-[339px] flex-1 flex-col gap-2 overflow-y-auto">
 					{menus.map((menu) => (
-						<MenuItem key={menu.id} menu={menu} />
+						<MenuItem key={menu.menuId} menu={menu} handleDeleteMenu={handleDeleteMenu} />
 					))}
 				</ul>
 			) : (
@@ -70,6 +92,8 @@ export default function AddMenu({ roomId, menuList, menuSelectMethod }: AddMenuP
 	const [menus, setMenus] = useState(menuList)
 	const { user, loading, error } = useUser()
 
+	const queryClient = useQueryClient()
+
 	const handleSubmit = async (inputValue: string) => {
 		const menuId = await addMenuOnVoteRoom(roomId, inputValue)
 		if (menuId == null) {
@@ -79,19 +103,20 @@ export default function AddMenu({ roomId, menuList, menuSelectMethod }: AddMenuP
 
 		setMenus((prev: MenuItemType[]) => [
 			...prev,
-			{ id: menuId, name: inputValue, createdBy: user?.userId ?? '' },
+			{ menuId: menuId, name: inputValue, createdBy: user?.name ?? '' },
 		])
+		queryClient.invalidateQueries({ queryKey: ['group', menuSelectMethod, roomId] })
 	}
 
 	return (
 		<>
-			<MenuInputForm onSubmit={handleSubmit} needsSubmitButton={menuSelectMethod !== 'ROULETTE'} />
+			<MenuInputForm onSubmit={handleSubmit} />
 			<SwitchCases
 				value={error != null ? 'error' : loading ? 'loading' : 'menuList'}
 				cases={{
 					error: <Error error={error} />,
 					loading: <Loading />,
-					menuList: <MenuList menus={menus} />,
+					menuList: <MenuList roomId={roomId} menus={menus} menuSelectMethod={menuSelectMethod} />,
 				}}
 			/>
 		</>
