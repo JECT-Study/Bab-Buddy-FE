@@ -32,9 +32,10 @@ export interface GroupDetailType {
 	totalParticipants: number
 	votedParticipants: number
 	isHostUser: boolean
+	menuSelectMethod: VotingType
 }
 
-export type VotingType = 'VOTE' | 'RANDOM'
+export type VotingType = 'VOTE' | 'ROULETTE'
 
 export interface VoteMenu {
 	menuId: string
@@ -46,6 +47,7 @@ export interface VoteResultType {
 	voteRoomId: string
 	title: string
 	result: VoteResultMenuType
+	menuSelectMethod: VotingType
 }
 
 // 투표 결과 메뉴 정보

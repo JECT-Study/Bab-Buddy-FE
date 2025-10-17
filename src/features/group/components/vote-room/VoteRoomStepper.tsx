@@ -8,8 +8,10 @@ interface VoteRoomStepperProps {
 	room: GroupDetailType
 	activeStep: number
 	setActiveStep: (step: number) => void
+	setIsRouletteFinished: (isFinished: boolean) => void
 }
 
+const NO_ROULETTE_STEP = 2
 const ASIDE_MENUS = [
 	{
 		label: '메뉴 제안하기',
@@ -26,12 +28,15 @@ const ASIDE_MENUS = [
 ]
 
 export default function VoteRoomStepper({
-	room: { roomId, title, isHostUser, votedParticipants, voteStatus },
+	room: { roomId, title, isHostUser, votedParticipants, voteStatus, menuSelectMethod },
 	activeStep,
 	setActiveStep,
+	setIsRouletteFinished,
 }: VoteRoomStepperProps) {
 	const router = useRouter()
 	const [isEndModalOpen, setIsEndModalOpen] = useState(false)
+
+	const isRoulette = menuSelectMethod === 'ROULETTE'
 
 	const handleEndModalOpen = useCallback(() => {
 		setIsEndModalOpen(true)
@@ -46,9 +51,13 @@ export default function VoteRoomStepper({
 		router.push(`/group/${roomId}/result`)
 	}, [setIsEndModalOpen, router, roomId])
 
-	const isDisabled = useMemo(() => {
-		return (isHostUser && votedParticipants === 0) || (!isHostUser && voteStatus === 'ONGOING')
-	}, [votedParticipants, voteStatus, isHostUser])
+	const handleFinishRoulette = useCallback(() => {
+		setIsEndModalOpen(false)
+		setIsRouletteFinished(true)
+	}, [setIsEndModalOpen, router, roomId])
+
+	const isDisabled =
+		(isHostUser && votedParticipants === 0) || (!isHostUser && voteStatus === 'ONGOING')
 
 	const routeToResult = useCallback(() => {
 		router.push(`/group/${roomId}/result`)
@@ -62,17 +71,23 @@ export default function VoteRoomStepper({
 				</div>
 				<div className="border-gray-10 mt-[35px] mb-6 w-full border-[1px]"></div>
 				<ul className="flex w-full flex-col gap-6">
-					{ASIDE_MENUS.map((menu, idx) => (
-						<li key={menu.value} className="text-b2-bold w-full">
-							<button
-								className={`${activeStep === idx + 1 ? 'bg-gray-5' : ''} flex w-full items-center rounded-[18px] p-4 outline-none`}
-								onClick={() => setActiveStep(idx + 1)}
-							>
-								<span className="mr-2 flex items-center">{idx + 1}.</span>
-								<span className="">{menu.label}</span>
-							</button>
-						</li>
-					))}
+					{ASIDE_MENUS.map((menu, idx) => {
+						// 룰렛 경우 1번째 스텝까지만 보여줌
+						if (isRoulette && idx + 1 >= NO_ROULETTE_STEP) {
+							return null
+						}
+						return (
+							<li key={menu.value} className="text-b2-bold w-full">
+								<button
+									className={`${activeStep === idx + 1 ? 'bg-gray-5' : ''} flex w-full items-center rounded-[18px] p-4 outline-none`}
+									onClick={() => setActiveStep(idx + 1)}
+								>
+									<span className="mr-2 flex items-center">{idx + 1}.</span>
+									<span className="">{menu.label}</span>
+								</button>
+							</li>
+						)
+					})}
 				</ul>
 			</div>
 			<button
@@ -80,14 +95,13 @@ export default function VoteRoomStepper({
 				onClick={isHostUser ? handleEndModalOpen : routeToResult}
 				disabled={isDisabled}
 			>
-				{isHostUser ? '투표 끝내기' : '투표 결과보기'}
+				{isHostUser ? (isRoulette ? '결과 확인하기' : '투표 끝내기') : '투표 결과보기'}
 			</button>
 			<VoteEndModal
+				voteMethod={menuSelectMethod}
 				isOpen={isEndModalOpen}
 				onClose={handleEndModalClose}
-				title="투표를 종료하고 결과를 확인하세요"
-				subtitle="(투표가 종료되면 더이상 메뉴 제안 및 투표를 할 수 없습니다.)"
-				callbackOnFinishVote={handleFinishVote}
+				callbackOnFinishVote={isRoulette ? handleFinishRoulette : handleFinishVote}
 			/>
 		</>
 	)

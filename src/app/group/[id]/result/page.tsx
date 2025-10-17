@@ -24,36 +24,36 @@ export default async function ResultPage({ params }: ResultPageProps) {
 							menuName: '샌드위치',
 							voteCount: 3,
 						},
-						{
-							menuName: '햄버거',
-							voteCount: 3,
-						},
+						// {
+						// 	menuName: '햄버거',
+						// 	voteCount: 3,
+						// },
 					],
 				},
-				{
-					rank: 2,
-					count: 5,
-					menus: [
-						{
-							menuName: '피자',
-							voteCount: 5,
-						},
-					],
-				},
-				{
-					rank: 3,
-					count: 2,
-					menus: [
-						{
-							menuName: '떡볶이',
-							voteCount: 1,
-						},
-						{
-							menuName: '치킨',
-							voteCount: 1,
-						},
-					],
-				},
+				// {
+				// 	rank: 2,
+				// 	count: 5,
+				// 	menus: [
+				// 		{
+				// 			menuName: '피자',
+				// 			voteCount: 5,
+				// 		},
+				// 	],
+				// },
+				// {
+				// 	rank: 3,
+				// 	count: 2,
+				// 	menus: [
+				// 		{
+				// 			menuName: '떡볶이',
+				// 			voteCount: 1,
+				// 		},
+				// 		{
+				// 			menuName: '치킨',
+				// 			voteCount: 1,
+				// 		},
+				// 	],
+				// },
 			],
 		},
 	}
