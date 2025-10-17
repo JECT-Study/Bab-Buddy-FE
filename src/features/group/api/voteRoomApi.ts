@@ -17,6 +17,7 @@ export const joinGroup = async (id: string) => {
 		}
 
 		const response = await serverClient.post(`/api/voterooms/join/${id}`)
+		console.log('[joinGroup] response', response.status)
 		if (response.status == 200) {
 			return true
 		} else {
@@ -132,10 +133,9 @@ export const getGroupDetailOnClient = async (id: string): Promise<GroupDetailTyp
 export const addMenuOnVoteRoom = async (voteRoomId: string, name: string) => {
 	try {
 		const response = await api.post<string>(`/api/menu/create`, { voteRoomId, name })
-		console.log('[addMenu] response', response)
-		// if (response.data == null) {
-		// 	throw new Error('addMenu error: ', response.data)
-		// }
+		if (response.data == null) {
+			throw new Error('addMenu error: ', response.data)
+		}
 
 		return response.data
 	} catch (e) {
