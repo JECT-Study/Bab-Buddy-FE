@@ -36,7 +36,7 @@ const VoteRoomContainer = ({
 	menuSelectMethod: VotingType
 }) => {
 	const [activeStep, setActiveStep] = useState(1)
-	const { data: room, isFetching } = useGroupRoomDetail(roomId, menuSelectMethod)
+	const { data: room, isLoading } = useGroupRoomDetail(roomId, menuSelectMethod)
 	const [isRouletteFinished, setIsRouletteFinished] = useState(false)
 
 	// TODO API 붙인 후 확인할 것.
@@ -48,7 +48,7 @@ const VoteRoomContainer = ({
 		}
 	}, [room])
 
-	if (isFetching) {
+	if (isLoading) {
 		return <div>Loading...</div>
 	}
 

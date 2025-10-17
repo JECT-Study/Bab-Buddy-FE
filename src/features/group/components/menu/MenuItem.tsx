@@ -21,19 +21,16 @@ const useMenuItem = (menu: MenuItemType) => {
 	const [menuName, setMenuName] = useState(menu.name)
 	const inputRef = useRef<HTMLInputElement>(null)
 
-	const handleChangeMenuName = useCallback(
-		(e: React.ChangeEvent<HTMLInputElement>) => {
-			setMenuName(e.target.value)
-		},
-		[menu.menuId],
-	)
+	const handleChangeMenuName = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+		setMenuName(e.target.value)
+	}, [])
 
 	const handleUpdateMenuName = useCallback(async () => {
 		const isUpdated = await updateMenuOnVoteRoom(menu.menuId, menuName)
 		if (isUpdated) {
 			queryClient.invalidateQueries({ queryKey: ['group', id] })
 		}
-	}, [menu.menuId, menuName])
+	}, [menu.menuId, menuName, queryClient, id])
 
 	const handleKeyDown = useCallback(
 		async (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -51,7 +48,7 @@ const useMenuItem = (menu: MenuItemType) => {
 			await handleUpdateMenuName()
 		}
 		setIsEditable((prev) => !prev)
-	}, [setIsEditable, handleUpdateMenuName])
+	}, [setIsEditable, handleUpdateMenuName, isEditable])
 
 	useEffect(() => {
 		// isEditable이 true가 되면 input에 포커스

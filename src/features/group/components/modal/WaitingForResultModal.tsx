@@ -6,17 +6,6 @@ interface WaitingForResultModalProps {
 	onClose: () => void
 }
 
-const TEXT_MAP = {
-	VOTE: {
-		title: '투표를 종료하고 결과를 확인하세요',
-		subTitle: '(투표가 종료되면 더이상 메뉴 제안 및 투표를 할 수 없습니다.)',
-	},
-	ROULETTE: {
-		title: '룰렛을 돌려 결과를 확인하세요',
-		subTitle: '(룰렛을 돌리면 더이상 제안되는 메뉴를 반영하지 않습니다.)',
-	},
-}
-
 export default function WaitingForResultModal({ isOpen, onClose }: WaitingForResultModalProps) {
 	if (!isOpen) return null
 

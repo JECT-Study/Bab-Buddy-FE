@@ -59,7 +59,7 @@ export default function VoteRoomStepper({
 	const handleFinishRoulette = useCallback(async () => {
 		setIsEndModalOpen(false)
 		setIsRouletteFinished(true)
-	}, [setIsEndModalOpen, setIsRouletteFinished, roomId])
+	}, [setIsEndModalOpen, setIsRouletteFinished])
 
 	const isDisabled =
 		(isHostUser && votedParticipants === 0) ||

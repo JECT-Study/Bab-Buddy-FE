@@ -1,17 +1,24 @@
 import { useCallback, useState } from 'react'
-import { type MenuItemType } from '../../types/group'
+import type { VotingType, MenuItemType } from '../../types/group'
 import MenuInputForm from '../input/MenuInputForm'
 import MenuItem from './MenuItem'
 import { addDislikeMenuOnVoteRoom, deleteDislikeMenuOnVoteRoom } from '../../api/voteRoomApi'
 import { useUser } from '@/shared/hooks/useUser'
+import { useQueryClient } from '@tanstack/react-query'
 
 interface DisLikeMenuProps {
 	roomId: string
 	dislikeMenuList: MenuItemType[]
+	menuSelectMethod: VotingType
 }
-export default function DisLikeMenu({ roomId, dislikeMenuList }: DisLikeMenuProps) {
+export default function DisLikeMenu({
+	roomId,
+	dislikeMenuList,
+	menuSelectMethod,
+}: DisLikeMenuProps) {
 	const [dislikedMenus, setDislikedMenus] = useState<MenuItemType[]>(dislikeMenuList || [])
 	const { user } = useUser()
+	const queryClient = useQueryClient()
 
 	const handleSubmit = async (inputValue: string) => {
 		if (inputValue.trim() === '') {
@@ -32,8 +39,9 @@ export default function DisLikeMenu({ roomId, dislikeMenuList }: DisLikeMenuProp
 
 		setDislikedMenus((prev: MenuItemType[]) => [
 			...prev,
-			{ menuId: menuId ?? '', name: inputValue, createdBy: user?.userId ?? '' },
+			{ menuId: menuId ?? '', name: inputValue, createdBy: user?.name ?? '' },
 		])
+		queryClient.invalidateQueries({ queryKey: ['group', menuSelectMethod, roomId] })
 	}
 
 	const handleDeleteMenu = useCallback(
@@ -41,9 +49,10 @@ export default function DisLikeMenu({ roomId, dislikeMenuList }: DisLikeMenuProp
 			const isDeleted = await deleteDislikeMenuOnVoteRoom(roomId, menuName)
 			if (isDeleted) {
 				setDislikedMenus((prev) => prev.filter((_menu) => _menu.menuId !== menuId))
+				queryClient.invalidateQueries({ queryKey: ['group', menuSelectMethod, roomId] })
 			}
 		},
-		[roomId],
+		[roomId, menuSelectMethod, queryClient],
 	)
 	return (
 		<>

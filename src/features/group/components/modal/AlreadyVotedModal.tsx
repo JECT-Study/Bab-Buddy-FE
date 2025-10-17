@@ -1,5 +1,4 @@
 import Icon from '@/shared/components/Icon'
-import type { VoteResultTopMenuType } from '../../types/group'
 import Modal from './Modal'
 
 interface AlreadyVotedModalProps {

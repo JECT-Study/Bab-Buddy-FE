@@ -67,7 +67,13 @@ export default function VoteRoomContent({
 							1: (
 								<AddMenu roomId={roomId} menuList={menuList} menuSelectMethod={menuSelectMethod} />
 							),
-							2: <DisLikeMenu roomId={roomId} dislikeMenuList={dislikeMenuList} />,
+							2: (
+								<DisLikeMenu
+									roomId={roomId}
+									dislikeMenuList={dislikeMenuList}
+									menuSelectMethod={menuSelectMethod}
+								/>
+							),
 							3: (
 								<VoteRoom
 									roomId={roomId}

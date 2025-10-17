@@ -4,11 +4,11 @@ import {
 	getGroupRouletteDetail,
 	joinGroup,
 } from '@/features/group/api/voteRoomApi'
+import type { VotingType } from '@/features/group/types/group'
 import VoteRoomContainer from '@/features/group/components/vote-room/VoteRoomContainer'
+import AsyncBoundary from '@/shared/components/boundary/AsyncBoundary'
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
 import type { Metadata } from 'next'
-import AsyncBoundary from '@/shared/components/boundary/AsyncBoundary'
-import { VotingType } from '@/features/group/types/group'
 
 export const metadata: Metadata = {
 	description: '그룹방에 참여해보세요',
