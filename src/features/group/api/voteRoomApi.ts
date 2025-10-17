@@ -31,7 +31,7 @@ export const joinGroup = async (id: string) => {
 	try {
 		const token = await getServerAccessToken()
 		if (token == null) {
-			throw new Error('로그인 후 참여해주세요')
+			return redirect('/login')
 		}
 
 		const response = await serverClient.post(`/api/voterooms/join/${id}`)
