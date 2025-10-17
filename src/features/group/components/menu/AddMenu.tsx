@@ -1,5 +1,5 @@
 'use client'
-import { useCallback, useState } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import type { MenuItemType, VotingType } from '../../types/group'
 import Image from 'next/image'
 import MenuItem from './MenuItem'
@@ -93,6 +93,11 @@ export default function AddMenu({ roomId, menuList, menuSelectMethod }: AddMenuP
 	const { user, loading, error } = useUser()
 
 	const queryClient = useQueryClient()
+
+	// 폴링으로 받은 menuList를 state에 동기화
+	useEffect(() => {
+		setMenus(menuList)
+	}, [menuList])
 
 	const handleSubmit = async (inputValue: string) => {
 		const menuId = await addMenuOnVoteRoom(roomId, inputValue)

@@ -1,7 +1,7 @@
 import type { MenuItemType } from '../../types/group'
 import Icon from '@/shared/components/Icon'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { cancelVoteMenu, voteMenu } from '../../api/voteRoomApi'
 import { useModal } from '@/shared/hooks/useModal'
 import AlreadyVotedModal from '../modal/AlreadyVotedModal'
@@ -21,6 +21,11 @@ export default function VoteRoom({
 }: VoteRoomProps) {
 	const { openModal, isOpen, closeModal } = useModal()
 	const [activeMenuName, setActiveMenuName] = useState<string>(votedMenuName)
+
+	// 폴링으로 받은 votedMenuName을 state에 동기화
+	useEffect(() => {
+		setActiveMenuName(votedMenuName)
+	}, [votedMenuName])
 
 	const handleClickMenu = async (menu: MenuItemType) => {
 		if (activeMenuName != null && activeMenuName === menu.name) {
