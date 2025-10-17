@@ -57,7 +57,7 @@ export default function VoteRoomStepper({
 		setIsEndModalOpen(false)
 		setIsRouletteFinished(true)
 		await terminateVoteRoom(roomId)
-	}, [setIsEndModalOpen, setIsRouletteFinished])
+	}, [setIsEndModalOpen, setIsRouletteFinished, roomId])
 
 	const isDisabled =
 		(isHostUser && votedParticipants === 0) || (!isHostUser && voteStatus === 'ONGOING')
