@@ -19,7 +19,6 @@ const useMakeGroupRoom = () => {
 			return router.push(`/group/${roomId}`)
 		}
 
-		console.log('title', title, 'votingMethod', votingMethod)
 		return router.push(`/group/${roomId}`)
 	}
 

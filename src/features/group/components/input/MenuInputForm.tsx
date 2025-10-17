@@ -1,14 +1,17 @@
 import Icon from '@/shared/components/Icon'
 import { useRef, useState, type KeyboardEventHandler } from 'react'
+import AddMenuButton from '../button/AddMenuButton'
 
 interface MenuInputFormProps {
 	placeholder?: string
 	onSubmit: (inputValue: string) => void | Promise<void>
+	needsSubmitButton?: boolean
 }
 
 export default function MenuInputForm({
 	placeholder = '제안하고 싶은 메뉴를 작성해주세요.',
 	onSubmit,
+	needsSubmitButton = true,
 }: MenuInputFormProps) {
 	const inputRef = useRef<HTMLInputElement>(null)
 	const [inputValue, setInputValue] = useState('')
@@ -40,12 +43,9 @@ export default function MenuInputForm({
 					ref={inputRef}
 				/>
 			</div>
-			<button
-				className={`text-b3-medium flex h-full w-32 items-center gap-1 rounded-3xl px-6 py-2 text-white ${inputValue.trim() ? 'bg-gray-100' : 'bg-gray-30'}`}
-				onClick={handleAddMenu}
-			>
-				메뉴 추가하기
-			</button>
+			{needsSubmitButton && (
+				<AddMenuButton onClick={handleAddMenu} isDisabled={!inputValue.trim()} />
+			)}
 		</div>
 	)
 }

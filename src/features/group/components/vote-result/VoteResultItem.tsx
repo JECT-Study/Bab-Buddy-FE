@@ -1,15 +1,18 @@
 import Icon from '@/shared/components/Icon'
 import Image from 'next/image'
-import type { VoteResultTopMenuType } from '../../types/group'
+import type { VoteResultTopMenuType, VotingType } from '../../types/group'
 import { useModal } from '@/shared/hooks/useModal'
 import VoteResultModal from '../modal/VoteResultModal'
 
 interface VoteResultItemProps {
 	menu: VoteResultTopMenuType
+	menuSelectMethod: VotingType
 }
-export default function VoteResultItem({ menu }: VoteResultItemProps) {
+export default function VoteResultItem({ menu, menuSelectMethod }: VoteResultItemProps) {
 	const { openModal, isOpen, closeModal } = useModal()
 	const isMoreThanOne = menu.menus.length > 1
+
+	const isVote = menuSelectMethod === 'VOTE'
 
 	return (
 		<>
@@ -34,8 +37,8 @@ export default function VoteResultItem({ menu }: VoteResultItemProps) {
 						</div>
 					)}
 				</div>
-				<div className="flex w-full items-end justify-between">
-					<span className="text-b1-bold text-orange">득표 수 {menu.count}</span>
+				<div className={`flex w-full items-end ${isVote ? 'justify-between' : 'justify-center'}`}>
+					{isVote && <span className="text-b1-bold text-orange">득표 수 {menu.count}</span>}
 					<Image
 						src={
 							menu.rank === 1

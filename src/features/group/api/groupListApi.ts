@@ -39,7 +39,7 @@ export const makeGroupRoom = async (title: string, votingMethod: VotingType) => 
 	try {
 		const response = await api.post(
 			`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/voterooms/createroom`,
-			{ title, status: 'ONGOING', menuSelectMethod: votingMethod },
+			{ title, menuSelectMethod: votingMethod },
 		)
 		return response?.data
 	} catch (e) {

@@ -44,10 +44,16 @@ export default function ParticipantList({
 
 			{/* 참여자 리스트 */}
 			<div className="mb-6 flex-1 space-y-4">
-				{paginatedItems.map(({ id, name, imageUrl }) => (
+				{paginatedItems.map(({ id, name, image }) => (
 					<div key={id} className="flex items-center gap-2 rounded-lg">
-						{imageUrl ? (
-							<Image src={imageUrl} alt={`${name} image`} width={30} height={30} />
+						{image ? (
+							<Image
+								src={image}
+								alt={`${name} image`}
+								width={30}
+								height={30}
+								className="rounded-full object-contain"
+							/>
 						) : (
 							<Icon.GroupMembers size={30} />
 						)}

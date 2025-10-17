@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { MenuItemType } from '../../types/group'
+import type { MenuItemType, VotingType } from '../../types/group'
 import Image from 'next/image'
 import MenuItem from './MenuItem'
 import MenuInputForm from '../input/MenuInputForm'
@@ -10,6 +10,7 @@ import SwitchCases from '@/shared/components/SwitchCases'
 type AddMenuProps = {
 	roomId: string
 	menuList: MenuItemType[]
+	menuSelectMethod: VotingType
 }
 
 const Loading = () => {
@@ -65,7 +66,7 @@ const MenuList = ({ menus }: { menus: MenuItemType[] }) => {
 	)
 }
 
-export default function AddMenu({ roomId, menuList }: AddMenuProps) {
+export default function AddMenu({ roomId, menuList, menuSelectMethod }: AddMenuProps) {
 	const [menus, setMenus] = useState(menuList)
 	const { user, loading, error } = useUser()
 
@@ -84,7 +85,7 @@ export default function AddMenu({ roomId, menuList }: AddMenuProps) {
 
 	return (
 		<>
-			<MenuInputForm onSubmit={handleSubmit} />
+			<MenuInputForm onSubmit={handleSubmit} needsSubmitButton={menuSelectMethod !== 'ROULETTE'} />
 			<SwitchCases
 				value={error != null ? 'error' : loading ? 'loading' : 'menuList'}
 				cases={{
