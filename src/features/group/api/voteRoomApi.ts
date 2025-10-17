@@ -8,6 +8,25 @@ interface ServerGroupDetailType extends Omit<GroupDetailType, 'isHostUser'> {
 	hostUser: boolean
 }
 
+// 그룹방 참여
+export const joinGroup = async (id: string) => {
+	try {
+		const token = await getServerAccessToken()
+		if (token == null) {
+			throw new Error('로그인 후 참여해주세요')
+		}
+
+		const response = await serverClient.post(`/api/voterooms/join/${id}`)
+		if (response.status == 200) {
+			return true
+		} else {
+			throw new Error(`joinGroup error: ${response.status}`)
+		}
+	} catch (e) {
+		throw new Error(`joinGroup error: ${e}`)
+	}
+}
+
 // 그룹방 상세 조회
 export const getGroupDetail = async (id: string) => {
 	const token = await getServerAccessToken()
@@ -51,7 +70,7 @@ export const getGroupDetail = async (id: string) => {
 				{
 					id: '',
 					name: '',
-					imageUrl: '',
+					image: '',
 				},
 			],
 			totalParticipants: 0,
@@ -98,7 +117,7 @@ export const getGroupDetailOnClient = async (id: string): Promise<GroupDetailTyp
 				{
 					id: '',
 					name: '',
-					imageUrl: '',
+					image: '',
 				},
 			],
 			totalParticipants: 0,
@@ -113,9 +132,10 @@ export const getGroupDetailOnClient = async (id: string): Promise<GroupDetailTyp
 export const addMenuOnVoteRoom = async (voteRoomId: string, name: string) => {
 	try {
 		const response = await api.post<string>(`/api/menu/create`, { voteRoomId, name })
-		if (response.data == null) {
-			throw new Error('addMenu error: ', response.data)
-		}
+		console.log('[addMenu] response', response)
+		// if (response.data == null) {
+		// 	throw new Error('addMenu error: ', response.data)
+		// }
 
 		return response.data
 	} catch (e) {
@@ -200,6 +220,7 @@ export const deleteVoteRoom = async (voteRoomId: string) => {
 	}
 }
 
+// 룰렛 결과 저장
 export const saveRouletteResult = async (menuName: string) => {
 	console.log('menuName: ', menuName)
 	try {
@@ -213,5 +234,15 @@ export const saveRouletteResult = async (menuName: string) => {
 	} catch (e) {
 		console.error('saveRouletteResult error: ', e)
 		return 500
+	}
+}
+
+// 투표 끝내기
+export const terminateVoteRoom = async (voteRoomId: string) => {
+	try {
+		const response = await api.patch(`/api/voterooms/close/${voteRoomId}`)
+		return response.data
+	} catch (e) {
+		console.error('terminateVoteRoom error: ', e)
 	}
 }
