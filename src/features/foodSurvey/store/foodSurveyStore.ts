@@ -6,6 +6,8 @@ export type SurveyStep = 1 | 2 | 3
 
 interface FoodSurveyState {
 	surveyResponses: SurveyResponse
+	_hasHydrated: boolean
+	setHasHydrated: (state: boolean) => void
 	setResponse: (step: SurveyStep, value: string) => void
 	setAddress: (address: string) => void
 	clearResponses: () => void
@@ -22,6 +24,10 @@ export const useFoodSurveyStore = create<FoodSurveyState>()(
 	persist(
 		(set) => ({
 			surveyResponses: initialState,
+			_hasHydrated: false,
+			setHasHydrated: (state) => {
+				set({ _hasHydrated: state })
+			},
 			setResponse: (step: SurveyStep, value: string) =>
 				set((state) => ({
 					surveyResponses: {
@@ -47,6 +53,9 @@ export const useFoodSurveyStore = create<FoodSurveyState>()(
 		{
 			name: 'food-survey-storage',
 			partialize: (state) => ({ surveyResponses: state.surveyResponses }),
+			onRehydrateStorage: () => (state) => {
+				state?.setHasHydrated(true)
+			},
 		},
 	),
 )

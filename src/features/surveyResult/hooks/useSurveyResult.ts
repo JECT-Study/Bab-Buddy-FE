@@ -5,7 +5,7 @@ import type { Restaurant } from '@/features/myInfo/types/recommendationHistory'
 import { submitSurveyApi, getRestaurantListApi, getFoodListApi } from '../api/surveyResultApi'
 
 export const useSurveyResult = () => {
-	const { surveyResponses, clearResponses } = useFoodSurveyStore()
+	const { surveyResponses, clearResponses, _hasHydrated } = useFoodSurveyStore()
 	const [surveyResult, setSurveyResult] = useState<SurveyResultInfo | null>(null)
 	const [restaurants, setRestaurants] = useState<Restaurant[]>([])
 	const [foods, setFoods] = useState<string[]>([])
@@ -13,6 +13,8 @@ export const useSurveyResult = () => {
 	const [error, setError] = useState<Error | null>(null)
 
 	useEffect(() => {
+		// Hydration 완료될 때까지 대기
+		if (!_hasHydrated) return
 		const fetchData = async () => {
 			try {
 				setIsLoading(true)
