@@ -29,7 +29,7 @@ const STEP_CONTENTS = {
 
 const ROULETTE_STEP_CONTENTS = {
 	1: {
-		title: `룰렛에 추가하고 싶은 메뉴를\n 추가해보세요.`,
+		title: `룰렛에 추가하고 싶은 메뉴를 추가해보세요.`,
 		subTitle: '',
 	},
 }
@@ -44,7 +44,7 @@ export default function VoteRoomContent({
 	room: { roomId, menuList, dislikeMenuList, menuSelectMethod },
 	isRouletteFinished,
 }: VoteRoomContentProps) {
-	const stepContents = true ? ROULETTE_STEP_CONTENTS : STEP_CONTENTS
+	const stepContents = menuSelectMethod === 'ROULETTE' ? ROULETTE_STEP_CONTENTS : STEP_CONTENTS
 	const currentStep = stepContents[step as keyof typeof stepContents] as StepContent | undefined
 
 	if (isRouletteFinished) {
