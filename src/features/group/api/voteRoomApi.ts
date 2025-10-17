@@ -26,20 +26,6 @@ export const getGroupDetail = async (id: string) => {
 			...groupDetail.data,
 			isHostUser: groupDetail.data.hostUser,
 			dislikeMenuList: groupDislikeFoods.data,
-			menuSelectMethod: 'ROULETTE',
-			voteStatus: 'FINISHED',
-			menuList: [
-				{
-					id: '1',
-					name: '메뉴1',
-					createdBy: '',
-				},
-				{
-					id: '2',
-					name: '메뉴2',
-					createdBy: '',
-				},
-			],
 		}
 	} catch (e) {
 		console.error('getGroupDetail error[serverClient]: ', e)
@@ -87,7 +73,6 @@ export const getGroupDetailOnClient = async (id: string): Promise<GroupDetailTyp
 			...groupDetail.data,
 			isHostUser: groupDetail.data.hostUser,
 			dislikeMenuList: groupDislikeFoods.data,
-			menuSelectMethod: 'VOTE',
 		}
 	} catch (e) {
 		console.error('getGroupDetail error[api]: ', e)
@@ -126,12 +111,6 @@ export const getGroupDetailOnClient = async (id: string): Promise<GroupDetailTyp
 
 // 메뉴 등록
 export const addMenuOnVoteRoom = async (voteRoomId: string, name: string) => {
-	const token = await getServerAccessToken()
-
-	if (token == null) {
-		return redirect('/login')
-	}
-
 	try {
 		const response = await api.post<string>(`/api/menu/create`, { voteRoomId, name })
 		if (response.data == null) {
@@ -146,12 +125,6 @@ export const addMenuOnVoteRoom = async (voteRoomId: string, name: string) => {
 
 // 메뉴 수정
 export const updateMenuOnVoteRoom = async (menuId: string, name: string) => {
-	const token = await getServerAccessToken()
-
-	if (token == null) {
-		return redirect('/login')
-	}
-
 	try {
 		const response = await api.patch(`/api/menu/update/${menuId}`, {
 			name,
@@ -164,12 +137,6 @@ export const updateMenuOnVoteRoom = async (menuId: string, name: string) => {
 
 // 메뉴 삭제
 export const deleteMenuOnVoteRoom = async (menuId: string) => {
-	const token = await getServerAccessToken()
-
-	if (token == null) {
-		return redirect('/login')
-	}
-
 	try {
 		const response = await api.delete(`/api/menu/delete/${menuId}`)
 		return response.data
