@@ -309,6 +309,19 @@ export const voteMenu = async (voteRoomId: string, menuId: string) => {
 	}
 }
 
+// 메뉴 투표 취소
+export const cancelVoteMenu = async (voteId: string) => {
+	try {
+		const response = await api.delete(
+			`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/vote/cancel?voteId=${voteId}`,
+		)
+		return response.status == 200
+	} catch (e) {
+		console.error('cancelVoteMenu error: ', e)
+		return false
+	}
+}
+
 // 그룹방(투표방) 삭제
 export const deleteVoteRoom = async (voteRoomId: string) => {
 	try {

@@ -38,17 +38,25 @@ const Error = ({ error }: { error: Error | null }) => {
 	)
 }
 
-const MenuList = ({ roomId, menus }: { roomId: string; menus: MenuItemType[] }) => {
+const MenuList = ({
+	roomId,
+	menus,
+	menuSelectMethod,
+}: {
+	roomId: string
+	menus: MenuItemType[]
+	menuSelectMethod: VotingType
+}) => {
 	const queryClient = useQueryClient()
 
 	const handleDeleteMenu = useCallback(
 		async (menuId: string) => {
 			const isDeleted = await deleteMenuOnVoteRoom(menuId)
 			if (isDeleted) {
-				queryClient.invalidateQueries({ queryKey: ['group', roomId] })
+				queryClient.invalidateQueries({ queryKey: ['group', menuSelectMethod, roomId] })
 			}
 		},
-		[roomId],
+		[roomId, menuSelectMethod, queryClient],
 	)
 
 	return (
@@ -95,9 +103,9 @@ export default function AddMenu({ roomId, menuList, menuSelectMethod }: AddMenuP
 
 		setMenus((prev: MenuItemType[]) => [
 			...prev,
-			{ menuId: menuId, name: inputValue, createdBy: user?.userId ?? '' },
+			{ menuId: menuId, name: inputValue, createdBy: user?.name ?? '' },
 		])
-		queryClient.invalidateQueries({ queryKey: ['group', 'vote', roomId] })
+		queryClient.invalidateQueries({ queryKey: ['group', menuSelectMethod, roomId] })
 	}
 
 	return (
@@ -108,7 +116,7 @@ export default function AddMenu({ roomId, menuList, menuSelectMethod }: AddMenuP
 				cases={{
 					error: <Error error={error} />,
 					loading: <Loading />,
-					menuList: <MenuList roomId={roomId} menus={menus} />,
+					menuList: <MenuList roomId={roomId} menus={menus} menuSelectMethod={menuSelectMethod} />,
 				}}
 			/>
 		</>

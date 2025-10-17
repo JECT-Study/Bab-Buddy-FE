@@ -16,14 +16,14 @@ const useGroupRoomDetail = (
 	pollingInterval = DEFAULT_POLLING_INTERVAL,
 ) => {
 	return useQuery({
-		queryKey: ['group', 'vote', roomId],
+		queryKey: ['group', menuSelectMethod, roomId],
 		queryFn: async () =>
 			menuSelectMethod === 'ROULETTE'
 				? await getGroupRouletteDetailOnClient(roomId)
 				: await getGroupDetailOnClient(roomId),
-		// refetchInterval: pollingInterval, // 5초마다 자동 폴링
-		// // refetchIntervalInBackground: true, // 백그라운드에서도 폴링
-		// refetchOnWindowFocus: true, // 윈도우 포커스 시 리페치
+		refetchInterval: pollingInterval, // 5초마다 자동 폴링
+		// refetchIntervalInBackground: true, // 백그라운드에서도 폴링
+		refetchOnWindowFocus: true, // 윈도우 포커스 시 리페치
 		staleTime: pollingInterval, // 5초 동안은 캐시 사용
 	})
 }
@@ -38,8 +38,6 @@ const VoteRoomContainer = ({
 	const [activeStep, setActiveStep] = useState(1)
 	const { data: room, isFetching } = useGroupRoomDetail(roomId, menuSelectMethod)
 	const [isRouletteFinished, setIsRouletteFinished] = useState(false)
-
-	console.log('room: ', room)
 
 	// TODO API 붙인 후 확인할 것.
 	// 1. 룰렛방이 종료된 경우에는 isRouletteFinished를 true로 설정

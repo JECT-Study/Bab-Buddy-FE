@@ -2,7 +2,9 @@ import type { MenuItemType } from '../../types/group'
 import Icon from '@/shared/components/Icon'
 import Image from 'next/image'
 import { useState } from 'react'
-import { voteMenu } from '../../api/voteRoomApi'
+import { cancelVoteMenu, voteMenu } from '../../api/voteRoomApi'
+import { useModal } from '@/shared/hooks/useModal'
+import AlreadyVotedModal from '../modal/AlreadyVotedModal'
 
 interface VoteRoomProps {
 	roomId: string
@@ -17,10 +19,21 @@ export default function VoteRoom({
 	dislikeMenuList,
 	votedMenuName,
 }: VoteRoomProps) {
+	const { openModal, isOpen, closeModal } = useModal()
 	const [activeMenuName, setActiveMenuName] = useState<string>(votedMenuName)
 
 	const handleClickMenu = async (menu: MenuItemType) => {
-		await voteMenu(roomId, menu.menuId)
+		if (activeMenuName != null && activeMenuName === menu.name) {
+			await cancelVoteMenu(menu.name)
+			return
+		} else if (activeMenuName != null && activeMenuName !== menu.name) {
+			openModal()
+			return
+		}
+
+		if (activeMenuName == null) {
+			await voteMenu(roomId, menu.menuId)
+		}
 		setActiveMenuName(menu.name)
 	}
 
@@ -83,6 +96,7 @@ export default function VoteRoom({
 					</div>
 				)}
 			</ul>
+			<AlreadyVotedModal isOpen={isOpen} onClose={closeModal} />
 		</>
 	)
 }

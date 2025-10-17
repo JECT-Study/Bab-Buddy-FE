@@ -5,6 +5,7 @@ import Icon from '@/shared/components/Icon'
 import { updateMenuOnVoteRoom } from '../../api/voteRoomApi'
 import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
+import { useUser } from '@/shared/hooks/useUser'
 
 interface MenuItemProps {
 	menu: MenuItemType
@@ -70,6 +71,9 @@ const useMenuItem = (menu: MenuItemType) => {
 }
 
 export default function MenuItem({ menu, handleDeleteMenu, disableEdit = false }: MenuItemProps) {
+	const { user } = useUser()
+	const isMyMenu = menu.createdBy === user?.name
+
 	const { isEditable, menuName, inputRef, handleChangeMenuName, handleKeyDown, handleEditable } =
 		useMenuItem(menu)
 
@@ -90,15 +94,17 @@ export default function MenuItem({ menu, handleDeleteMenu, disableEdit = false }
 			<div className="flex items-center gap-4">
 				{!disableEdit && (
 					<button
-						className="text-b3-medium bg-gray-5 rounded-3xl px-4 py-2 text-gray-50 outline-none"
+						className={`text-b3-medium bg-gray-5 rounded-3xl px-4 py-2 text-gray-50 outline-none ${!isMyMenu ? 'opacity-50' : ''}`}
 						onClick={handleEditable}
+						disabled={!isMyMenu}
 					>
 						<span>{isEditable ? '변경 완료' : '메뉴 변경'}</span>
 					</button>
 				)}
 				<button
-					className="text-b3-medium bg-gray-5 rounded-3xl px-4 py-2 text-gray-50 outline-none"
+					className={`text-b3-medium bg-gray-5 rounded-3xl px-4 py-2 text-gray-50 outline-none ${!isMyMenu ? 'opacity-50' : ''}`}
 					onClick={() => handleDeleteMenu?.(menu.menuId, menu.name)}
+					disabled={!isMyMenu}
 				>
 					<Icon.Trash />
 				</button>
