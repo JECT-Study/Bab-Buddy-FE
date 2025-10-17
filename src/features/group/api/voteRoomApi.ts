@@ -268,13 +268,15 @@ export const deleteMenuOnVoteRoom = async (menuId: string) => {
 export const addDislikeMenuOnVoteRoom = async (roomId: string, name: string) => {
 	try {
 		const response = await api.post<string>(`/api/voterooms/dislike`, { roomId, name })
+
 		if (response.data == null) {
 			throw new Error('addDislikeMenuOnVoteRoom error: ', response.data)
 		}
 
-		return response.data
+		return response.status == 200
 	} catch (e) {
 		console.error('addDislikeMenuOnVoteRoom error: ', e)
+		return false
 	}
 }
 

@@ -69,7 +69,7 @@ const useMenuItem = (menu: MenuItemType) => {
 
 export default function MenuItem({ menu, handleDeleteMenu, disableEdit = false }: MenuItemProps) {
 	const { user } = useUser()
-	const isMyMenu = menu.createdBy === user?.name
+	const isMyMenu = disableEdit ? menu.createdBy === user?.userId : menu.createdBy === user?.name
 
 	const { isEditable, menuName, inputRef, handleChangeMenuName, handleKeyDown, handleEditable } =
 		useMenuItem(menu)

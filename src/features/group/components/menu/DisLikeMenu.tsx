@@ -31,15 +31,15 @@ export default function DisLikeMenu({
 			return
 		}
 
-		const menuId = await addDislikeMenuOnVoteRoom(roomId, inputValue)
-		if (menuId == null) {
+		const isAdded = await addDislikeMenuOnVoteRoom(roomId, inputValue)
+		if (!isAdded) {
 			alert('싫어하는 메뉴 등록에 실패했습니다.')
 			return
 		}
 
 		setDislikedMenus((prev: MenuItemType[]) => [
 			...prev,
-			{ menuId: menuId ?? '', name: inputValue, createdBy: user?.name ?? '' },
+			{ menuId: inputValue.trim(), name: inputValue, createdBy: user?.userId ?? '' },
 		])
 		queryClient.invalidateQueries({ queryKey: ['group', menuSelectMethod, roomId] })
 	}
