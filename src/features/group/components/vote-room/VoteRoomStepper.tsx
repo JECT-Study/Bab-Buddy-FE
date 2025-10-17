@@ -1,5 +1,5 @@
 'use client'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useState } from 'react'
 import VoteEndModal from '../modal/VoteEndModal'
 import { useRouter } from 'next/navigation'
 import { type GroupDetailType } from '../../types/group'
@@ -54,7 +54,7 @@ export default function VoteRoomStepper({
 	const handleFinishRoulette = useCallback(() => {
 		setIsEndModalOpen(false)
 		setIsRouletteFinished(true)
-	}, [setIsEndModalOpen, router, roomId])
+	}, [setIsEndModalOpen, setIsRouletteFinished])
 
 	const isDisabled =
 		(isHostUser && votedParticipants === 0) || (!isHostUser && voteStatus === 'ONGOING')

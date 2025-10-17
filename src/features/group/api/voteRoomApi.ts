@@ -234,6 +234,7 @@ export const deleteVoteRoom = async (voteRoomId: string) => {
 }
 
 export const saveRouletteResult = async (menuName: string) => {
+	console.log('menuName: ', menuName)
 	try {
 		// const response = await api.post(`/api/voterooms/roulette/result`, {
 		// 	menuName,

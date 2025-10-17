@@ -85,11 +85,7 @@ export default function AddMenu({ roomId, menuList, menuSelectMethod }: AddMenuP
 
 	return (
 		<>
-			<MenuInputForm
-				onSubmit={handleSubmit}
-				// needsSubmitButton={menuSelectMethod !== 'ROULETTE'} /
-				// needsSubmitButton={false}
-			/>
+			<MenuInputForm onSubmit={handleSubmit} needsSubmitButton={menuSelectMethod !== 'ROULETTE'} />
 			<SwitchCases
 				value={error != null ? 'error' : loading ? 'loading' : 'menuList'}
 				cases={{

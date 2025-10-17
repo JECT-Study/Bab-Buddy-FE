@@ -1,7 +1,7 @@
 'use client'
 import RouletteSpinner from '@/features/roulette/components/RouletteSpinner'
 import type { MenuItemType } from '../../types/group'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { saveRouletteResult } from '../../api/voteRoomApi'
 import { useRouter } from 'next/navigation'
 
@@ -11,15 +11,15 @@ interface RouletteProps {
 }
 
 const useRouletteResult = (menuList: string[], roomId: string) => {
-	let result: string = ''
+	const resultRef = useRef<string>('')
 	const router = useRouter()
 
 	useEffect(() => {
 		let timer1: ReturnType<typeof setTimeout>
 
 		timer1 = setTimeout(async () => {
-			result = menuList[Math.floor(Math.random() * menuList.length)]
-			const res = await saveRouletteResult(result)
+			resultRef.current = menuList[Math.floor(Math.random() * menuList.length)]
+			const res = await saveRouletteResult(resultRef.current)
 
 			if (res === 200) {
 				router.push(`/group/${roomId}/result`)
@@ -31,9 +31,9 @@ const useRouletteResult = (menuList: string[], roomId: string) => {
 		return () => {
 			clearTimeout(timer1)
 		}
-	}, [menuList])
+	}, [menuList, router, roomId])
 
-	return result
+	return resultRef.current
 }
 
 export default function Roulette({ menuList, roomId }: RouletteProps) {

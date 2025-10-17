@@ -1,5 +1,6 @@
 // import { getVoteResult } from '@/features/group/api/voteApi'
 import VoteResult from '@/features/group/components/vote-result/VoteResult'
+import type { VotingType } from '@/features/group/types/group'
 
 interface ResultPageProps {
 	params: Promise<{
@@ -56,6 +57,7 @@ export default async function ResultPage({ params }: ResultPageProps) {
 				// },
 			],
 		},
+		menuSelectMethod: 'ROULETTE' as VotingType,
 	}
 
 	return <VoteResult result={result} />

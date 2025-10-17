@@ -10,6 +10,7 @@ import { getGroupDetailOnClient } from '../../api/voteRoomApi'
 const DEFAULT_POLLING_INTERVAL = 5000
 
 const useGroupRoomDetail = (roomId: string, pollingInterval = DEFAULT_POLLING_INTERVAL) => {
+	console.log(pollingInterval)
 	return useQuery({
 		queryKey: ['group', roomId],
 		queryFn: async () => await getGroupDetailOnClient(roomId),
