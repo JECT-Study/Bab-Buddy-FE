@@ -5,7 +5,7 @@ import Icon from '@/shared/components/Icon'
 
 interface MenuItemProps {
 	menu: MenuItemType
-	handleDeleteMenu?: (menuId: string) => void
+	handleDeleteMenu?: (menuId: string, menuName: string) => void
 	disableEdit?: boolean
 }
 
@@ -81,7 +81,7 @@ export default function MenuItem({ menu, handleDeleteMenu, disableEdit = false }
 				)}
 				<button
 					className="text-b3-medium bg-gray-5 rounded-3xl px-4 py-2 text-gray-50 outline-none"
-					onClick={() => handleDeleteMenu?.(menu.name)}
+					onClick={() => handleDeleteMenu?.(menu.id, menu.name)}
 				>
 					<Icon.Trash />
 				</button>
