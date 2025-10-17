@@ -3,6 +3,7 @@ import { useCallback, useState } from 'react'
 import VoteEndModal from '../modal/VoteEndModal'
 import { useRouter } from 'next/navigation'
 import { type GroupDetailType } from '../../types/group'
+import { terminateVoteRoom } from '../../api/voteRoomApi'
 
 interface VoteRoomStepperProps {
 	room: GroupDetailType
@@ -46,14 +47,16 @@ export default function VoteRoomStepper({
 		setIsEndModalOpen(false)
 	}, [setIsEndModalOpen])
 
-	const handleFinishVote = useCallback(() => {
+	const handleFinishVote = useCallback(async () => {
 		setIsEndModalOpen(false)
+		await terminateVoteRoom(roomId)
 		router.push(`/group/${roomId}/result`)
 	}, [setIsEndModalOpen, router, roomId])
 
-	const handleFinishRoulette = useCallback(() => {
+	const handleFinishRoulette = useCallback(async () => {
 		setIsEndModalOpen(false)
 		setIsRouletteFinished(true)
+		await terminateVoteRoom(roomId)
 	}, [setIsEndModalOpen, setIsRouletteFinished])
 
 	const isDisabled =
