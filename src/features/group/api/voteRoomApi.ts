@@ -301,13 +301,17 @@ export const deleteDislikeMenuOnVoteRoom = async (roomId: string, name: string) 
 // 메뉴 투표
 export const voteMenu = async (voteRoomId: string, menuId: string) => {
 	try {
-		const response = await api.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/vote/register`, {
-			voteRoomId,
-			menuId,
-		})
+		const response = await api.post<{ voteId: string }>(
+			`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/vote/register`,
+			{
+				voteRoomId,
+				menuId,
+			},
+		)
 		return response?.data
 	} catch (e) {
 		console.error('voteMenu error: ', e)
+		return { voteId: '' }
 	}
 }
 
