@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import type { VotingType, MenuItemType } from '../../types/group'
 import MenuInputForm from '../input/MenuInputForm'
 import MenuItem from './MenuItem'
@@ -19,6 +19,11 @@ export default function DisLikeMenu({
 	const [dislikedMenus, setDislikedMenus] = useState<MenuItemType[]>(dislikeMenuList || [])
 	const { user } = useUser()
 	const queryClient = useQueryClient()
+
+	// 폴링으로 받은 dislikeMenuList를 state에 동기화
+	useEffect(() => {
+		setDislikedMenus(dislikeMenuList || [])
+	}, [dislikeMenuList])
 
 	const handleSubmit = async (inputValue: string) => {
 		if (inputValue.trim() === '') {

@@ -5,8 +5,13 @@ import VoteRoomParticipantPanel from './VoteRoomParticipantPanel'
 import VoteRoomStepper from './VoteRoomStepper'
 import VoteRoomContent from './VoteRoomContent'
 import { useQuery } from '@tanstack/react-query'
-import { getGroupDetailOnClient, getGroupRouletteDetailOnClient } from '../../api/voteRoomApi'
-import type { VotingType } from '../../types/group'
+import {
+	getGroupDetailOnClient,
+	getGroupRouletteDetailOnClient,
+	terminateVoteRoom,
+} from '../../api/voteRoomApi'
+import type { GroupDetailType, VotingType } from '../../types/group'
+import { useRouter } from 'next/navigation'
 
 const DEFAULT_POLLING_INTERVAL = 5000
 
@@ -28,6 +33,31 @@ const useGroupRoomDetail = (
 	})
 }
 
+const useVoteRoomCompletion = (room: GroupDetailType | undefined) => {
+	const router = useRouter()
+	const [isRouletteFinished, setIsRouletteFinished] = useState(false)
+	/**
+	 * 룰렛방이 종료된 경우에는 isRouletteFinished를 true로 설정하여 룰렛 화면을 자동으로 보여주고 바로 결과로 이동
+	 */
+	useEffect(() => {
+		if (room?.voteStatus === 'FINISHED' && room?.menuSelectMethod === 'ROULETTE') {
+			setIsRouletteFinished(true)
+		}
+
+		if (
+			room?.voteStatus === 'ONGOING' &&
+			room.votedParticipants > 1 &&
+			room.votedParticipants === room.totalParticipants
+		) {
+			terminateVoteRoom(room.roomId).then(() => {
+				router.push(`/group/${room.roomId}/result`)
+			})
+		}
+	}, [room, router])
+
+	return { isRouletteFinished, setIsRouletteFinished }
+}
+
 const VoteRoomContainer = ({
 	roomId,
 	menuSelectMethod,
@@ -37,16 +67,7 @@ const VoteRoomContainer = ({
 }) => {
 	const [activeStep, setActiveStep] = useState(1)
 	const { data: room, isLoading } = useGroupRoomDetail(roomId, menuSelectMethod)
-	const [isRouletteFinished, setIsRouletteFinished] = useState(false)
-
-	// TODO API 붙인 후 확인할 것.
-	// 1. 룰렛방이 종료된 경우에는 isRouletteFinished를 true로 설정
-	// 2.isRouletteFinished가 true인 경우, 룰렛 화면을 자동으로 보여주고 바로 결과로 이동
-	useEffect(() => {
-		if (room?.voteStatus === 'FINISHED' && room?.menuSelectMethod === 'ROULETTE') {
-			setIsRouletteFinished(true)
-		}
-	}, [room])
+	const { isRouletteFinished, setIsRouletteFinished } = useVoteRoomCompletion(room)
 
 	if (isLoading) {
 		return <div>Loading...</div>

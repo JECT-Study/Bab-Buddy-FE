@@ -1,16 +1,19 @@
-import type { MenuItemType } from '../../types/group'
+import type { MenuItemType, VotingType } from '../../types/group'
 import Icon from '@/shared/components/Icon'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { cancelVoteMenu, voteMenu } from '../../api/voteRoomApi'
 import { useModal } from '@/shared/hooks/useModal'
 import AlreadyVotedModal from '../modal/AlreadyVotedModal'
+import { useVoteStore } from '../../store/voteStore'
+import { useQueryClient } from '@tanstack/react-query'
 
 interface VoteRoomProps {
 	roomId: string
 	voteMenus: MenuItemType[]
 	dislikeMenuList: MenuItemType[]
 	votedMenuName: string
+	menuSelectMethod: VotingType
 }
 
 export default function VoteRoom({
@@ -18,13 +21,26 @@ export default function VoteRoom({
 	voteMenus,
 	dislikeMenuList,
 	votedMenuName,
+	menuSelectMethod,
 }: VoteRoomProps) {
+	const queryClient = useQueryClient()
 	const { openModal, isOpen, closeModal } = useModal()
 	const [activeMenuName, setActiveMenuName] = useState<string>(votedMenuName)
+	const { getVotedMenu, setVotedMenu, clearVotedMenu } = useVoteStore()
+
+	// 폴링으로 받은 votedMenuName을 state에 동기화
+	useEffect(() => {
+		setActiveMenuName(votedMenuName)
+	}, [votedMenuName])
 
 	const handleClickMenu = async (menu: MenuItemType) => {
-		if (activeMenuName != null && activeMenuName === menu.name) {
-			await cancelVoteMenu(menu.name)
+		const votedMenu = getVotedMenu(roomId)
+
+		if (votedMenu != null) {
+			await cancelVoteMenu(votedMenu.voteId)
+			clearVotedMenu(roomId)
+			queryClient.invalidateQueries({ queryKey: ['group', menuSelectMethod, roomId] })
+			setActiveMenuName('')
 			return
 		} else if (activeMenuName != null && activeMenuName !== menu.name) {
 			openModal()
@@ -32,7 +48,12 @@ export default function VoteRoom({
 		}
 
 		if (activeMenuName == null) {
-			await voteMenu(roomId, menu.menuId)
+			const { voteId } = await voteMenu(roomId, menu.menuId)
+			if (voteId != null && voteId !== '') {
+				// 추후 사용자가 투표한 메뉴와 투표 아이디 맵핑된 데이터 필요
+				// 임시로 storage에 저장하여 작업 진행
+				setVotedMenu(roomId, menu.menuId, menu.name, voteId)
+			}
 		}
 		setActiveMenuName(menu.name)
 	}

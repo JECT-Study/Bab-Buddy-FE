@@ -8,9 +8,10 @@ import { useRouter } from 'next/navigation'
 interface RouletteProps {
 	roomId: string
 	menuList: MenuItemType[]
+	isHostUser: boolean
 }
 
-const useRouletteResult = (menuList: string[], roomId: string) => {
+const useRouletteResult = (menuList: string[], roomId: string, isHostUser: boolean) => {
 	const resultRef = useRef<string>('')
 	const router = useRouter()
 
@@ -19,6 +20,9 @@ const useRouletteResult = (menuList: string[], roomId: string) => {
 
 		timer1 = setTimeout(async () => {
 			resultRef.current = menuList[Math.floor(Math.random() * menuList.length)]
+			if (!isHostUser) {
+				return router.push(`/group/${roomId}/result`)
+			}
 			const isSaved = await saveRouletteResult(resultRef.current, roomId)
 
 			if (isSaved) {
@@ -32,14 +36,14 @@ const useRouletteResult = (menuList: string[], roomId: string) => {
 		return () => {
 			clearTimeout(timer1)
 		}
-	}, [menuList, router, roomId])
+	}, [menuList, router, roomId, isHostUser])
 
 	return resultRef.current
 }
 
-export default function Roulette({ menuList, roomId }: RouletteProps) {
+export default function Roulette({ menuList, roomId, isHostUser }: RouletteProps) {
 	const menuNames = menuList?.map((menu) => menu.name)
-	useRouletteResult(menuNames, roomId)
+	useRouletteResult(menuNames, roomId, isHostUser)
 
 	return (
 		<div className="flex max-w-full flex-col items-center justify-center gap-2.5 rounded-[28px] bg-white py-11">

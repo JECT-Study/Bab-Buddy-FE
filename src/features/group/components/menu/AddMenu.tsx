@@ -1,5 +1,5 @@
 'use client'
-import { useCallback, useState } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import type { MenuItemType, VotingType } from '../../types/group'
 import Image from 'next/image'
 import MenuItem from './MenuItem'
@@ -94,7 +94,25 @@ export default function AddMenu({ roomId, menuList, menuSelectMethod }: AddMenuP
 
 	const queryClient = useQueryClient()
 
+	// 폴링으로 받은 menuList를 state에 동기화
+	useEffect(() => {
+		setMenus(menuList)
+	}, [menuList])
+
+	const getIsAlreadyAdded = (inputValue: string) => {
+		const isAlreadyAdded = menus.some((menu) => menu.name === inputValue)
+
+		if (isAlreadyAdded) {
+			alert('이미 등록된 메뉴입니다.')
+			return true
+		}
+		return false
+	}
+
 	const handleSubmit = async (inputValue: string) => {
+		const isAlreadyAdded = getIsAlreadyAdded(inputValue)
+		if (isAlreadyAdded) return
+
 		const menuId = await addMenuOnVoteRoom(roomId, inputValue)
 		if (menuId == null) {
 			alert('메뉴 등록에 실패했습니다.')
