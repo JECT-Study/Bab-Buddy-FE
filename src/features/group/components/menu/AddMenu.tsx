@@ -99,7 +99,20 @@ export default function AddMenu({ roomId, menuList, menuSelectMethod }: AddMenuP
 		setMenus(menuList)
 	}, [menuList])
 
+	const getIsAlreadyAdded = (inputValue: string) => {
+		const isAlreadyAdded = menus.some((menu) => menu.name === inputValue)
+
+		if (isAlreadyAdded) {
+			alert('이미 등록된 메뉴입니다.')
+			return true
+		}
+		return false
+	}
+
 	const handleSubmit = async (inputValue: string) => {
+		const isAlreadyAdded = getIsAlreadyAdded(inputValue)
+		if (isAlreadyAdded) return
+
 		const menuId = await addMenuOnVoteRoom(roomId, inputValue)
 		if (menuId == null) {
 			alert('메뉴 등록에 실패했습니다.')
